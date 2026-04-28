@@ -29,37 +29,4 @@ app.post('/login', async (req, res) => {
 
 
 
-    #backend- registro----
-    const bcrypt = require('bcrypt');
-
-app.post('/register', async (req, res) => {
-  const { nombre, email, password } = req.body;
-
-  try {
-    // Verificar si ya existe el usuario
-    const existe = await pool.query(
-      'SELECT * FROM usuarios WHERE email = $1',
-      [email]
-    );
-
-    if (existe.rows.length > 0) {
-      return res.json({ message: 'El correo ya está registrado' });
-    }
-
-    // Encriptar contraseña
-    const hash = await bcrypt.hash(password, 10);
-
-    // Insertar usuario
-    await pool.query(
-      'INSERT INTO usuarios(nombre, email, password) VALUES($1,$2,$3)',
-      [nombre, email, hash]
-    );
-
-    res.json({ message: 'Usuario registrado correctamente' });
-
-  } catch (error) {
-    res.json({ message: 'Error en el servidor' });
-  }
-});
-  }
-});
+    
