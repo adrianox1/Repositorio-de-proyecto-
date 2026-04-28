@@ -1,4 +1,3 @@
-
 const bcrypt = require('bcrypt');
 
 app.post('/login', async (req, res) => {
@@ -16,17 +15,21 @@ app.post('/login', async (req, res) => {
 
     const usuario = result.rows[0];
 
-    const validPassword = await bcrypt.compare(password, usuario.password);
+    const validPassword = await bcrypt.compare(
+      password,
+      usuario.password
+    );
 
     if (!validPassword) {
       return res.json({ message: 'Contraseña incorrecta' });
     }
 
-    res.json({ message: 'Login exitoso', user: usuario.nombre });
+    res.json({
+      message: 'Login exitoso',
+      user: usuario.nombre
+    });
 
   } catch (error) {
     res.json({ message: 'Error en el servidor' });
-
-
-
-    
+  }
+});
