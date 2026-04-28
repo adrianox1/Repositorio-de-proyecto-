@@ -1,12 +1,19 @@
-# Repositorio-de-proyecto-
-
-# Roles para el Avance 
+tablas de login -----
 
 
-# tarea  de la semana 1 a semana 4
-1
-2
-3
-4
-5
-6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tablas de registro 
