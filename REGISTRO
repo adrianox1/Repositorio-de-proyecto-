@@ -1,34 +1,34 @@
+<?php
+require_once __DIR__ . '/../includes/helpers.php';
+require_once __DIR__ . '/../includes/db.php';
 
-    const bcrypt = require('bcrypt');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') error('Método no permitido', 405);
 
-app.post('/register', async (req, res) => {
-  const { nombre, email, password } = req.body;
+$body   = bodyJSON();
+$nombre = trim($body['nombre'] ?? '');
+$correo = trim(strtolower($body['correo'] ?? ''));
+$contra = $body['contrasena'] ?? '';
 
-  try {
-    // Verificar si ya existe el usuario
-    const existe = await pool.query(
-      'SELECT * FROM usuarios WHERE email = $1',
-      [email]
-    );
+if (strlen($nombre) < 3) error('El nombre debe tener al menos 3 caracteres');
+if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) error('Correo no válido');
+if (strlen($contra) < 6) error('La contraseña debe tener al menos 6 caracteres');
 
-    if (existe.rows.length > 0) {
-      return res.json({ message: 'El correo ya está registrado' });
-    }
+$check = $conexion->prepare('SELECT id FROM usuarios WHERE correo = ? LIMIT 1');
+$check->bind_param('s', $correo);
+$check->execute();
+if ($check->get_result()->fetch_assoc()) error('Ya existe una cuenta con ese correo');
 
-    // Encriptar contraseña
-    const hash = await bcrypt.hash(password, 10);
+$ins = $conexion->prepare('INSERT INTO usuarios (nombre, correo, contrasena) VALUES (?, ?, ?)');
+$ins->bind_param('sss', $nombre, $correo, $contra);
+$ins->execute();
+$id = $conexion->insert_id;
 
-    // Insertar usuario
-    await pool.query(
-      'INSERT INTO usuarios(nombre, email, password) VALUES($1,$2,$3)',
-      [nombre, email, hash]
-    );
+$_SESSION['usuario'] = [
+    'id'     => $id,
+    'nombre' => $nombre,
+    'correo' => $correo,
+    'rol'    => 'usuario',
+];
 
-    res.json({ message: 'Usuario registrado correctamente' });
-
-  } catch (error) {
-    res.json({ message: 'Error en el servidor' });
-  }
-});
-  }
-});
+ok(['usuario' => $_SESSION['usuario']]);
+?>
