@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nosotros | WauPiura</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html">Adopción</a>
+          <a href="nosotros.html">Nosotros</a>
+        </nav>
+      </div>
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 80px 20px;">
+    <section class="about-us">
+      <h1>Sobre Nosotros</h1>
+      <p>En WauPiura, somos un equipo apasionado por el bienestar animal y la comunidad. Nuestra misión es conectar a personas responsables con animales en abandono en toda la región de Piura, brindándoles una segunda oportunidad para encontrar un hogar lleno de amor.</p>
+      <p>Creemos que cada animal merece una vida digna y feliz, y trabajamos incansablemente para facilitar el proceso de adopción, promoviendo la responsabilidad y el compromiso que implica cuidar de una mascota.</p>
+      <p>Únete a nosotros en esta noble causa y ayúdanos a hacer la diferencia en la vida de muchos animales necesitados.</p>
+    </section>
+
+    <section class="map-section" style="margin-top: 50px;">
+      <h2>Nuestra Ubicación</h2>
+      <p>Encuéntranos en Piura, listos para ayudarte en el proceso de adopción:</p>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.4939984920436!2d-80.63229712530188!3d-5.184852952219904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x904a27f62e841fd3%3A0x6bba86cd92754059!2sPiura!5e0!3m2!1ses-419!2spe!4v1716668000000!5m2!1ses-419!2spe" 
+          width="100%" 
+          height="450" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </section>
+
+    <section class="comments-section" style="margin-top: 60px;">
+      <h2>Déjanos tus dudas o comentarios</h2>
+      <p>Tu opinión nos importa. Escríbenos para ponernos en contacto contigo.</p>
+      
+      <div class="comments-container">
+        <div class="comment-form-block">
+          <form action="#" method="POST" class="comment-form">
+            <label for="user-comment">Escribe tu comentario:</label>
+            <textarea 
+              id="user-comment" 
+              name="comentario" 
+              placeholder="¿Tienes alguna pregunta sobre el proceso de adopción o deseas apoyarnos?..." 
+              required></textarea>
+            <button type="submit" class="btn-submit-comment">Enviar Comentario</button>
+          </form>
+        </div>
+
+        <div class="comment-image-block"></div>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
