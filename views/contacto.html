@@ -66,28 +66,43 @@
           </ul>
         </div>
 
-        <form class="report-form" id="contact-form" novalidate style="background: var(--blanco); padding: 2.5rem; border-radius: 25px; box-shadow: var(--sombra);">
-          <h3 style="color: var(--azul-oscuro); margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center;">Déjanos tus datos</h3>
+        <div id="contacto-directo" style="background: var(--blanco); padding: 2.5rem; border-radius: 25px; box-shadow: var(--sombra); border: 1px solid #E2E8F0;">
+          <h3 style="color: var(--azul-oscuro); margin-bottom: 1rem; font-size: 1.6rem; font-weight: 800;">Comunícate con WauPiura</h3>
+          <p style="color: #64748B; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+            Para consultas, voluntariado, apoyo o reportes especiales, comunícate usando los siguientes datos.
+          </p>
           
-          <input type="text" placeholder="Nombre completo" required name="nombre">
-          
-          <div class="form-row">
-            <input type="email" placeholder="Correo electrónico" required name="correo">
-            <input type="tel" placeholder="Teléfono / WhatsApp" required name="telefono">
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 1.2rem; border-radius: 16px; margin-bottom: 1.5rem;">
+            <p style="font-weight: 800; color: var(--azul-oscuro); font-size: 0.9rem; margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px;">Formato recomendado para escribir:</p>
+            <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.4rem; color: #475569; font-size: 0.9rem; font-family: monospace;">
+              <li><strong>Nombre completo:</strong> [Tu Nombre]</li>
+              <li><strong>Correo electrónico:</strong> [Tu Correo]</li>
+              <li><strong>Motivo de contacto:</strong> [Consulta / Voluntariado / Hogar Temporal]</li>
+              <li><strong>Mensaje:</strong> [Tu mensaje detallado]</li>
+              <li><strong>Disponibilidad horaria:</strong> [Días y horas disponibles]</li>
+            </ul>
           </div>
 
-          <select required name="interes">
-            <option value="">¿Cómo te gustaría ayudar?</option>
-            <option value="voluntariado">Quiero ser voluntario(a)</option>
-            <option value="rescates">Quiero apoyar en rescates</option>
-            <option value="temporal">Puedo ser hogar temporal</option>
-            <option value="otro">Otra forma de ayuda</option>
-          </select>
+          <div style="display: grid; gap: 0.8rem; margin-bottom: 1.5rem; color: #475569; font-size: 0.95rem;">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+              <span style="font-size: 1.2rem;">🟢</span> 
+              <span><strong>WhatsApp:</strong> +51 999 999 999</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+              <span style="font-size: 1.2rem;">✉️</span> 
+              <span><strong>Correo:</strong> contacto@waupiura.org</span>
+            </div>
+          </div>
 
-          <textarea placeholder="Cuéntanos un poco sobre ti, tu motivación y tu disponibilidad (días u horarios)" required name="mensaje" style="height: 120px;"></textarea>
-
-          <button type="submit" class="btn-register" style="width: 100%; margin-top: 0.5rem;" onclick="event.preventDefault(); alert('¡Gracias por postularte! Nos contactaremos contigo pronto por WhatsApp o correo.'); this.form.reset();">Enviar solicitud</button>
-        </form>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <a href="https://wa.me/51931224650?text=Hola%20WauPiura,%20deseo%20comunicarme%20para%20dar%20mi%20apoyo.%20Mis%20datos%20son:%0A-%20Nombre%20completo:%0A-%20Correo%20electr%C3%B3nico:%0A-%20Motivo%20de%20contacto:%0A-%20Mensaje:%0A-%20Disponibilidad%20horaria:" target="_blank" class="btn-register" style="text-align: center; text-decoration: none; padding: 0.8rem 1rem; font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 50px; background: #25D366; border: none; color: #fff;">
+              💬 Escribir por WhatsApp
+            </a>
+            <a href="mailto:contacto@waupiura.org?subject=Contacto%20WauPiura&body=Hola%20WauPiura,%20deseo%20comunicarme%20para%20dar%20mi%20apoyo.%20Mis%20datos%20son:%0D%0A- Nombre completo:%0D%0A- Correo electrónico:%0D%0A- Motivo de contacto:%0D%0A- Mensaje:%0D%0A- Disponibilidad horaria:" class="btn-login" style="text-align: center; text-decoration: none; padding: 0.8rem 1rem; font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 50px;">
+              ✉️ Enviar correo
+            </a>
+          </div>
+        </div>
 
       </div>
     </section>
@@ -113,36 +128,15 @@
           </div>
         </div>
 
-        <form id="foster-form" class="report-form" novalidate style="background: var(--blanco); padding: 2rem; border-radius: 20px; text-align: left; margin-top: 1.5rem; border: 1px solid rgba(19, 121, 91, 0.2);">
-          <h3 style="color: var(--azul-oscuro); margin-bottom: 1.5rem; font-size: 1.3rem; text-align: center;">Formulario de Postulación Rápida</h3>
-          
-          <div class="form-row">
-            <input type="text" placeholder="Nombre completo" required name="foster-nombre">
-            <input type="tel" placeholder="Teléfono / WhatsApp" required name="foster-telefono">
-          </div>
-
-          <div class="form-row">
-            <input type="text" placeholder="Distrito o Zona" required name="foster-distrito">
-            <select required name="foster-tipo">
-              <option value="">¿Qué mascota puedes recibir?</option>
-              <option value="perros">Perros (Adultos/Jóvenes)</option>
-              <option value="cachorros">Cachorros</option>
-              <option value="gatos">Gatos</option>
-              <option value="gatitos">Gatitos bebé</option>
-              <option value="cualquiera">Cualquiera</option>
-            </select>
-          </div>
-
-          <select required name="foster-disponibilidad">
-            <option value="">Disponibilidad de tiempo (aproximada)</option>
-            <option value="dias">Unos pocos días (emergencia)</option>
-            <option value="semanas">1 a 3 semanas</option>
-            <option value="mes">1 mes o más</option>
-            <option value="indefinido">Hasta que sea adoptado</option>
-          </select>
-
-          <button type="submit" class="btn-primary" style="background: var(--verde-menta-oscuro); color: var(--blanco); font-size: 1.1rem; padding: 1rem; width: 100%; border: none; cursor: pointer; border-radius: 15px; margin-top: 0.5rem;" onclick="event.preventDefault(); alert('¡Excelente! Postulación a hogar temporal enviada con éxito.'); this.form.reset();">Enviar Postulación</button>
-        </form>
+        <div style="background: var(--blanco); padding: 2.5rem; border-radius: 20px; text-align: center; margin-top: 1.5rem; border: 1px solid rgba(19, 121, 91, 0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+          <h3 style="color: var(--azul-oscuro); margin-bottom: 1rem; font-size: 1.4rem; font-weight: 800;">🏡 ¡Sé un Hogar Temporal!</h3>
+          <p style="color: #64748B; font-size: 1rem; line-height: 1.6; max-width: 600px; margin: 0 auto 1.5rem auto;">
+            Si tienes espacio en tu hogar y quieres hospedar transitoriamente a un peludito, por favor ponte en contacto directo con nosotros a través de los canales de WhatsApp o Correo indicados arriba, con el motivo <strong>"Hogar Temporal"</strong>.
+          </p>
+          <a href="#contacto-directo" class="btn-primary" style="background: var(--verde-menta-oscuro); color: var(--blanco); text-decoration: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 800; display: inline-block; font-size: 0.9rem;">
+            Ver Medios de Contacto
+          </a>
+        </div>
       </div>
     </section>
   </main>
