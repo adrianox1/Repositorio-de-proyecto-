@@ -185,7 +185,6 @@ nav a { text-decoration: none; color: var(--azul-oscuro); font-weight: 600; }
 
 /* Bloque de la imagen (Derecha) */
 .comment-image-block {
-  flex: 1;
   background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=600&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
