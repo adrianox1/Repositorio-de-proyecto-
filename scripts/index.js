@@ -71,17 +71,49 @@ function initCatalog() {
 
   // 2.1 Fetch de las mascotas desde backend/api/mascotas.php
   fetch('../backend/api/mascotas.php')
-    .then(res => res.json())
+    .then(res => {
+      // Leer primero como texto plano para validar si es JSON válido
+      return res.text().then(text => {
+        try {
+          const parsed = JSON.parse(text);
+          if (!res.ok) {
+            throw new Error(parsed.message || `HTTP error! status: ${res.status}`);
+          }
+          return parsed;
+        } catch (jsonErr) {
+          // Si JSON.parse falla, registramos el texto crudo recibido en consola
+          console.error("Error de análisis JSON en el frontend. Texto crudo recibido del servidor:", text);
+          throw new Error("La respuesta del servidor no es un JSON válido. Revisa la consola para más detalles.");
+        }
+      });
+    })
     .then(data => {
-      if (data.ok && data.mascotas) {
-        allPets = data.mascotas;
+      if (data.success && Array.isArray(data.data)) {
+        allPets = data.data;
         renderCatalog();
         updateCounters();
+      } else {
+        throw new Error(data.message || "Respuesta del servidor no exitosa");
       }
     })
     .catch(err => {
-      console.error("Error al cargar mascotas:", err);
-      petGrid.innerHTML = `<p class="text-center" style="grid-column: 1/-1; padding: 2rem; color: #B42318; font-weight: 700;">Error al cargar las mascotas del refugio.</p>`;
+      console.error("Error detallado al cargar las mascotas desde la base de datos:", err);
+      if (visibleCountEl) visibleCountEl.textContent = '0';
+      
+      // Mostrar mensaje de error amigable en la pantalla
+      petGrid.innerHTML = `
+        <div class="no-results" style="grid-column: 1/-1; padding: 3rem 2rem; border: 2px dashed #FECDCA; background: #FEF3F2; border-radius: 16px; text-align: center;">
+          <h3 style="color: #B42318; margin-bottom: 0.8rem; font-weight: 800; font-size: 1.3rem;">
+            🐾 Error al cargar las mascotas del refugio
+          </h3>
+          <p style="color: #667085; font-size: 0.95rem; line-height: 1.6; max-width: 650px; margin: 0 auto; font-weight: 500;">
+            No se pudieron cargar las mascotas. Verifica que estés abriendo el proyecto desde Apache/Laragon/XAMPP usando <code style="background: #FFE4E6; padding: 0.2rem 0.4rem; border-radius: 4px; color: #9F1239; font-size: 0.85rem; font-family: monospace;">http://localhost</code> y no directamente como archivo.
+          </p>
+          <small style="display: block; margin-top: 1rem; color: #98A2B3; font-style: italic;">
+            Detalle técnico del error: ${escapeHTML(err.message)}
+          </small>
+        </div>
+      `;
     });
 
   // 2.2 Renderizado dinámico de tarjetas
