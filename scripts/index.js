@@ -596,55 +596,69 @@ function initTracking() {
 }
 
 function updateStepper(estado) {
-  const steps = ['evaluacion', 'tratamiento', 'recuperacion', 'disponible'];
-  const stepElements = {
-    evaluacion: document.querySelector('.progress-stepper .step:nth-of-type(1)'),
-    line1: document.querySelector('.progress-stepper .step-line:nth-of-type(2)'),
-    tratamiento: document.querySelector('.progress-stepper .step:nth-of-type(3)'),
-    line2: document.querySelector('.progress-stepper .step-line:nth-of-type(4)'),
-    recuperacion: document.querySelector('.progress-stepper .step:nth-of-type(5)'),
-    line3: document.querySelector('.progress-stepper .step-line:nth-of-type(6)'),
-    disponible: document.querySelector('.progress-stepper .step:nth-of-type(7)')
-  };
+  const normalized = (estado || '').trim().toLowerCase();
+  
+  const steps = document.querySelectorAll('.progress-stepper .step');
+  const lines = document.querySelectorAll('.progress-stepper .step-line');
+  
+  if (steps.length < 5 || lines.length < 4) return; // Validación de estructura básica
 
-  if (!stepElements.evaluacion) return; // No existen o difieren
+  // Limpiar clases previas de todos los pasos y líneas divisorias
+  steps.forEach(step => step.classList.remove('active', 'completed'));
+  lines.forEach(line => line.classList.remove('completed'));
 
-  // Limpiar estados previos
-  Object.keys(stepElements).forEach(k => {
-    if (stepElements[k]) {
-      stepElements[k].classList.remove('completed', 'active');
-    }
-  });
+  // Identificar los elementos por su índice exacto
+  const stepRescate = steps[0];
+  const lineRescateAEval = lines[0];
+  
+  const stepEvaluacion = steps[1];
+  const lineEvalATrat = lines[1];
+  
+  const stepTratamiento = steps[2];
+  const lineTratARecup = lines[2];
+  
+  const stepRecuperacion = steps[3];
+  const lineRecupADisp = lines[3];
+  
+  const stepDisponible = steps[4];
 
-  const currentIndex = steps.indexOf(estado);
+  // Rescate es el hito de entrada al refugio, siempre está completado
+  stepRescate.classList.add('completed');
+  lineRescateAEval.classList.add('completed');
 
-  // Paso 1: Rescate / Evaluación
-  if (currentIndex >= 0) {
-    stepElements.evaluacion.classList.add('completed');
-  }
-  // Línea 1 y Tratamiento
-  if (currentIndex >= 1) {
-    if (stepElements.line1) stepElements.line1.classList.add('completed');
-    stepElements.tratamiento.classList.add(currentIndex === 1 ? 'active' : 'completed');
-  }
-  // Línea 2 y Recuperación
-  if (currentIndex >= 2) {
-    if (stepElements.line2) stepElements.line2.classList.add('completed');
-    stepElements.recuperacion.classList.add(currentIndex === 2 ? 'active' : 'completed');
-  }
-  // Línea 3 y Disponible
-  if (currentIndex >= 3) {
-    if (stepElements.line3) stepElements.line3.classList.add('completed');
-    stepElements.disponible.classList.add('active');
-  }
-
-  // Marcar el paso actual como "active" si no es "disponible" (que ya lo es arriba)
-  if (currentIndex < 3 && currentIndex >= 0) {
-    const activeStep = steps[currentIndex];
-    if (stepElements[activeStep]) {
-      stepElements[activeStep].classList.remove('completed');
-      stepElements[activeStep].classList.add('active');
-    }
+  switch(normalized) {
+    case 'evaluacion':
+      stepEvaluacion.classList.add('active');
+      break;
+      
+    case 'tratamiento':
+      stepEvaluacion.classList.add('completed');
+      lineEvalATrat.classList.add('completed');
+      stepTratamiento.classList.add('active');
+      break;
+      
+    case 'recuperacion':
+      stepEvaluacion.classList.add('completed');
+      lineEvalATrat.classList.add('completed');
+      stepTratamiento.classList.add('completed');
+      lineTratARecup.classList.add('completed');
+      stepRecuperacion.classList.add('active');
+      break;
+      
+    case 'disponible':
+      stepEvaluacion.classList.add('completed');
+      lineEvalATrat.classList.add('completed');
+      stepTratamiento.classList.add('completed');
+      lineTratARecup.classList.add('completed');
+      stepRecuperacion.classList.add('completed');
+      lineRecupADisp.classList.add('completed');
+      stepDisponible.classList.add('active');
+      break;
+      
+    default:
+      // Por defecto o estado desconocido, dejar Evaluación como activo
+      stepEvaluacion.classList.add('active');
+      break;
   }
 }
 
@@ -699,13 +713,14 @@ function initAuthForms() {
       
       const nameInput = registerForm.querySelector('input[placeholder*="Nombre"]');
       const emailInput = registerForm.querySelector('input[placeholder*="Correo"]');
-      const passInput = registerForm.querySelector('input[placeholder*="Contraseña"]');
+      const passInput = registerForm.querySelector('input[placeholder*="Contraseña"]:not([placeholder*="Confirmar"])');
+      const confirmPassInput = registerForm.querySelector('input[placeholder*="Confirmar"]');
 
-      const nombre = nameInput.value.trim();
-      const correo = emailInput.value.trim();
-      const contrasena = passInput.value;
+      const nombre = nameInput ? nameInput.value.trim() : '';
+      const correo = emailInput ? emailInput.value.trim() : '';
+      const contrasena = passInput ? passInput.value : '';
 
-      // Validaciones frontend
+      // Validaciones frontend obligatorias
       if (!nombre) {
         alert("El nombre es obligatorio.");
         return;
@@ -715,7 +730,7 @@ function initAuthForms() {
         return;
       }
       
-      // Validar formato del correo
+      // Validar formato de correo electrónico
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(correo)) {
         alert("El formato del correo no es válido.");
@@ -726,9 +741,18 @@ function initAuthForms() {
         alert("La contraseña es obligatoria.");
         return;
       }
-      if (contrasena.length < 6) {
-        alert("La contraseña debe tener al menos 6 caracteres.");
-        return;
+      
+      // Si existe confirmar contraseña, debe coincidir con la contraseña
+      if (confirmPassInput) {
+        const confirmarContrasena = confirmPassInput.value;
+        if (!confirmarContrasena) {
+          alert("Por favor, confirma tu contraseña.");
+          return;
+        }
+        if (confirmarContrasena !== contrasena) {
+          alert("Las contraseñas no coinciden.");
+          return;
+        }
       }
 
       fetch('../backend/api/register.php', {
@@ -750,7 +774,7 @@ function initAuthForms() {
           if (data.message === "Este correo ya está registrado.") {
             alert("Este correo ya está registrado.");
           } else {
-            alert("No se pudo registrar el usuario. Verifica los datos ingresados.");
+            alert(data.message || "No se pudo registrar el usuario. Verifica los datos ingresados.");
           }
         }
       })

@@ -35,6 +35,7 @@ try {
     $correo = trim(strtolower($body['correo'] ?? ''));
     $contrasena = $body['contrasena'] ?? '';
 
+    // Validaciones obligatorias solicitadas
     if (empty($nombre)) {
         throw new Exception("El nombre es obligatorio.");
     }
@@ -47,9 +48,6 @@ try {
     if (empty($contrasena)) {
         throw new Exception("La contraseña es obligatoria.");
     }
-    if (strlen($contrasena) < 6) {
-        throw new Exception("La contraseña debe tener al menos 6 caracteres.");
-    }
 
     // Verificar si el correo ya existe
     $sqlCheck = "SELECT id FROM usuarios WHERE correo = '" . $conexion->real_escape_string($correo) . "' LIMIT 1";
@@ -58,7 +56,7 @@ try {
         throw new Exception("Este correo ya está registrado.");
     }
 
-    // Insertar en la tabla usuarios en texto plano
+    // Insertar en la tabla usuarios en texto plano (sin usar hashing por requerimiento académico)
     $sqlIns = "INSERT INTO usuarios (nombre, correo, contrasena, rol) VALUES (?, ?, ?, 'usuario')";
     $stmt = $conexion->prepare($sqlIns);
     if (!$stmt) {
@@ -77,7 +75,8 @@ try {
     exit;
 
 } catch (Exception $e) {
-    http_response_code(400);
+    // Retornar código HTTP de éxito para el procesamiento directo de JSON, pero success: false
+    http_response_code(200);
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
