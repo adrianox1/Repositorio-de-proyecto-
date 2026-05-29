@@ -166,6 +166,37 @@
       </div>
     </section>
   </main>
+
+  <!-- Modal de Adopción Premium -->
+  <div id="adoption-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div class="modal-content" style="background: var(--blanco); padding: 2.5rem; border-radius: 25px; max-width: 500px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #E2E8F0; position: relative; animation: slideUp 0.3s ease-out;">
+      <h3 style="color: var(--azul-oscuro); margin-bottom: 0.5rem; font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+        🏡 Solicitar Adopción
+      </h3>
+      <p style="color: #64748B; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem;">
+        Estás postulando para adoptar a <strong id="modal-pet-name" style="color: var(--verde-menta-oscuro);">[Nombre]</strong>. Por favor, escríbenos tu mensaje de motivación para evaluar tu caso.
+      </p>
+
+      <form id="modal-adoption-form" novalidate>
+        <input type="hidden" id="modal-pet-id">
+        
+        <label for="modal-message" style="display: block; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 0.5rem; font-size: 0.9rem;">
+          Mensaje de motivación *
+        </label>
+        <textarea id="modal-message" placeholder="Cuéntanos un poco sobre ti, tu hogar, tu experiencia con mascotas y por qué te gustaría adoptar..." required style="width: 100%; height: 140px; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid #CBD5E1; font-family: inherit; font-size: 0.95rem; resize: none; margin-bottom: 1.5rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--verde-menta-oscuro)'" onblur="this.style.borderColor='#CBD5E1'"></textarea>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <button type="button" id="modal-cancel-btn" style="background: #F1F5F9; color: #475569; font-weight: 700; padding: 0.8rem; border-radius: 50px; border: none; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;" onmouseover="this.style.background='#E2E8F0'" onmouseout="this.style.background='#F1F5F9'">
+            Cancelar
+          </button>
+          <button type="submit" style="background: var(--verde-menta-oscuro); color: var(--blanco); font-weight: 800; padding: 0.8rem; border-radius: 50px; border: none; cursor: pointer; font-size: 0.9rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='none'">
+            Enviar Solicitud
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="../scripts/index.js"></script>
 </body>
 

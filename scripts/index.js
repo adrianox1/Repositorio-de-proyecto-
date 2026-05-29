@@ -363,38 +363,100 @@ function processAdoptionRequest(petId, petName, tipo) {
     .then(res => res.json())
     .then(data => {
       if (!data.ok || !data.usuario) {
-        alert(`Debes iniciar sesión para postular como adoptante o colaborador para ${petName}.`);
+        alert("Debes iniciar sesión para solicitar una adopción.");
         window.location.href = 'iniciar-sesion.html';
         return;
       }
 
-      // Usuario logueado: pedir mensaje para la solicitud
-      const mensaje = prompt(`Escribe un breve mensaje explicando por qué deseas postular para ${petName}:`, `Hola, me gustaría mucho poder brindar un hogar responsable a ${petName} y ser de apoyo.`);
-      
-      if (mensaje === null) return; // Canceló
-      if (!mensaje.trim()) {
-        alert("El mensaje no puede estar vacío.");
-        return;
-      }
+      // Si el modal está disponible en el HTML actual (catalogo.html)
+      const adoptionModal = document.getElementById('adoption-modal');
+      if (adoptionModal) {
+        // Rellenar datos en el modal
+        document.getElementById('modal-pet-name').textContent = petName;
+        document.getElementById('modal-pet-id').value = petId;
+        document.getElementById('modal-message').value = '';
+        
+        // Mostrar modal
+        adoptionModal.style.display = 'flex';
 
-      // Enviar solicitud a backend/api/solicitudes.php
-      fetch('../backend/api/solicitudes.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          mascota_id: parseInt(petId),
-          mensaje: mensaje.trim()
-        })
-      })
-      .then(res => res.json())
-      .then(result => {
-        if (result.ok) {
-          alert(`¡Excelente! Solicitud enviada exitosamente para ${result.mascota_nombre}. Nuestro equipo revisará tu perfil.`);
-        } else {
-          alert("No se pudo enviar la solicitud: " + result.error);
+        // Manejar cierre del modal con el botón de Cancelar
+        const cancelBtn = document.getElementById('modal-cancel-btn');
+        cancelBtn.onclick = () => {
+          adoptionModal.style.display = 'none';
+        };
+
+        // Cerrar modal al dar clic fuera del contenido
+        adoptionModal.onclick = (e) => {
+          if (e.target === adoptionModal) {
+            adoptionModal.style.display = 'none';
+          }
+        };
+
+        // Manejar submit del formulario de adopción del modal
+        const modalForm = document.getElementById('modal-adoption-form');
+        modalForm.onsubmit = (e) => {
+          e.preventDefault();
+          const mensajeText = document.getElementById('modal-message').value.trim();
+
+          if (!mensajeText) {
+            alert("El mensaje de motivación no puede estar vacío.");
+            return;
+          }
+
+          // Enviar solicitud a backend/api/solicitudes.php
+          fetch('../backend/api/solicitudes.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              mascota_id: parseInt(petId),
+              mensaje: mensajeText
+            })
+          })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              alert(`¡Excelente! Solicitud de adopción enviada con éxito para ${result.mascota_nombre}. Nuestro equipo revisará tu perfil.`);
+              adoptionModal.style.display = 'none';
+            } else {
+              alert("No se pudo enviar la solicitud: " + result.message);
+            }
+          })
+          .catch(err => {
+            console.error("Error al procesar solicitud:", err);
+            alert("Ocurrió un error en la conexión al enviar la solicitud.");
+          });
+        };
+      } else {
+        // Fallback por si se llama desde otra vista donde no exista el modal (ej: seguimiento.html)
+        const mensaje = prompt(`Escribe un breve mensaje explicando por qué deseas postular para ${petName}:`, `Hola, me gustaría mucho poder brindar un hogar responsable a ${petName} y ser de apoyo.`);
+        
+        if (mensaje === null) return; // Canceló
+        if (!mensaje.trim()) {
+          alert("El mensaje no puede estar vacío.");
+          return;
         }
-      })
-      .catch(err => console.error("Error al procesar solicitud:", err));
+
+        fetch('../backend/api/solicitudes.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mascota_id: parseInt(petId),
+            mensaje: mensaje.trim()
+          })
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert(`¡Excelente! Solicitud de adopción enviada con éxito para ${result.mascota_nombre}. Nuestro equipo revisará tu perfil.`);
+          } else {
+            alert("No se pudo enviar la solicitud: " + result.message);
+          }
+        })
+        .catch(err => {
+          console.error("Error al procesar solicitud:", err);
+          alert("Ocurrió un error en la conexión al enviar la solicitud.");
+        });
+      }
     });
 }
 

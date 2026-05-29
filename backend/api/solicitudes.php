@@ -1,58 +1,122 @@
 <?php
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/../includes/helpers.php';
 require_once __DIR__ . '/../includes/db.php';
 
-requiereAuth();
+header('Content-Type: application/json; charset=utf-8');
+
+// Validar sesión
 $usuario = sesionActual();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $body      = bodyJSON();
-    $mascotaId = (int)($body['mascota_id'] ?? 0);
-    $mensaje   = trim($body['mensaje'] ?? '');
-
-    if (!$mascotaId) error('ID de mascota requerido');
-    if (!$mensaje)   error('El mensaje no puede estar vacío');
-
-    $m = $conexion->prepare('SELECT id, nombre FROM mascotas WHERE id = ? AND disponible = 1');
-    $m->bind_param('i', $mascotaId);
-    $m->execute();
-    $mascota = $m->get_result()->fetch_assoc();
-    if (!$mascota) error('Mascota no encontrada o no disponible');
-
-    $dup = $conexion->prepare('SELECT id FROM solicitudes WHERE mascota_id = ? AND usuario_id = ? AND estado = "pendiente" LIMIT 1');
-    $dup->bind_param('ii', $mascotaId, $usuario['id']);
-    $dup->execute();
-    if ($dup->get_result()->fetch_assoc()) error('Ya tienes una solicitud pendiente para esta mascota');
-
-    $ins = $conexion->prepare('INSERT INTO solicitudes (mascota_id, usuario_id, mensaje) VALUES (?, ?, ?)');
-    $ins->bind_param('iis', $mascotaId, $usuario['id'], $mensaje);
-    $ins->execute();
-
-    ok([
-        'solicitud_id'   => $conexion->insert_id,
-        'mascota_nombre' => $mascota['nombre'],
-        'mensaje'        => 'Solicitud enviada con éxito',
-    ]);
-
-} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $stmt = $conexion->prepare(
-        'SELECT s.id, s.mensaje, s.estado, s.creado_en,
-                m.nombre AS mascota_nombre, m.especie, m.foto_url
-         FROM solicitudes s
-         JOIN mascotas m ON m.id = s.mascota_id
-         WHERE s.usuario_id = ?
-         ORDER BY s.creado_en DESC'
-    );
-    $stmt->bind_param('i', $usuario['id']);
-    $stmt->execute();
-    $result      = $stmt->get_result();
-    $solicitudes = [];
-    while ($row = $result->fetch_assoc()) {
-        $solicitudes[] = $row;
-    }
-    ok(['solicitudes' => $solicitudes]);
-
-} else {
-    error('Método no permitido', 405);
+if (!$usuario) {
+    http_response_code(401);
+    echo json_encode([
+        "success" => false,
+        "message" => "Debes iniciar sesión para solicitar una adopción."
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
 }
-?>
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'POST') {
+    try {
+        $body      = bodyJSON();
+        $mascotaId = (int)($body['mascota_id'] ?? 0);
+        $mensaje   = trim($body['mensaje'] ?? '');
+
+        if (!$mascotaId) {
+            throw new Exception("ID de mascota requerido");
+        }
+        if (!$mensaje) {
+            throw new Exception("El mensaje no puede estar vacío");
+        }
+
+        // Verificar existencia y disponibilidad de la mascota
+        $sqlMascota = "SELECT id, nombre FROM mascotas WHERE id = " . (int)$mascotaId . " AND disponible = 1";
+        $resMascota = $conexion->query($sqlMascota);
+        if (!$resMascota || $resMascota->num_rows === 0) {
+            throw new Exception("Mascota no encontrada o no disponible");
+        }
+        $mascota = $resMascota->fetch_assoc();
+
+        // Verificar duplicados
+        $sqlDup = "SELECT id FROM solicitudes WHERE mascota_id = " . (int)$mascotaId . " 
+                   AND usuario_id = " . (int)$usuario['id'] . " AND estado = 'pendiente' LIMIT 1";
+        $resDup = $conexion->query($sqlDup);
+        if ($resDup && $resDup->num_rows > 0) {
+            throw new Exception("Ya tienes una solicitud pendiente para esta mascota");
+        }
+
+        // Insertar la solicitud
+        $sqlIns = "INSERT INTO solicitudes (mascota_id, usuario_id, mensaje, estado) 
+                   VALUES (?, ?, ?, 'pendiente')";
+        $stmt = $conexion->prepare($sqlIns);
+        if (!$stmt) {
+            throw new Exception("Error al preparar la inserción de solicitud");
+        }
+
+        $stmt->bind_param("iis", $mascotaId, $usuario['id'], $mensaje);
+        if (!$stmt->execute()) {
+            throw new Exception("Error al guardar la solicitud en la base de datos");
+        }
+
+        echo json_encode([
+            "success" => true,
+            "message" => "Solicitud de adopción enviada correctamente",
+            "solicitud_id" => $conexion->insert_id,
+            "mascota_nombre" => $mascota['nombre']
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+
+    } catch (Exception $e) {
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "message" => $e->getMessage()
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+} elseif ($method === 'GET') {
+    try {
+        $sql = "SELECT s.id, s.mensaje, s.estado, s.creado_en,
+                       m.nombre AS mascota_nombre, m.especie, m.foto_url
+                FROM solicitudes s
+                JOIN mascotas m ON m.id = s.mascota_id
+                WHERE s.usuario_id = " . (int)$usuario['id'] . "
+                ORDER BY s.creado_en DESC";
+        
+        $result = $conexion->query($sql);
+        if (!$result) {
+            throw new Exception("Error al consultar solicitudes: " . $conexion->error);
+        }
+
+        $solicitudes = [];
+        while ($row = $result->fetch_assoc()) {
+            $solicitudes[] = $row;
+        }
+
+        echo json_encode([
+            "success" => true,
+            "message" => "Solicitudes cargadas correctamente",
+            "data" => $solicitudes
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            "success" => false,
+            "message" => $e->getMessage()
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+} else {
+    http_response_code(405);
+    echo json_encode([
+        "success" => false,
+        "message" => "Método no permitido"
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
