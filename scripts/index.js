@@ -701,8 +701,33 @@ function initAuthForms() {
       const emailInput = registerForm.querySelector('input[placeholder*="Correo"]');
       const passInput = registerForm.querySelector('input[placeholder*="Contraseña"]');
 
-      if (!nameInput.value.trim() || !emailInput.value.trim() || !passInput.value) {
-        alert("Completa todos los campos.");
+      const nombre = nameInput.value.trim();
+      const correo = emailInput.value.trim();
+      const contrasena = passInput.value;
+
+      // Validaciones frontend
+      if (!nombre) {
+        alert("El nombre es obligatorio.");
+        return;
+      }
+      if (!correo) {
+        alert("El correo es obligatorio.");
+        return;
+      }
+      
+      // Validar formato del correo
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(correo)) {
+        alert("El formato del correo no es válido.");
+        return;
+      }
+      
+      if (!contrasena) {
+        alert("La contraseña es obligatoria.");
+        return;
+      }
+      if (contrasena.length < 6) {
+        alert("La contraseña debe tener al menos 6 caracteres.");
         return;
       }
 
@@ -710,19 +735,23 @@ function initAuthForms() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nombre: nameInput.value.trim(),
-          correo: emailInput.value.trim(),
-          contrasena: passInput.value
+          nombre: nombre,
+          correo: correo,
+          contrasena: contrasena
         })
       })
       .then(res => res.json())
       .then(data => {
-        if (data.ok) {
-          alert(`¡Cuenta creada con éxito! Bienvenido(a) ${data.usuario.nombre}.`);
-          window.location.href = 'index.html';
+        if (data.success) {
+          alert("Usuario registrado correctamente");
+          window.location.href = 'iniciar-sesion.html';
         } else {
-          console.error("Error de validación al registrarse:", data.error);
-          alert("No se pudo registrar el usuario. Verifica los datos ingresados.");
+          console.error("Fallo de validación en backend al registrarse:", data.message);
+          if (data.message === "Este correo ya está registrado.") {
+            alert("Este correo ya está registrado.");
+          } else {
+            alert("No se pudo registrar el usuario. Verifica los datos ingresados.");
+          }
         }
       })
       .catch(err => {
