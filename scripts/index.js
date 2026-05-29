@@ -220,23 +220,35 @@ function initCatalog() {
   }
 
   // 2.6 Formulario de Reporte de Mascotas
+  const reportCard = document.querySelector('.report-card');
   const reportForm = document.querySelector('.report-form');
-  if (reportForm) {
-    reportForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+  
+  if (reportCard && reportForm) {
+    // Consultar sesión activa de forma proactiva
+    fetch('../backend/api/me.php')
+      .then(res => res.json())
+      .then(sessionData => {
+        if (!sessionData.ok || !sessionData.usuario) {
+          // Reemplazar el formulario por un panel premium de bloqueo
+          reportCard.innerHTML = `
+            <div style="text-align: center; padding: 3rem 1.5rem;">
+              <span style="font-size: 4rem; display: block; margin-bottom: 1.5rem;">🔒</span>
+              <h2 style="color: var(--azul-oscuro); margin-bottom: 1rem; font-weight: 800;">Debes iniciar sesión para reportar una mascota</h2>
+              <p style="color: #64748B; font-size: 1.05rem; line-height: 1.6; max-width: 500px; margin: 0 auto 2.5rem; font-weight: 500;">
+                Para garantizar la seriedad de los reportes y permitirte hacer seguimiento de tus casos rescatados, es necesario que accedas a tu cuenta.
+              </p>
+              <a href="iniciar-sesion.html" class="btn-primary" style="display: inline-block; padding: 1rem 2.5rem; font-size: 1.05rem; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 10px 15px -3px rgba(119,201,167,0.3);">
+                Iniciar sesión
+              </a>
+            </div>
+          `;
+          return;
+        }
 
-      // Primero, validar si el usuario está logueado en la sesión
-      fetch('../backend/api/me.php')
-        .then(res => res.json())
-        .then(sessionData => {
-          if (!sessionData.ok || !sessionData.usuario) {
-            if (confirm("Debes iniciar sesión para reportar una mascota.\n\n¿Deseas iniciar sesión ahora?")) {
-              window.location.href = 'iniciar-sesion.html';
-            }
-            return;
-          }
+        // Si hay sesión activa, habilitar el listener de submit del formulario
+        reportForm.addEventListener('submit', (e) => {
+          e.preventDefault();
 
-          // Si hay sesión activa, proceder con el envío
           const nombreInput = document.getElementById('report-nombre');
           const especieSelect = document.getElementById('report-especie');
           const generoSelect = document.getElementById('report-genero');
@@ -248,37 +260,56 @@ function initCatalog() {
           const fotoInput = document.getElementById('report-foto');
           const descTextarea = document.getElementById('report-descripcion');
 
-          const requiredFields = [nombreInput, especieSelect, generoSelect, lugarInput, estadoSelect, condicionInput, descTextarea];
-          let isValid = true;
-          
-          requiredFields.forEach(field => {
-            if (field) field.classList.remove('input-error');
-          });
+          const nombre = nombreInput ? nombreInput.value.trim() : '';
+          const especie = especieSelect ? especieSelect.value.trim().toLowerCase() : '';
+          const genero = generoSelect ? generoSelect.value.trim().toLowerCase() : '';
+          const lugar = lugarInput ? lugarInput.value.trim() : '';
+          const estado = estadoSelect ? estadoSelect.value.trim().toLowerCase() : '';
+          const condicion = condicionInput ? condicionInput.value.trim() : '';
+          const descripcion = descTextarea ? descTextarea.value.trim() : '';
 
-          requiredFields.forEach(field => {
-            if (field && !field.value.trim()) {
-              isValid = false;
-              field.classList.add('input-error');
-            }
-          });
-
-          if (!isValid) {
-            alert("Por favor, completa los campos requeridos marcados en rojo.");
+          // Campos obligatorios: nombre, especie, genero, lugar, estado, condicion, descripcion
+          if (!nombre || !especie || !genero || !lugar || !estado || !condicion || !descripcion) {
+            alert("Completa los campos obligatorios.");
+            
+            // Marcar en rojo los campos vacíos de forma visual
+            const requiredInputs = [
+              { el: nombreInput, val: nombre },
+              { el: especieSelect, val: especie },
+              { el: generoSelect, val: genero },
+              { el: lugarInput, val: lugar },
+              { el: estadoSelect, val: estado },
+              { el: condicionInput, val: condicion },
+              { el: descTextarea, val: descripcion }
+            ];
+            requiredInputs.forEach(item => {
+              if (item.el) {
+                if (!item.val) {
+                  item.el.classList.add('input-error');
+                } else {
+                  item.el.classList.remove('input-error');
+                }
+              }
+            });
             return;
           }
 
-          // Preparar payload para insertar, usando los campos del formulario
+          // Limpiar clases de error previas
+          const allInputs = [nombreInput, especieSelect, generoSelect, razaInput, edadInput, lugarInput, estadoSelect, condicionInput, fotoInput, descTextarea];
+          allInputs.forEach(el => el && el.classList.remove('input-error'));
+
+          // Preparar payload para insertar
           const payload = {
-            nombre: nombreInput.value.trim(),
-            especie: especieSelect.value.toLowerCase(),
-            genero: generoSelect.value.toLowerCase(),
-            raza: razaInput.value.trim() || 'Mestizo',
-            edad_meses: edadInput.value ? parseInt(edadInput.value) : 0,
-            descripcion: descTextarea.value.trim(),
-            condicion: condicionInput.value.trim(),
-            lugar_rescate: lugarInput.value.trim(),
-            foto_url: fotoInput.value.trim() || '', // Dejar en blanco si está vacío para que el backend use el fallback
-            estado: estadoSelect.value.toLowerCase()
+            nombre: nombre,
+            especie: especie,
+            genero: genero,
+            raza: razaInput ? razaInput.value.trim() : '',
+            edad_meses: edadInput && edadInput.value.trim() !== '' ? parseInt(edadInput.value) : '',
+            lugar_rescate: lugar,
+            estado: estado,
+            condicion: condicion,
+            foto_url: fotoInput ? fotoInput.value.trim() : '',
+            descripcion: descripcion
           };
 
           // Realizar la petición POST a backend/api/mascotas.php
@@ -290,24 +321,23 @@ function initCatalog() {
           .then(res => res.json())
           .then(result => {
             if (result.success) {
-              alert(`¡Caso registrado exitosamente! La mascota ha sido ingresada en el sistema. ID: ${result.mascota_id}`);
+              alert("Mascota registrada correctamente");
               reportForm.reset();
               window.location.reload();
             } else {
               console.error("Error al registrar reporte de mascota:", result.message);
-              alert("No se pudo registrar el caso. Verifica que hayas iniciado sesión.");
+              alert(result.message || "No se pudo registrar el caso. Verifica que hayas iniciado sesión.");
             }
           })
           .catch(err => {
             console.error("Error técnico al reportar mascota:", err);
             alert("No se pudo registrar el caso. Verifica que hayas iniciado sesión.");
           });
-        })
-        .catch(err => {
-          console.error("Error al validar sesión:", err);
-          alert("No se pudo verificar tu sesión. Por favor, inicia sesión e inténtalo de nuevo.");
         });
-    });
+      })
+      .catch(err => {
+        console.error("Error al validar sesión proactivamente:", err);
+      });
   }
 }
 

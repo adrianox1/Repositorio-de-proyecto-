@@ -68,10 +68,12 @@ if ($method === 'GET') {
     }
 } elseif ($method === 'POST') {
     try {
+        header('Content-Type: application/json; charset=utf-8');
+
         // Validar si el usuario está logueado en la sesión
         $usuario = sesionActual();
         if (!$usuario) {
-            http_response_code(401);
+            http_response_code(200); // Retornar 200 con success: false para compatibilidad directa con AJAX
             echo json_encode([
                 "success" => false,
                 "message" => "Debes iniciar sesión para reportar una mascota."
@@ -83,56 +85,100 @@ if ($method === 'GET') {
         $responsable = $usuario['nombre'] ?? 'Usuario WauPiura';
 
         $raw = file_get_contents('php://input');
-        $data = json_decode($raw, true);
+        $body = json_decode($raw, true);
 
-        if (!$data) {
-            throw new Exception("Datos de entrada no válidos");
+        if (!$body) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Completa los campos obligatorios."
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
         }
 
-        $nombre        = $data['nombre'] ?? 'Rescatado';
-        $especie       = $data['especie'] ?? 'otro';
-        $genero        = $data['genero'] ?? 'macho';
-        $raza          = $data['raza'] ?? 'Mestizo';
-        $edad_meses    = isset($data['edad_meses']) ? (int)$data['edad_meses'] : 0;
-        $descripcion   = $data['descripcion'] ?? '';
-        $condicion     = $data['condicion'] ?? 'En evaluación';
-        $lugar_rescate = $data['lugar_rescate'] ?? 'Piura';
-        $foto_url      = $data['foto_url'] ?? '';
-        $estado        = $data['estado'] ?? 'evaluacion';
+        $nombre        = trim($body['nombre'] ?? '');
+        $especie       = trim(strtolower($body['especie'] ?? ''));
+        $genero        = trim(strtolower($body['genero'] ?? ''));
+        $lugar_rescate = trim($body['lugar_rescate'] ?? '');
+        $estado        = trim(strtolower($body['estado'] ?? ''));
+        $condicion     = trim($body['condicion'] ?? '');
+        $descripcion   = trim($body['descripcion'] ?? '');
 
-        if (!in_array($especie, ['perro', 'gato', 'otro'])) $especie = 'otro';
-        if (!in_array($genero, ['macho', 'hembra'])) $genero = 'macho';
-        if (!in_array($estado, ['evaluacion', 'tratamiento', 'recuperacion', 'disponible'])) $estado = 'evaluacion';
+        // Campos obligatorios requeridos
+        if (empty($nombre) || empty($especie) || empty($genero) || empty($lugar_rescate) || empty($estado) || empty($condicion) || empty($descripcion)) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Completa los campos obligatorios."
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
 
-        if (empty($foto_url)) {
+        // Convalidar valores admitidos
+        if (!in_array($especie, ['perro', 'gato', 'otro'])) {
+            $especie = 'otro';
+        }
+        if (!in_array($genero, ['macho', 'hembra'])) {
+            $genero = 'macho';
+        }
+        if (!in_array($estado, ['evaluacion', 'tratamiento', 'recuperacion', 'disponible'])) {
+            $estado = 'evaluacion';
+        }
+
+        // Asignar opcionales y valores por defecto
+        $raza = trim($body['raza'] ?? '');
+        if ($raza === '') {
+            $raza = 'No especificada';
+        }
+
+        $edad_meses = isset($body['edad_meses']) && $body['edad_meses'] !== '' ? (int)$body['edad_meses'] : 0;
+        if ($edad_meses < 0) {
+            $edad_meses = 0;
+        }
+
+        $foto_url = trim($body['foto_url'] ?? '');
+        if ($foto_url === '') {
             $foto_url = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=280&fit=crop';
         }
 
+        // Insertar en la tabla mascotas
         $sql = "INSERT INTO mascotas (nombre, especie, genero, raza, edad_meses, descripcion, condicion, responsable, lugar_rescate, foto_url, estado, disponible) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
         $stmt = $conexion->prepare($sql);
         if (!$stmt) {
-            throw new Exception("Error al preparar inserción: " . $conexion->error);
+            throw new Exception("Error al preparar la base de datos.");
         }
 
         $stmt->bind_param("ssssissssss", $nombre, $especie, $genero, $raza, $edad_meses, $descripcion, $condicion, $responsable, $lugar_rescate, $foto_url, $estado);
         
         if (!$stmt->execute()) {
-            throw new Exception("Error al insertar mascota: " . $stmt->error);
+            throw new Exception("Error al guardar en la base de datos.");
         }
 
         $mascota_id = $stmt->insert_id;
 
+        // Crear automáticamente el seguimiento inicial
+        $sqlSeg = "INSERT INTO seguimientos (mascota_id, titulo, descripcion, estado, fecha) VALUES (?, 'Caso registrado', ?, ?, CURRENT_TIMESTAMP)";
+        $stmtSeg = $conexion->prepare($sqlSeg);
+        if (!$stmtSeg) {
+            throw new Exception("Error al preparar el historial clínico.");
+        }
+        $stmtSeg->bind_param("iss", $mascota_id, $descripcion, $estado);
+        if (!$stmtSeg->execute()) {
+            throw new Exception("Error al guardar el historial clínico.");
+        }
+
+        // Responder JSON de éxito
         echo json_encode([
             "success" => true,
-            "message" => "Mascota registrada exitosamente",
-            "mascota_id" => $mascota_id
+            "message" => "Mascota registrada correctamente",
+            "data" => [
+                "id" => $mascota_id
+            ]
         ], JSON_UNESCAPED_UNICODE);
         exit;
 
     } catch (Exception $e) {
-        http_response_code(400);
+        http_response_code(200);
         echo json_encode([
             "success" => false,
             "message" => "Error al registrar la mascota: " . $e->getMessage()
