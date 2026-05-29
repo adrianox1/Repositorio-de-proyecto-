@@ -230,8 +230,9 @@ function initCatalog() {
         .then(res => res.json())
         .then(sessionData => {
           if (!sessionData.ok || !sessionData.usuario) {
-            alert("Debes iniciar sesión para reportar una mascota.");
-            window.location.href = 'iniciar-sesion.html';
+            if (confirm("Debes iniciar sesión para reportar una mascota.\n\n¿Deseas iniciar sesión ahora?")) {
+              window.location.href = 'iniciar-sesion.html';
+            }
             return;
           }
 
