@@ -1,0 +1,124 @@
+/* ================= PAGE: NOSOTROS & FAQ ================= */
+.about-section {
+  padding: 80px 0;
+  background-color: var(--blanco);
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-content h1 {
+  font-size: 3rem;
+  color: var(--verde-menta-oscuro);
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.about-content p {
+  font-size: 1.1rem;
+  color: var(--azul-oscuro);
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+
+.about-content h2 {
+  font-size: 2rem;
+  color: var(--azul-oscuro);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.about-list {
+  list-style-type: none;
+}
+
+.about-list li {
+  margin-bottom: 1rem;
+  position: relative;
+  padding-left: 2rem;
+  font-size: 1.1rem;
+  color: var(--azul-oscuro);
+}
+
+.about-list li::before {
+  content: '🐾';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.1rem;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 30px;
+  box-shadow: var(--sombra);
+  object-fit: cover;
+}
+
+.faq-grid {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.faq-item {
+  background: var(--blanco);
+  border-radius: 18px;
+  box-shadow: 0 4px 6px rgba(27, 58, 88, 0.03);
+  border: 1px solid rgba(27, 58, 88, 0.08);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.faq-item:hover { box-shadow: var(--sombra); }
+
+.faq-item summary {
+  padding: 1.5rem 1.8rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--azul-oscuro);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--verde-menta-oscuro);
+  transition: transform 0.3s;
+  line-height: 1;
+}
+
+.faq-item[open] summary::after {
+  content: '−';
+  transform: rotate(180deg);
+}
+
+.faq-item[open] summary { padding-bottom: 1rem; }
+
+.faq-content {
+  padding: 0 1.8rem 1.5rem;
+  color: #64748B;
+  line-height: 1.7;
+}
+
+.faq-content p { margin: 0; }
+.faq-content a { color: var(--verde-menta-oscuro); font-weight: 600; text-decoration: none; }
+
+@media (max-width: 900px) {
+  .about-container { grid-template-columns: 1fr !important; gap: 2rem !important; text-align: center; }
+  .about-list li { text-align: left; }
+}

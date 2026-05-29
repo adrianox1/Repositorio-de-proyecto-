@@ -1,0 +1,222 @@
+/* ================= PAGE: CATÁLOGO ================= */
+.catalog-hero,
+.tracking-hero {
+  background: linear-gradient(135deg, #FEF7E3 0%, #E9F5EF 100%);
+  padding: 80px 0;
+}
+
+.catalog-hero h1,
+.tracking-hero h1 {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  color: var(--azul-oscuro);
+}
+
+.catalog-hero p,
+.tracking-hero p {
+  max-width: 760px;
+  font-size: 1.1rem;
+}
+
+.catalog-section,
+.tracking-section {
+  padding: 70px 0;
+}
+
+.catalog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.catalog-toolbar h2 {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.catalog-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.summary-card {
+  background: var(--blanco);
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--sombra);
+  border: 1px solid rgba(27, 58, 88, 0.05);
+}
+
+.summary-number {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--verde-menta-oscuro);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.summary-label {
+  font-size: 0.85rem;
+  color: #64748B;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.catalog-search {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 2px solid var(--gris-claro);
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--amarillo-suave);
+}
+
+.catalog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  background: var(--blanco);
+  border: 1px solid var(--gris-claro);
+  color: var(--azul-oscuro);
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.filter-btn:hover {
+  background: #E2E8F0;
+}
+
+.filter-btn.active-filter {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  border-color: var(--azul-oscuro);
+}
+
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--blanco);
+  border-radius: 28px;
+  box-shadow: var(--sombra);
+  margin-top: 1rem;
+  border: 1px dashed rgba(27, 58, 88, 0.2);
+}
+
+.no-results h3 {
+  font-size: 1.5rem;
+  color: var(--azul-oscuro);
+  margin-bottom: 0.5rem;
+}
+
+.no-results p {
+  color: #64748B;
+  font-size: 1rem;
+}
+
+.pet-card {
+  background: var(--blanco);
+  border-radius: 28px;
+  box-shadow: var(--sombra);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  border: 1px solid rgba(27, 58, 88, 0.08);
+}
+
+.pet-image {
+  display: grid;
+  place-items: center;
+  font-size: 4rem;
+  min-height: 100%;
+}
+
+.pet-dog { background: #FFF1C7; }
+.pet-cat { background: #E7F7EF; }
+
+.pet-content {
+  padding: 1.5rem;
+}
+
+.pet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.pet-header h3 {
+  font-size: 1.5rem;
+  color: var(--azul-oscuro);
+}
+
+.pet-meta {
+  color: #64748B;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.pet-details {
+  list-style: none;
+  margin: 1rem 0;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.pet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+@media (max-width: 900px) {
+  .catalog-toolbar { display: grid; grid-template-columns: 1fr; align-items: center; text-align: center; gap: 1.5rem; }
+  .pet-grid { grid-template-columns: 1fr; }
+  .pet-card { grid-template-columns: 1fr; }
+  .pet-image { min-height: 200px; }
+  .catalog-hero h1 { font-size: 2.3rem; }
+}
+@media (max-width: 600px) {
+  .catalog-filters { gap: 0.5rem; }
+  .filter-btn { flex: 1 1 calc(50% - 0.5rem); text-align: center; padding: 0.6rem 0.5rem; font-size: 0.85rem; }
+  .catalog-summary { grid-template-columns: repeat(2, 1fr); }
+  .summary-number { font-size: 1.8rem; }
+  .pet-actions { flex-wrap: wrap; }
+  .pet-actions .btn-primary, .pet-actions .btn-secondary { flex: 1 1 100%; text-align: center; }
+}

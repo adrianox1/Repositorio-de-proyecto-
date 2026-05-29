@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contáctanos para ser voluntario, apoyar rescates o brindar un hogar temporal en WauPiura.">
+  <title>Contacto y Voluntariado | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="contacto.html" class="active-link">Contacto</a>
+        </nav>
+      </div>
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="container" style="padding: 80px 0;">
+      <div class="report-card" style="max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem;">
+        
+        <div>
+          <p class="eyebrow">Únete al equipo</p>
+          <h1 style="font-size: 2.5rem; color: var(--azul-oscuro); margin-bottom: 1.5rem; line-height: 1.2;">Necesitamos manos como las tuyas</h1>
+          <p style="color: #64748B; font-size: 1.1rem; line-height: 1.7; margin-bottom: 2.5rem;">
+            En WauPiura siempre necesitamos personas dispuestas a ayudar. Ya sea que quieras ser voluntario presencial, apoyar logísticamente en labores de rescate o brindar un hogar temporal para un peludito en recuperación.
+          </p>
+          
+          <ul style="list-style: none; padding: 0; display: grid; gap: 1.5rem; margin-bottom: 2rem;">
+            <li style="display: flex; gap: 1rem; align-items: flex-start;">
+              <span style="font-size: 1.5rem; background: #E9F5EF; padding: 0.8rem; border-radius: 12px; line-height: 1;">🤝</span>
+              <div>
+                <h4 style="color: var(--azul-oscuro); margin-bottom: 0.3rem;">Voluntariado general</h4>
+                <p style="color: #64748B; font-size: 0.95rem;">Ayúdanos en eventos, paseos, baño de mascotas y mantenimiento básico.</p>
+              </div>
+            </li>
+            <li style="display: flex; gap: 1rem; align-items: flex-start;">
+              <span style="font-size: 1.5rem; background: #FEF7E3; padding: 0.8rem; border-radius: 12px; line-height: 1;">🚑</span>
+              <div>
+                <h4 style="color: var(--azul-oscuro); margin-bottom: 0.3rem;">Apoyo en rescates</h4>
+                <p style="color: #64748B; font-size: 0.95rem;">Soporte con transporte (movilidad) para emergencias y traslados.</p>
+              </div>
+            </li>
+            <li style="display: flex; gap: 1rem; align-items: flex-start;">
+              <span style="font-size: 1.5rem; background: #E9F5EF; padding: 0.8rem; border-radius: 12px; line-height: 1;">🏠</span>
+              <div>
+                <h4 style="color: var(--azul-oscuro); margin-bottom: 0.3rem;">Hogar temporal</h4>
+                <p style="color: #64748B; font-size: 0.95rem;">Cuida a una mascota recuperada o cachorros hasta que encuentren a su familia.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <form class="report-form" id="contact-form" novalidate style="background: var(--blanco); padding: 2.5rem; border-radius: 25px; box-shadow: var(--sombra);">
+          <h3 style="color: var(--azul-oscuro); margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center;">Déjanos tus datos</h3>
+          
+          <input type="text" placeholder="Nombre completo" required name="nombre">
+          
+          <div class="form-row">
+            <input type="email" placeholder="Correo electrónico" required name="correo">
+            <input type="tel" placeholder="Teléfono / WhatsApp" required name="telefono">
+          </div>
+
+          <select required name="interes">
+            <option value="">¿Cómo te gustaría ayudar?</option>
+            <option value="voluntariado">Quiero ser voluntario(a)</option>
+            <option value="rescates">Quiero apoyar en rescates</option>
+            <option value="temporal">Puedo ser hogar temporal</option>
+            <option value="otro">Otra forma de ayuda</option>
+          </select>
+
+          <textarea placeholder="Cuéntanos un poco sobre ti, tu motivación y tu disponibilidad (días u horarios)" required name="mensaje" style="height: 120px;"></textarea>
+
+          <button type="submit" class="btn-register" style="width: 100%; margin-top: 0.5rem;" onclick="event.preventDefault(); alert('¡Gracias por postularte! Nos contactaremos contigo pronto por WhatsApp o correo.'); this.form.reset();">Enviar solicitud</button>
+        </form>
+
+      </div>
+    </section>
+
+    <section class="container" style="padding-bottom: 80px; max-width: 1000px; margin: 0 auto;">
+      <div style="background: #E9F5EF; border-radius: 30px; padding: 3.5rem 2rem; text-align: center; border: 1px solid rgba(19, 121, 91, 0.1);">
+        <span style="font-size: 3.5rem; display: block; margin-bottom: 1rem;">🏡</span>
+        <h2 style="font-size: 2.2rem; color: var(--azul-oscuro); margin-bottom: 1rem;">¿Qué es un Hogar Temporal?</h2>
+        
+        <p style="color: #64748B; font-size: 1.1rem; line-height: 1.7; margin-bottom: 2.5rem; max-width: 700px; margin-inline: auto;">
+          Un hogar temporal es un espacio seguro y lleno de amor donde una mascota rescatada puede vivir de forma transitoria mientras le encontramos una familia definitiva. 
+          <strong>Es el puente vital entre la calle y la adopción.</strong>
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: left; margin-bottom: 2.5rem;">
+          <div style="background: var(--blanco); padding: 1.8rem; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+            <h4 style="color: var(--azul-oscuro); margin-bottom: 0.8rem; font-size: 1.1rem;">❤️ ¿Por qué es tan importante?</h4>
+            <p style="color: #64748B; font-size: 0.95rem;">Ayuda a descongestionar nuestros refugios, previene el estrés severo de la mascota al no estar hacinada y le permite aprender a socializar nuevamente en un ambiente familiar.</p>
+          </div>
+          <div style="background: var(--blanco); padding: 1.8rem; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+            <h4 style="color: var(--azul-oscuro); margin-bottom: 0.8rem; font-size: 1.1rem;">🤝 ¿Cuál sería tu rol?</h4>
+            <p style="color: #64748B; font-size: 0.95rem;">Brindar un pequeño espacio seguro, agua, comida y mucho cariño por unas semanas. WauPiura se encarga de los gastos médicos y de buscar exhaustivamente a su familia final.</p>
+          </div>
+        </div>
+
+        <form id="foster-form" class="report-form" novalidate style="background: var(--blanco); padding: 2rem; border-radius: 20px; text-align: left; margin-top: 1.5rem; border: 1px solid rgba(19, 121, 91, 0.2);">
+          <h3 style="color: var(--azul-oscuro); margin-bottom: 1.5rem; font-size: 1.3rem; text-align: center;">Formulario de Postulación Rápida</h3>
+          
+          <div class="form-row">
+            <input type="text" placeholder="Nombre completo" required name="foster-nombre">
+            <input type="tel" placeholder="Teléfono / WhatsApp" required name="foster-telefono">
+          </div>
+
+          <div class="form-row">
+            <input type="text" placeholder="Distrito o Zona" required name="foster-distrito">
+            <select required name="foster-tipo">
+              <option value="">¿Qué mascota puedes recibir?</option>
+              <option value="perros">Perros (Adultos/Jóvenes)</option>
+              <option value="cachorros">Cachorros</option>
+              <option value="gatos">Gatos</option>
+              <option value="gatitos">Gatitos bebé</option>
+              <option value="cualquiera">Cualquiera</option>
+            </select>
+          </div>
+
+          <select required name="foster-disponibilidad">
+            <option value="">Disponibilidad de tiempo (aproximada)</option>
+            <option value="dias">Unos pocos días (emergencia)</option>
+            <option value="semanas">1 a 3 semanas</option>
+            <option value="mes">1 mes o más</option>
+            <option value="indefinido">Hasta que sea adoptado</option>
+          </select>
+
+          <button type="submit" class="btn-primary" style="background: var(--verde-menta-oscuro); color: var(--blanco); font-size: 1.1rem; padding: 1rem; width: 100%; border: none; cursor: pointer; border-radius: 15px; margin-top: 0.5rem;" onclick="event.preventDefault(); alert('¡Excelente! Postulación a hogar temporal enviada con éxito.'); this.form.reset();">Enviar Postulación</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script src="../scripts/index.js"></script>
+</body>
+</html>

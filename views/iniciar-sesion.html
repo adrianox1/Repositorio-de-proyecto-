@@ -4,21 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/auth.css">
 </head>
-<body class="auth-body" style="background: #E9F5EF;">
+<body class="auth-body">
   <div class="auth-card">
     <a href="index.html" class="logo" style="justify-content: center; margin-bottom: 1.5rem;"><span>Wau</span>Piura</a>
     <h2>¡Bienvenido!</h2>
     <p>Ingresa tus credenciales.</p>
-    <form class="auth-form">
+    <form class="auth-form" novalidate>
       <input type="email" placeholder="Correo electrónico" class="auth-input" required>
       <input type="password" placeholder="Contraseña" class="auth-input" required>
-      <button type="submit" class="btn-register" style="background: var(--verde-menta-oscuro);">Entrar</button>
+      <button type="submit" class="btn-register" style="background: var(--verde-menta-oscuro); color: white;">Entrar</button>
     </form>
     <p style="margin-top: 1.5rem; font-size: 0.9rem;">
-      ¿No tienes cuenta? <a href="registro.html">Regístrate</a>
+      ¿No tienes cuenta? <a href="registro.html" class="auth-link">Regístrate</a>
     </p>
   </div>
+  <script src="../scripts/index.js"></script>
 </body>
 </html>

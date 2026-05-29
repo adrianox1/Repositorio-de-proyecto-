@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conoce más sobre WauPiura, nuestros objetivos y cómo buscamos fomentar la adopción responsable de mascotas en la región.">
   <title>Nosotros | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/nosotros.css">
 </head>
 <body>
   <header>
@@ -14,7 +19,9 @@
         <nav>
           <a href="index.html">Inicio</a>
           <a href="catalogo.html">Adopción</a>
-          <a href="nosotros.html">Nosotros</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html" class="active-link">Nosotros</a>
+          <a href="contacto.html">Contacto</a>
         </nav>
       </div>
       <div class="nav-auth">
@@ -24,18 +31,113 @@
     </div>
   </header>
 
-  <main class="container" style="padding: 80px 20px;">
-    <section class="about-us">
-      <h1>Sobre Nosotros</h1>
-      <p>En WauPiura, somos un equipo apasionado por el bienestar animal y la comunidad. Nuestra misión es conectar a personas responsables con animales en abandono en toda la región de Piura, brindándoles una segunda oportunidad para encontrar un hogar lleno de amor.</p>
-      <p>Creemos que cada animal merece una vida digna y feliz, y trabajamos incansablemente para facilitar el proceso de adopción, promoviendo la responsabilidad y el compromiso que implica cuidar de una mascota.</p>
-      <p>Únete a nosotros en esta noble causa y ayúdanos a hacer la diferencia en la vida de muchos animales necesitados.</p>
+  <main>
+    <section class="about-section">
+      <div class="container about-container">
+        <div class="about-content">
+          <h1>Sobre WauPiura</h1>
+          <p>
+            WauPiura nace del profundo amor hacia los animales y de la urgente necesidad de crear un cambio positivo en nuestra región. Somos una plataforma dedicada exclusivamente a conectar ciudadanos responsables, amorosos y comprometidos, con cientos de animales en situación de abandono que esperan ansiosamente por un hogar en toda la región de Piura.
+          </p>
+          <p>
+            Creemos firmemente en el poder de brindar segundas oportunidades. Sabemos que el amor incondicional que una mascota puede ofrecer no tiene límites, y que cada animal rescatado tiene el potencial de convertirse en el mejor compañero de vida. Trabajamos en colaboración con diversos refugios, rescatistas independientes y voluntarios para asegurar que cada proceso de adopción sea transparente, seguro y lleno de esperanza.
+          </p>
+          
+          <h2>Nuestros Objetivos</h2>
+          <ul class="about-list">
+            <li><strong>Fomentar la adopción responsable:</strong> Buscamos que cada adopción sea para toda la vida, concientizando sobre las necesidades y el cuidado adecuado de los animales.</li>
+            <li><strong>Reducir el abandono en las calles:</strong> Trabajar incansablemente y sumar esfuerzos para disminuir el número de perros y gatos viviendo en situaciones vulnerables.</li>
+            <li><strong>Educación comunitaria:</strong> Educar a la sociedad, empezando por los más pequeños, sobre el respeto, la empatía y la importancia de la esterilización.</li>
+            <li><strong>Crear una red de apoyo solidaria:</strong> Conectar a refugios locales, profesionales veterinarios y familias adoptantes para multiplicar el bienestar animal.</li>
+          </ul>
+        </div>
+        <div class="about-image">
+          <img src="../images/adopcion-nosotros.png" alt="Persona abrazando y adoptando a un perro feliz en un refugio">
+        </div>
+      </div>
     </section>
 
-    <section class="map-section" style="margin-top: 50px;">
+    <section class="faq-section container" style="margin-bottom: 6rem;">
+      <div style="text-align: center; max-width: 600px; margin: 0 auto 3rem;">
+        <h2 style="color: var(--azul-oscuro); font-size: 2.2rem; margin-bottom: 1rem;">Preguntas Frecuentes</h2>
+        <p style="color: #64748B;">Resolvemos tus principales dudas sobre nuestros procesos de rescate, seguimiento y adopción.</p>
+      </div>
+      
+      <div class="faq-grid">
+        <details class="faq-item" name="faq">
+          <summary>¿Cuáles son los pasos para adoptar una mascota?</summary>
+          <div class="faq-content">
+            <p>Primero, revisa nuestro catálogo y elige al peludito que quieres en tu familia. Luego, verifica que cumples con nuestros <a href="requisitos.html">requisitos de adopción</a>. Finalmente, regístrate en nuestra plataforma y llena el formulario. Nos pondremos en contacto contigo para una entrevista y conocer tu hogar.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>¿Cómo reporto un animalito en abandono o herido?</summary>
+          <div class="faq-content">
+            <p>Ve a la sección de "Adopción" (Catálogo) y al final encontrarás nuestro formulario de reporte. Llena los datos solicitados (ubicación exacta, nivel de urgencia, estado y fotos si es posible). Un voluntario evaluará el caso y coordinará el rescate según disponibilidad.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>¿En qué consiste el seguimiento post-adopción?</summary>
+          <div class="faq-content">
+            <p>Una vez que la mascota llega a tu hogar, mantenemos comunicación constante durante los primeros 6 meses. Te pediremos fotos, videos y actualizaciones sobre su salud, visitas al veterinario y comportamiento para garantizar una adaptación exitosa y brindarte asesoría si la necesitas.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq">
+          <summary>No puedo adoptar, ¿cómo más puedo apoyar?</summary>
+          <div class="faq-content">
+            <p>¡Toda ayuda cuenta! Si no puedes tener una mascota permanentemente, puedes registrarte como <strong>hogar temporal</strong>, donar alimento o medicinas, ayudarnos con movilidad para traslados, o apadrinar casos específicos. Visita la página de inicio para ver todas las formas de apoyar.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="tips-section container" style="margin-bottom: 80px; margin-top: 80px;">
+      <div class="section-header text-center" style="margin-bottom: 3rem;">
+        <h2 style="color: var(--azul-oscuro); font-size: 2.5rem; margin-bottom: 1rem;">Consejos de Cuidado Básico</h2>
+        <p style="color: #64748B; font-size: 1.1rem; max-width: 700px; margin: 0 auto;">Garantizar el bienestar de tu mascota requiere compromiso. Aquí tienes los 5 pilares fundamentales para mantener a tu peludito sano y feliz.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+        <div class="info-card" style="background: var(--blanco); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🥩</div>
+          <h3 style="color: var(--verde-menta-oscuro); margin-bottom: 0.8rem; font-size: 1.2rem;">1. Alimentación</h3>
+          <p style="color: #64748B; font-size: 0.95rem; line-height: 1.6;">Proporciona alimento de calidad adecuado para su edad, tamaño y necesidades. Asegúrate de que siempre tenga agua fresca y limpia a su disposición.</p>
+        </div>
+
+        <div class="info-card" style="background: var(--blanco); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🧼</div>
+          <h3 style="color: var(--verde-menta-oscuro); margin-bottom: 0.8rem; font-size: 1.2rem;">2. Higiene</h3>
+          <p style="color: #64748B; font-size: 0.95rem; line-height: 1.6;">Cepilla su pelaje regularmente, baña a los perros según las indicaciones de tu veterinario, y mantén limpio su entorno (camita, arenero, platos).</p>
+        </div>
+
+        <div class="info-card" style="background: var(--blanco); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">💉</div>
+          <h3 style="color: var(--verde-menta-oscuro); margin-bottom: 0.8rem; font-size: 1.2rem;">3. Vacunas</h3>
+          <p style="color: #64748B; font-size: 0.95rem; line-height: 1.6;">Sigue el calendario de vacunación para prevenir enfermedades mortales como la rabia, el moquillo y el parvovirus. ¡La prevención es clave!</p>
+        </div>
+
+        <div class="info-card" style="background: var(--blanco); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">✂️</div>
+          <h3 style="color: var(--verde-menta-oscuro); margin-bottom: 0.8rem; font-size: 1.2rem;">4. Esterilización</h3>
+          <p style="color: #64748B; font-size: 0.95rem; line-height: 1.6;">Ayuda a controlar la sobrepoblación y previene graves problemas de salud (tumores, infecciones) y problemas de comportamiento en el futuro.</p>
+        </div>
+
+        <div class="info-card" style="background: var(--blanco); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);">
+          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🩺</div>
+          <h3 style="color: var(--verde-menta-oscuro); margin-bottom: 0.8rem; font-size: 1.2rem;">5. Chequeos</h3>
+          <p style="color: #64748B; font-size: 0.95rem; line-height: 1.6;">Lleva a tu mascota a chequeos preventivos al menos una vez al año y mantén sus desparasitaciones (internas y externas) al día.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Integración del mapa físico de Piura -->
+    <section class="container map-section" style="margin-top: 80px; margin-bottom: 60px;">
       <h2>Nuestra Ubicación</h2>
-      <p>Encuéntranos en Piura, listos para ayudarte en el proceso de adopción:</p>
-      <div class="map-container">
+      <p style="color:#64748B; margin-bottom: 1.5rem;">Encuéntranos en Piura, listos para ayudarte en el proceso de adopción:</p>
+      <div class="map-container" style="border-radius:25px; overflow:hidden; box-shadow: var(--sombra);">
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.4939984920436!2d-80.63229712530188!3d-5.184852952219904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x904a27f62e841fd3%3A0x6bba86cd92754059!2sPiura!5e0!3m2!1ses-419!2spe!4v1716668000000!5m2!1ses-419!2spe" 
           width="100%" 
@@ -48,27 +150,29 @@
       </div>
     </section>
 
-    <section class="comments-section" style="margin-top: 60px;">
+    <!-- Integración del formulario de comentarios y dudas -->
+    <section class="container comments-section" style="margin-top: 60px; margin-bottom: 100px;">
       <h2>Déjanos tus dudas o comentarios</h2>
-      <p>Tu opinión nos importa. Escríbenos para ponernos en contacto contigo.</p>
+      <p style="color:#64748B; margin-bottom: 1.5rem;">Tu opinión nos importa. Escríbenos para ponernos en contacto contigo.</p>
       
-      <div class="comments-container">
-        <div class="comment-form-block">
-          <form action="#" method="POST" class="comment-form">
-            <label for="user-comment">Escribe tu comentario:</label>
+      <div class="comments-container" style="display:flex; border-radius:25px; overflow:hidden; box-shadow: var(--sombra); min-height:400px; background: white;">
+        <div class="comment-form-block" style="flex:1; padding:3rem; display:flex; flex-direction:column; justify-content:center;">
+          <form action="#" method="POST" class="comment-form" onsubmit="event.preventDefault(); alert('¡Gracias por tu comentario! Nuestro equipo de WauPiura se pondrá en contacto contigo pronto.'); this.reset();">
+            <label for="user-comment" style="font-weight:700; color:var(--azul-oscuro); font-size:1.1rem; margin-bottom:0.5rem; display:block;">Escribe tu comentario:</label>
             <textarea 
               id="user-comment" 
               name="comentario" 
               placeholder="¿Tienes alguna pregunta sobre el proceso de adopción o deseas apoyarnos?..." 
-              required></textarea>
-            <button type="submit" class="btn-submit-comment">Enviar Comentario</button>
+              required
+              style="width: 100%; height: 160px; padding: 1rem; border: 2px solid var(--gris-claro); border-radius: 12px; font-family: inherit; font-size: 1rem; color: var(--azul-oscuro); resize: none; outline: none; transition: border-color 0.3s ease;"></textarea>
+            <button type="submit" class="btn-submit-comment" style="display: inline-block; background: var(--amarillo-suave); color: var(--azul-oscuro); padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 800; border: none; cursor: pointer; align-self: flex-start; font-size: 1rem; margin-top:1rem;">Enviar Comentario</button>
           </form>
         </div>
 
-        <div class="comment-image-block"></div>
+        <div class="comment-image-block" style="flex:1; background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=600&auto=format&fit=crop'); background-size:cover; background-position:center;"></div>
       </div>
     </section>
-
   </main>
+  <script src="../scripts/index.js"></script>
 </body>
 </html>

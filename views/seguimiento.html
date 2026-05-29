@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Haz seguimiento clínico y social del estado de salud y evolución de las mascotas rescatadas en WauPiura.">
+  <title>Seguimiento | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/seguimiento.css">
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html" class="active-link">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+      </div>
+
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="tracking-hero">
+      <div class="container tracking-header">
+        <div>
+          <p class="eyebrow">Seguimiento clínico y social</p>
+          <h1>Seguimiento de mascota rescatada</h1>
+          <p>
+            Este módulo permite visualizar el estado de salud, controles veterinarios,
+            medicación, vacunas y evolución de una mascota rescatada o enferma.
+          </p>
+        </div>
+
+        <div class="tracking-summary">
+          <span class="pet-avatar">🐾</span>
+          <h2>Cargando...</h2>
+          <p>Obteniendo detalles de la base de datos...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container tracking-section">
+      <!-- Barra de progreso stepper actualizada dinámicamente según el estado de la mascota -->
+      <div class="progress-stepper">
+        <div class="step">
+          <div class="step-icon">🐾</div>
+          <span class="step-label">Rescate</span>
+        </div>
+        <div class="step-line"></div>
+        
+        <div class="step">
+          <div class="step-icon">🩺</div>
+          <span class="step-label">Evaluación</span>
+        </div>
+        <div class="step-line"></div>
+        
+        <div class="step">
+          <div class="step-icon">💊</div>
+          <span class="step-label">Tratamiento</span>
+        </div>
+        <div class="step-line"></div>
+        
+        <div class="step">
+          <div class="step-icon">❤️‍🩹</div>
+          <span class="step-label">Recuperación</span>
+        </div>
+        <div class="step-line"></div>
+        
+        <div class="step">
+          <div class="step-icon">🏡</div>
+          <span class="step-label">Disponible</span>
+        </div>
+      </div>
+
+      <div class="tracking-grid">
+        <article class="info-card">
+          <h3>Datos generales</h3>
+          <ul class="info-list">
+            <li>Cargando datos generales...</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <h3>Condición de salud</h3>
+          <ul class="info-list">
+            <li>Cargando detalles de salud...</li>
+          </ul>
+        </article>
+      </div>
+
+      <article class="timeline-card">
+        <h3>Historial de seguimiento</h3>
+        <!-- Línea de tiempo de hitos clínicos y sociales cargados desde la base de datos (tabla seguimientos) -->
+        <div class="timeline">
+          <div class="timeline-item active">
+            <span class="timeline-dot"></span>
+            <div>
+              <h4>Ingreso al sistema</h4>
+              <p>Inicializando línea de tiempo...</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="notes-card">
+        <h3>Observaciones del caso</h3>
+        <p>Cargando notas y descripción del caso...</p>
+        
+        <div class="pet-actions" style="margin-top:2rem;">
+          <a href="catalogo.html" class="btn-primary">Volver al catálogo</a>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script src="../scripts/index.js"></script>
+</body>
+</html>

@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WauPiura | Adopciones</title>
+  <meta name="description" content="WauPiura es la plataforma de adopción de mascotas en Piura. Dale una segunda oportunidad a un amigo y conecta con animales en abandono.">
+  <title>Inicio | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/inicio.css">
 </head>
 <body>
   <header>
@@ -12,9 +17,11 @@
       <div class="nav-left">
         <a href="index.html" class="logo"><span>Wau</span>Piura</a>
         <nav>
-          <a href="index.html">Inicio</a>
+          <a href="index.html" class="active-link">Inicio</a>
           <a href="catalogo.html">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
           <a href="nosotros.html">Nosotros</a>
+          <a href="contacto.html">Contacto</a>
         </nav>
       </div>
       <div class="nav-auth">
@@ -44,6 +51,194 @@
         </div>
       </div>
     </section>
+
+    <section class="urgent-cases-section container">
+      <div class="section-header text-center">
+        <h2 style="color: #B42318; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <span style="font-size: 2.5rem;">🚨</span> Casos Urgentes
+        </h2>
+        <p>Estas mascotas necesitan apoyo económico, medicamentos o un hogar temporal de inmediato.</p>
+      </div>
+
+      <div class="urgent-grid">
+        <div class="urgent-card">
+          <div class="urgent-image">
+            <span style="font-size: 3.5rem;">🐶</span>
+            <div class="urgent-badge">Ayuda médica</div>
+          </div>
+          <div class="urgent-content">
+            <h3 style="color: var(--azul-oscuro); margin-bottom: 0.3rem;">Rocky</h3>
+            <p style="color: #64748B; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Atropellado hace 2 días, requiere cirugía ortopédica urgente para no perder su patita.</p>
+            <a href="contacto.html" class="btn-primary" style="background: #B42318; width: 100%; text-align: center; font-size: 0.85rem;">Quiero apoyar el caso</a>
+          </div>
+        </div>
+
+        <div class="urgent-card">
+          <div class="urgent-image">
+            <span style="font-size: 3.5rem;">🐱</span>
+            <div class="urgent-badge">Hogar temporal</div>
+          </div>
+          <div class="urgent-content">
+            <h3 style="color: var(--azul-oscuro); margin-bottom: 0.3rem;">Misha</h3>
+            <p style="color: #64748B; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Gatita en recuperación de anemia severa. Necesita un espacio tranquilo temporalmente.</p>
+            <a href="contacto.html" class="btn-primary" style="background: #B42318; width: 100%; text-align: center; font-size: 0.85rem;">Ofrecer mi hogar</a>
+          </div>
+        </div>
+
+        <div class="urgent-card">
+          <div class="urgent-image">
+            <span style="font-size: 3.5rem;">🐶</span>
+            <div class="urgent-badge">Medicamentos</div>
+          </div>
+          <div class="urgent-content">
+            <h3 style="color: var(--azul-oscuro); margin-bottom: 0.3rem;">Balto</h3>
+            <p style="color: #64748B; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Cachorro rescatado con parvovirus. Necesita suero, medicación especializada y alimento.</p>
+            <a href="contacto.html" class="btn-primary" style="background: #B42318; width: 100%; text-align: center; font-size: 0.85rem;">Donar medicamentos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="workflow-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <p class="eyebrow">¿Cómo funciona?</p>
+          <h2>El flujo del sistema</h2>
+          <p>Conoce el proceso completo desde que una mascota es reportada hasta que encuentra su hogar definitivo y nos aseguramos de su bienestar.</p>
+        </div>
+
+        <div class="workflow-grid">
+          <div class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-icon">📣</div>
+            <h3>Reporte</h3>
+            <p>Se recibe la alerta de un ciudadano sobre una mascota en situación de vulnerabilidad o abandono.</p>
+          </div>
+          
+          <div class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-icon">🩺</div>
+            <h3>Evaluación</h3>
+            <p>Un especialista realiza una revisión inicial para determinar el estado de salud y necesidades urgentes de la mascota.</p>
+          </div>
+
+          <div class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-icon">💊</div>
+            <h3>Tratamiento</h3>
+            <p>Si la mascota está enferma o herida, se inicia el tratamiento médico correspondiente bajo supervisión veterinaria.</p>
+          </div>
+
+          <div class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-icon">❤️‍🩹</div>
+            <h3>Recuperación</h3>
+            <p>La mascota descansa en un refugio u hogar temporal, ganando peso y confianza antes de buscar familia.</p>
+          </div>
+
+          <div class="workflow-step">
+            <div class="step-number">5</div>
+            <div class="step-icon">🏡</div>
+            <h3>Adopción</h3>
+            <p>Se evalúan los perfiles de los posibles adoptantes y se entrega la mascota a una familia amorosa y responsable.</p>
+          </div>
+
+          <div class="workflow-step">
+            <div class="step-number">6</div>
+            <div class="step-icon">📱</div>
+            <h3>Seguimiento</h3>
+            <p>Se mantiene contacto periódico post-adopción para asegurar la adaptación y el bienestar continuo del animal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="section-header text-center" style="margin-bottom: 2rem;">
+          <p class="eyebrow">Historias Felices</p>
+          <h2>Familias que crecieron</h2>
+          <p>Conoce a algunas de las personas que decidieron darle una segunda oportunidad a un peludito de WauPiura y cambiaron su vida para siempre.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p class="testimonial-text">"Adoptar a Luna fue la mejor decisión. Venía muy asustada al principio, pero con paciencia y la asesoría del equipo, ahora es la reina de la casa. ¡No imagino mi vida sin ella!"</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background: #E7F7EF;">👩🏽</div>
+              <div class="author-info">
+                <h4>María Y.</h4>
+                <p>Adoptó a Luna (Labrador Mix)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p class="testimonial-text">"Max tenía 5 años cuando lo adoptamos. Muchos prefieren cachorros, pero adoptar a un perro adulto fue increíble. Es tranquilo, educado y nos llenó de agradecimiento desde el día 1."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background: #FFE3E3;">👨🏻</div>
+              <div class="author-info">
+                <h4>Carlos R.</h4>
+                <p>Adoptó a Max (Mestizo)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p class="testimonial-text">"Primero empecé como hogar temporal porque no estaba segura de poder tener un perro fijo. Pero me enamoré de Toby en su recuperación y terminé adoptándolo formalmente."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background: #FFF1C7;">👱🏼‍♀️</div>
+              <div class="author-info">
+                <h4>Ana S.</h4>
+                <p>Adoptó a Toby (Poodle)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="support-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <p class="eyebrow">Súmate a la causa</p>
+          <h2>Formas de Apoyar</h2>
+          <p>No necesitas adoptar para cambiar una vida. Hay muchas maneras en las que puedes ayudarnos a seguir rescatando peluditos.</p>
+        </div>
+
+        <div class="support-grid">
+          <div class="support-card">
+            <div class="support-icon">🍲</div>
+            <h3>Alimento</h3>
+            <p>Dona croquetas, paté o comida especial. Cada granito cuenta para nutrir a los rescatados.</p>
+          </div>
+
+          <div class="support-card">
+            <div class="support-icon">💊</div>
+            <h3>Medicina</h3>
+            <p>Apóyanos con medicinas, desparasitantes o insumos médicos básicos para sus curaciones.</p>
+          </div>
+
+          <div class="support-card">
+            <div class="support-icon">🏠</div>
+            <h3>Hogar Temporal</h3>
+            <p>Brinda un espacio seguro por unos días o semanas mientras encuentran a su familia definitiva.</p>
+          </div>
+
+          <div class="support-card">
+            <div class="support-icon">❤️</div>
+            <h3>Donación Económica</h3>
+            <p>Aporta para cubrir gastos de cirugías, tratamientos y mantenimiento general del albergue.</p>
+            <button class="btn-register" style="margin-top: 1rem; width: 100%; border-radius: 12px; font-size: 0.95rem;" onclick="alert('Gracias por tu intención de apoyar. Esta es una demostración visual sin pasarela de pagos conectada.')">Apoyar ahora</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <script src="../scripts/index.js"></script>
 </body>
 </html>
