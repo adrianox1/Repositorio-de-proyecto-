@@ -107,7 +107,7 @@ function initCatalog() {
             🐾 Error al cargar las mascotas del refugio
           </h3>
           <p style="color: #667085; font-size: 0.95rem; line-height: 1.6; max-width: 650px; margin: 0 auto; font-weight: 500;">
-            No se pudieron cargar las mascotas. Verifica que estés abriendo el proyecto desde Apache/Laragon/XAMPP usando <code style="background: #FFE4E6; padding: 0.2rem 0.4rem; border-radius: 4px; color: #9F1239; font-size: 0.85rem; font-family: monospace;">http://localhost</code> y no directamente como archivo.
+            No se pudieron cargar las mascotas. Verifica que el servidor PHP y MySQL estén activos.
           </p>
           <small style="display: block; margin-top: 1rem; color: #98A2B3; font-style: italic;">
             Detalle técnico del error: ${escapeHTML(err.message)}
@@ -294,12 +294,13 @@ function initCatalog() {
               reportForm.reset();
               window.location.reload();
             } else {
-              alert("Error al registrar: " + result.message);
+              console.error("Error al registrar reporte de mascota:", result.message);
+              alert("No se pudo registrar el caso. Verifica que hayas iniciado sesión.");
             }
           })
           .catch(err => {
-            console.error("Error al reportar mascota:", err);
-            alert("Ocurrió un error en la conexión al reportar la mascota.");
+            console.error("Error técnico al reportar mascota:", err);
+            alert("No se pudo registrar el caso. Verifica que hayas iniciado sesión.");
           });
         })
         .catch(err => {
@@ -491,7 +492,8 @@ function initTracking() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        alert("Error: " + data.error);
+        console.error("Fallo al obtener el seguimiento en el backend:", data.error);
+        alert("No se pudo cargar el seguimiento de esta mascota.");
         window.location.href = 'catalogo.html';
         return;
       }
@@ -587,8 +589,9 @@ function initTracking() {
       }
     })
     .catch(err => {
-      console.error("Error al cargar seguimiento:", err);
-      alert("Error al cargar el seguimiento clínico.");
+      console.error("Error técnico al cargar seguimiento clínico:", err);
+      alert("No se pudo cargar el seguimiento de esta mascota.");
+      window.location.href = 'catalogo.html';
     });
 }
 
@@ -677,10 +680,14 @@ function initAuthForms() {
           alert(`¡Ingreso correcto! Bienvenido(a) ${data.usuario.nombre}.`);
           window.location.href = 'index.html';
         } else {
-          alert("Error: " + data.error);
+          console.error("Error de credenciales al iniciar sesión:", data.error);
+          alert("Correo o contraseña incorrectos.");
         }
       })
-      .catch(err => console.error("Error al ingresar:", err));
+      .catch(err => {
+        console.error("Error técnico al ingresar:", err);
+        alert("Correo o contraseña incorrectos.");
+      });
     });
   }
 
@@ -714,10 +721,14 @@ function initAuthForms() {
           alert(`¡Cuenta creada con éxito! Bienvenido(a) ${data.usuario.nombre}.`);
           window.location.href = 'index.html';
         } else {
-          alert("Error: " + data.error);
+          console.error("Error de validación al registrarse:", data.error);
+          alert("No se pudo registrar el usuario. Verifica los datos ingresados.");
         }
       })
-      .catch(err => console.error("Error al registrarse:", err));
+      .catch(err => {
+        console.error("Error técnico al registrarse:", err);
+        alert("No se pudo registrar el usuario. Verifica los datos ingresados.");
+      });
     });
   }
 }
