@@ -224,61 +224,87 @@ function initCatalog() {
   if (reportForm) {
     reportForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      
-      const nombreInput = reportForm.querySelector('input[placeholder*="referencial"]');
-      const especieSelect = reportForm.querySelector('select:nth-of-type(1)');
-      const lugarInput = reportForm.querySelector('input[placeholder*="Ubicación"]');
-      const telInput = reportForm.querySelector('input[placeholder*="Teléfono"]');
-      const estadoSelect = reportForm.querySelector('select:nth-of-type(3)');
-      const descTextarea = reportForm.querySelector('textarea');
 
-      const requiredFields = reportForm.querySelectorAll('[required]');
-      let isValid = true;
-      requiredFields.forEach(field => field.classList.remove('input-error'));
+      // Primero, validar si el usuario está logueado en la sesión
+      fetch('../backend/api/me.php')
+        .then(res => res.json())
+        .then(sessionData => {
+          if (!sessionData.ok || !sessionData.usuario) {
+            alert("Debes iniciar sesión para reportar una mascota.");
+            window.location.href = 'iniciar-sesion.html';
+            return;
+          }
 
-      requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-          isValid = false;
-          field.classList.add('input-error');
-        }
-      });
+          // Si hay sesión activa, proceder con el envío
+          const nombreInput = document.getElementById('report-nombre');
+          const especieSelect = document.getElementById('report-especie');
+          const generoSelect = document.getElementById('report-genero');
+          const razaInput = document.getElementById('report-raza');
+          const edadInput = document.getElementById('report-edad');
+          const lugarInput = document.getElementById('report-lugar');
+          const estadoSelect = document.getElementById('report-estado');
+          const condicionInput = document.getElementById('report-condicion');
+          const fotoInput = document.getElementById('report-foto');
+          const descTextarea = document.getElementById('report-descripcion');
 
-      if (!isValid) {
-        alert("Por favor, completa los campos requeridos marcados en rojo.");
-        return;
-      }
+          const requiredFields = [nombreInput, especieSelect, generoSelect, lugarInput, estadoSelect, condicionInput, descTextarea];
+          let isValid = true;
+          
+          requiredFields.forEach(field => {
+            if (field) field.classList.remove('input-error');
+          });
 
-      // Preparar payload para insertar
-      const payload = {
-        nombre: nombreInput.value.trim() || 'Rescatado',
-        especie: especieSelect.value.toLowerCase(),
-        genero: 'macho', // Valor por defecto
-        raza: 'Mestizo',
-        edad_meses: 6,
-        descripcion: descTextarea.value.trim(),
-        condicion: estadoSelect.options[estadoSelect.selectedIndex].text,
-        responsable: 'Ciudadano Voluntario (Telf: ' + telInput.value.trim() + ')',
-        lugar_rescate: lugarInput.value.trim()
-      };
+          requiredFields.forEach(field => {
+            if (field && !field.value.trim()) {
+              isValid = false;
+              field.classList.add('input-error');
+            }
+          });
 
-      // Realizar la petición POST a backend/api/mascotas.php
-      fetch('../backend/api/mascotas.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(result => {
-        if (result.ok) {
-          alert(`¡Caso registrado exitosamente! La mascota ha sido ingresada en estado de Evaluación. ID: ${result.mascota_id}`);
-          reportForm.reset();
-          // Recargar catálogo
-          window.location.reload();
-        } else {
-          alert("Error: " + result.error);
-        }
-      })
-      .catch(err => console.error("Error al reportar:", err));
+          if (!isValid) {
+            alert("Por favor, completa los campos requeridos marcados en rojo.");
+            return;
+          }
+
+          // Preparar payload para insertar, usando los campos del formulario
+          const payload = {
+            nombre: nombreInput.value.trim(),
+            especie: especieSelect.value.toLowerCase(),
+            genero: generoSelect.value.toLowerCase(),
+            raza: razaInput.value.trim() || 'Mestizo',
+            edad_meses: edadInput.value ? parseInt(edadInput.value) : 0,
+            descripcion: descTextarea.value.trim(),
+            condicion: condicionInput.value.trim(),
+            lugar_rescate: lugarInput.value.trim(),
+            foto_url: fotoInput.value.trim() || '', // Dejar en blanco si está vacío para que el backend use el fallback
+            estado: estadoSelect.value.toLowerCase()
+          };
+
+          // Realizar la petición POST a backend/api/mascotas.php
+          fetch('../backend/api/mascotas.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              alert(`¡Caso registrado exitosamente! La mascota ha sido ingresada en el sistema. ID: ${result.mascota_id}`);
+              reportForm.reset();
+              window.location.reload();
+            } else {
+              alert("Error al registrar: " + result.message);
+            }
+          })
+          .catch(err => {
+            console.error("Error al reportar mascota:", err);
+            alert("Ocurrió un error en la conexión al reportar la mascota.");
+          });
+        })
+        .catch(err => {
+          console.error("Error al validar sesión:", err);
+          alert("No se pudo verificar tu sesión. Por favor, inicia sesión e inténtalo de nuevo.");
+        });
     });
   }
 }

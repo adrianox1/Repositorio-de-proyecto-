@@ -2,16 +2,7 @@
 ini_set('display_errors', '0');
 error_reporting(E_ALL);
 
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(204);
-    exit;
-}
-
+require_once __DIR__ . '/../includes/helpers.php';
 require_once __DIR__ . '/../includes/db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -77,6 +68,20 @@ if ($method === 'GET') {
     }
 } elseif ($method === 'POST') {
     try {
+        // Validar si el usuario está logueado en la sesión
+        $usuario = sesionActual();
+        if (!$usuario) {
+            http_response_code(401);
+            echo json_encode([
+                "success" => false,
+                "message" => "Debes iniciar sesión para reportar una mascota."
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        // Obtener el nombre del responsable de la sesión activa
+        $responsable = $usuario['nombre'] ?? 'Usuario WauPiura';
+
         $raw = file_get_contents('php://input');
         $data = json_decode($raw, true);
 
@@ -88,25 +93,30 @@ if ($method === 'GET') {
         $especie       = $data['especie'] ?? 'otro';
         $genero        = $data['genero'] ?? 'macho';
         $raza          = $data['raza'] ?? 'Mestizo';
-        $edad_meses    = isset($data['edad_meses']) ? (int)$data['edad_meses'] : 6;
+        $edad_meses    = isset($data['edad_meses']) ? (int)$data['edad_meses'] : 0;
         $descripcion   = $data['descripcion'] ?? '';
-        $condicion     = $data['condicion'] ?? '';
-        $responsable   = $data['responsable'] ?? '';
-        $lugar_rescate = $data['lugar_rescate'] ?? '';
+        $condicion     = $data['condicion'] ?? 'En evaluación';
+        $lugar_rescate = $data['lugar_rescate'] ?? 'Piura';
         $foto_url      = $data['foto_url'] ?? '';
+        $estado        = $data['estado'] ?? 'evaluacion';
 
         if (!in_array($especie, ['perro', 'gato', 'otro'])) $especie = 'otro';
         if (!in_array($genero, ['macho', 'hembra'])) $genero = 'macho';
+        if (!in_array($estado, ['evaluacion', 'tratamiento', 'recuperacion', 'disponible'])) $estado = 'evaluacion';
+
+        if (empty($foto_url)) {
+            $foto_url = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=280&fit=crop';
+        }
 
         $sql = "INSERT INTO mascotas (nombre, especie, genero, raza, edad_meses, descripcion, condicion, responsable, lugar_rescate, foto_url, estado, disponible) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'evaluacion', 1)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
         $stmt = $conexion->prepare($sql);
         if (!$stmt) {
             throw new Exception("Error al preparar inserción: " . $conexion->error);
         }
 
-        $stmt->bind_param("ssssisssss", $nombre, $especie, $genero, $raza, $edad_meses, $descripcion, $condicion, $responsable, $lugar_rescate, $foto_url);
+        $stmt->bind_param("ssssissssss", $nombre, $especie, $genero, $raza, $edad_meses, $descripcion, $condicion, $responsable, $lugar_rescate, $foto_url, $estado);
         
         if (!$stmt->execute()) {
             throw new Exception("Error al insertar mascota: " . $stmt->error);

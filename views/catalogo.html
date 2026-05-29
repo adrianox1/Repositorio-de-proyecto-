@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explora el catálogo de mascotas rescatadas en Piura. Conoce su estado, evolución y anímate a adoptar o ayudar.">
+  <meta name="description"
+    content="Explora el catálogo de mascotas rescatadas en Piura. Conoce su estado, evolución y anímate a adoptar o ayudar.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -81,7 +83,8 @@
       </div>
 
       <div class="catalog-search">
-        <input type="text" id="pet-search" class="search-input" placeholder="Buscar por nombre, especie, raza o estado...">
+        <input type="text" id="pet-search" class="search-input"
+          placeholder="Buscar por nombre, especie, raza o estado...">
       </div>
 
       <div class="catalog-filters">
@@ -117,43 +120,53 @@
         </div>
 
         <form class="report-form" novalidate>
-          <input type="text" placeholder="Nombre referencial (opcional)" required>
-
           <div class="form-row">
-            <select required>
+            <input type="text" id="report-nombre" placeholder="Nombre referencial (ej. Pipo, Negrito)" required>
+            <select id="report-especie" required>
               <option value="">Tipo de mascota</option>
               <option value="perro">Perro</option>
               <option value="gato">Gato</option>
               <option value="otro">Otro</option>
             </select>
-
-            <select required>
-              <option value="">Nivel de urgencia</option>
-              <option value="alta">Alta</option>
-              <option value="media">Media</option>
-              <option value="baja">Baja</option>
-            </select>
           </div>
 
           <div class="form-row">
-            <input type="text" placeholder="Ubicación exacta de rescate" required>
-            <input type="tel" placeholder="Teléfono de contacto" required>
+            <select id="report-genero" required>
+              <option value="">Género de la mascota</option>
+              <option value="macho">Macho</option>
+              <option value="hembra">Hembra</option>
+            </select>
+            <input type="text" id="report-raza" placeholder="Raza o descripción física (opcional)">
           </div>
 
-          <select required>
-            <option value="">Seleccionar estado inicial</option>
-            <option value="evaluacion">En evaluación veterinaria</option>
-            <option value="tratamiento">En tratamiento</option>
-            <option value="recuperacion">En recuperación</option>
-          </select>
+          <div class="form-row">
+            <input type="number" id="report-edad" placeholder="Edad aproximada en meses  (opcional)" min="0">
+            <input type="text" id="report-lugar" placeholder="Ubicación de rescate" required>
+          </div>
 
-          <textarea placeholder="Descripción del caso: síntomas, condición y apoyo requerido" required></textarea>
+          <div class="form-row">
+            <select id="report-estado" required>
+              <option value="">Seleccionar estado inicial</option>
+              <option value="evaluacion">En evaluación veterinaria</option>
+              <option value="tratamiento">En tratamiento</option>
+              <option value="recuperacion">En recuperación</option>
+            </select>
+            <input type="text" id="report-condicion" placeholder="Condición observada" required>
+          </div>
 
-          <button type="submit" class="btn-register">Registrar caso</button>
+          <input type="url" id="report-foto"
+            placeholder="URL de la foto de la mascota (ej. https://... o dejar en blanco) (opcional)">
+
+          <textarea id="report-descripcion"
+            placeholder="Descripción del caso: síntomas, situación de rescate y detalles de ayuda necesaria..."
+            required></textarea>
+
+          <button type="submit" class="btn-register">Registrar caso de rescate</button>
         </form>
       </div>
     </section>
   </main>
   <script src="../scripts/index.js"></script>
 </body>
+
 </html>
