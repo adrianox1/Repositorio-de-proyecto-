@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Explora el catálogo de mascotas rescatadas en Piura. Conoce su estado, evolución y anímate a adoptar o ayudar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <title>Catálogo | WauPiura</title>
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/catalogo.css">
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html" class="active-link">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+      </div>
+
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="catalog-hero">
+      <div class="container">
+        <p class="eyebrow">Mascotas rescatadas en Piura</p>
+        <h1>Catálogo de adopción y seguimiento</h1>
+        <p>
+          Conoce a las mascotas rescatadas, revisa su estado actual y acompaña su proceso
+          de recuperación hasta que estén listas para encontrar un hogar responsable.
+        </p>
+      </div>
+    </section>
+
+    <section class="container catalog-section">
+      <div class="catalog-toolbar">
+        <div>
+          <h2>Mascotas registradas</h2>
+          <p>
+            Cada mascota cuenta con un estado actualizado para que adoptantes, rescatistas
+            y voluntarios conozcan su evolución.
+          </p>
+        </div>
+        <a href="#reportar" class="cta-button">Reportar mascota</a>
+      </div>
+
+      <div class="catalog-summary">
+        <div class="summary-card">
+          <span class="summary-number" id="count-todos">0</span>
+          <span class="summary-label">Total</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-number" id="count-evaluacion">0</span>
+          <span class="summary-label">En evaluación</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-number" id="count-tratamiento">0</span>
+          <span class="summary-label">En tratamiento</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-number" id="count-recuperacion">0</span>
+          <span class="summary-label">En recuperación</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-number" id="count-disponible">0</span>
+          <span class="summary-label">Disponibles</span>
+        </div>
+      </div>
+
+      <div class="catalog-search">
+        <input type="text" id="pet-search" class="search-input"
+          placeholder="Buscar por nombre, especie, raza o estado...">
+      </div>
+
+      <div class="catalog-filters">
+        <button class="filter-btn active-filter" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter="evaluacion">En evaluación</button>
+        <button class="filter-btn" data-filter="tratamiento">En tratamiento</button>
+        <button class="filter-btn" data-filter="recuperacion">En recuperación</button>
+        <button class="filter-btn" data-filter="disponible">Disponible</button>
+      </div>
+
+      <div class="results-counter" style="margin-bottom: 1.5rem; font-weight: 600; color: #64748B;">
+        Mostrando <span id="visible-count">0</span> mascota(s)
+      </div>
+
+      <!-- Cuadrícula cargada dinámicamente desde la base de datos por AJAX -->
+      <div class="pet-grid"></div>
+
+      <div id="no-results" class="no-results" style="display: none;">
+        <h3>No se encontraron mascotas 🐾</h3>
+        <p>Intenta con otros términos de búsqueda o selecciona otro filtro de estado.</p>
+      </div>
+    </section>
+
+    <section id="reportar" class="container report-section">
+      <div class="report-card">
+        <div>
+          <p class="eyebrow">Nuevo avance del proyecto</p>
+          <h2>Reporte de mascota rescatada o enferma</h2>
+          <p>
+            Esta sección permite que un ciudadano, rescatista o voluntario registre una
+            mascota encontrada en estado vulnerable para iniciar su seguimiento dentro de WauPiura.
+          </p>
+        </div>
+
+        <form class="report-form" novalidate>
+          <div class="form-row">
+            <input type="text" id="report-nombre" placeholder="Nombre referencial (ej. Pipo, Negrito)" required>
+            <select id="report-especie" required>
+              <option value="">Tipo de mascota</option>
+              <option value="perro">Perro</option>
+              <option value="gato">Gato</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <select id="report-genero" required>
+              <option value="">Género de la mascota</option>
+              <option value="macho">Macho</option>
+              <option value="hembra">Hembra</option>
+            </select>
+            <input type="text" id="report-raza" placeholder="Raza o descripción física (opcional)">
+          </div>
+
+          <div class="form-row">
+            <input type="number" id="report-edad" placeholder="Edad aproximada en meses  (opcional)" min="0">
+            <input type="text" id="report-lugar" placeholder="Ubicación de rescate" required>
+          </div>
+
+          <div class="form-row">
+            <select id="report-estado" required>
+              <option value="">Seleccionar estado inicial</option>
+              <option value="evaluacion">En evaluación veterinaria</option>
+              <option value="tratamiento">En tratamiento</option>
+              <option value="recuperacion">En recuperación</option>
+            </select>
+            <input type="text" id="report-condicion" placeholder="Condición observada" required>
+          </div>
+
+          <input type="url" id="report-foto"
+            placeholder="URL de la foto de la mascota (ej. https://... o dejar en blanco) (opcional)">
+
+          <textarea id="report-descripcion"
+            placeholder="Descripción del caso: síntomas, situación de rescate y detalles de ayuda necesaria..."
+            required></textarea>
+
+          <button type="submit" class="btn-register">Registrar caso de rescate</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de Adopción Premium -->
+  <div id="adoption-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div class="modal-content" style="background: var(--blanco); padding: 2.5rem; border-radius: 25px; max-width: 500px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #E2E8F0; position: relative; animation: slideUp 0.3s ease-out;">
+      <h3 style="color: var(--azul-oscuro); margin-bottom: 0.5rem; font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+        🏡 Solicitar Adopción
+      </h3>
+      <p style="color: #64748B; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem;">
+        Estás postulando para adoptar a <strong id="modal-pet-name" style="color: var(--verde-menta-oscuro);">[Nombre]</strong>. Por favor, escríbenos tu mensaje de motivación para evaluar tu caso.
+      </p>
+
+      <form id="modal-adoption-form" novalidate>
+        <input type="hidden" id="modal-pet-id">
+        
+        <label for="modal-message" style="display: block; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 0.5rem; font-size: 0.9rem;">
+          Mensaje de motivación *
+        </label>
+        <textarea id="modal-message" placeholder="Cuéntanos un poco sobre ti, tu hogar, tu experiencia con mascotas y por qué te gustaría adoptar..." required style="width: 100%; height: 140px; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid #CBD5E1; font-family: inherit; font-size: 0.95rem; resize: none; margin-bottom: 1.5rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--verde-menta-oscuro)'" onblur="this.style.borderColor='#CBD5E1'"></textarea>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <button type="button" id="modal-cancel-btn" style="background: #F1F5F9; color: #475569; font-weight: 700; padding: 0.8rem; border-radius: 50px; border: none; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;" onmouseover="this.style.background='#E2E8F0'" onmouseout="this.style.background='#F1F5F9'">
+            Cancelar
+          </button>
+          <button type="submit" style="background: var(--verde-menta-oscuro); color: var(--blanco); font-weight: 800; padding: 0.8rem; border-radius: 50px; border: none; cursor: pointer; font-size: 0.9rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='none'">
+            Enviar Solicitud
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../scripts/global.js"></script>
+  <script src="../scripts/catalogo.js"></script>
+</body>
+
+</html>
