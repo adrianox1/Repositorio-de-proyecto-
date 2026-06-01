@@ -1,0 +1,33 @@
+package com.example.proyecto.controller;
+
+import com.example.proyecto.model.Contacto;
+import com.example.proyecto.service.ContactoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/contacto")
+public class ContactoController {
+    
+    @Autowired
+    private ContactoService contactoService;
+    
+    @GetMapping("")
+    public String mostrarContacto(Model model) {
+        model.addAttribute("contacto", new Contacto());
+        return "contacto";
+    }
+    
+    @PostMapping("")
+    public String enviarMensaje(@ModelAttribute Contacto contacto, Model model) {
+        contactoService.guardarMensaje(contacto);
+        model.addAttribute("mensaje", "Mensaje enviado exitosamente. Nos pondremos en contacto pronto.");
+        model.addAttribute("contacto", new Contacto());
+        return "contacto";
+    }
+}
