@@ -1,0 +1,68 @@
+package com.example.proyecto.service;
+
+import com.example.proyecto.model.Mascota;
+import com.example.proyecto.repository.MascotaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class MascotaServiceImpl implements MascotaService {
+    
+    @Autowired
+    private MascotaRepository mascotaRepository;
+    
+    @Override
+    public List<Mascota> getAllMascotas() {
+        return mascotaRepository.findAll();
+    }
+    
+    @Override
+    public Optional<Mascota> getMascotaById(Long id) {
+        return mascotaRepository.findById(id);
+    }
+    
+    @Override
+    public List<Mascota> getMascotasDisponibles() {
+        return mascotaRepository.findByEstadoAdopcion(Mascota.EstadoAdopcion.DISPONIBLE);
+    }
+    
+    @Override
+    public List<Mascota> getMascotasByRaza(String raza) {
+        return mascotaRepository.findByRaza(raza);
+    }
+    
+    @Override
+    public List<Mascota> buscarMascota(String nombre) {
+        return mascotaRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+    
+    @Override
+    public Mascota guardarMascota(Mascota mascota) {
+        return mascotaRepository.save(mascota);
+    }
+    
+    @Override
+    public Mascota actualizarMascota(Long id, Mascota mascotaActualizada) {
+        Optional<Mascota> mascotaExistente = mascotaRepository.findById(id);
+        if (mascotaExistente.isPresent()) {
+            Mascota mascota = mascotaExistente.get();
+            mascota.setNombre(mascotaActualizada.getNombre());
+            mascota.setRaza(mascotaActualizada.getRaza());
+            mascota.setEdad(mascotaActualizada.getEdad());
+            mascota.setDescripcion(mascotaActualizada.getDescripcion());
+            mascota.setEstadoAdopcion(mascotaActualizada.getEstadoAdopcion());
+            mascota.setImagenUrl(mascotaActualizada.getImagenUrl());
+            mascota.setHistorialMedico(mascotaActualizada.getHistorialMedico());
+            mascota.setRequisitosEspeciales(mascotaActualizada.getRequisitosEspeciales());
+            return mascotaRepository.save(mascota);
+        }
+        return null;
+    }
+    
+    @Override
+    public void eliminarMascota(Long id) {
+        mascotaRepository.deleteById(id);
+    }
+}
