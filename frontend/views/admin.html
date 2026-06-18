@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panel administrativo de WauPiura para la gestión de usuarios.">
+  <title>Panel Administrativo | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+      </div>
+
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="admin-hero">
+      <div class="container">
+        <p class="eyebrow">Panel administrativo</p>
+        <h1>Gestión de usuarios</h1>
+        <p>Administra las cuentas registradas en la plataforma WauPiura: crea, consulta y elimina usuarios.</p>
+      </div>
+    </section>
+
+    <section class="container admin-section">
+      <!-- Tarjetas resumen -->
+      <div class="admin-stats">
+        <article class="stat-card">
+          <span class="stat-number" id="statTotal">—</span>
+          <span class="stat-label">Usuarios totales</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-number" id="statAdmins">—</span>
+          <span class="stat-label">Administradores</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-number" id="statActivos">—</span>
+          <span class="stat-label">Cuentas activas</span>
+        </article>
+      </div>
+
+      <!-- Formulario de creación -->
+      <article class="admin-card">
+        <h3>Registrar nuevo usuario</h3>
+        <form id="formCrear" class="admin-form" novalidate>
+          <div class="form-grid">
+            <input type="text" name="nombre" placeholder="Nombre completo" required>
+            <input type="email" name="email" placeholder="Correo electrónico" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="text" name="telefono" placeholder="Teléfono (opcional)">
+            <input type="text" name="direccion" placeholder="Dirección (opcional)">
+            <select name="rol">
+              <option value="USUARIO">Usuario</option>
+              <option value="VOLUNTARIO">Voluntario</option>
+              <option value="ADMIN">Administrador</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-primary">Crear usuario</button>
+        </form>
+      </article>
+
+      <!-- Tabla de usuarios -->
+      <article class="admin-card">
+        <h3>Usuarios registrados</h3>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Registro</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaUsuarios">
+              <tr><td colspan="7" class="table-empty">Cargando usuarios...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="../scripts/global.js"></script>
+  <script src="../scripts/admin.js"></script>
+</body>
+</html>

@@ -16,17 +16,23 @@ function initNavbarAuth() {
   const navAuth = document.querySelector('.nav-auth');
   if (!navAuth) return;
 
-  // Consultar sesión activa en me.php
-  fetch('../backend/api/me.php')
+  // Consultar sesión activa en el backend Java
+  fetch('/api/me', { credentials: 'include' })
     .then(res => res.json())
     .then(data => {
       if (data.ok && data.usuario) {
+        // Enlace al panel admin solo si el usuario es administrador
+        const enlaceAdmin = data.usuario.rol === 'ADMIN'
+          ? `<a href="admin.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Panel admin</a>`
+          : '';
+
         // Usuario logueado: Reemplazar botones de login/registro
         navAuth.innerHTML = `
           <div style="display: flex; align-items: center; gap: 1.2rem;">
             <span style="font-weight: 700; color: var(--azul-oscuro); font-size: 0.95rem;">
               👤 Hola, <strong>${escapeHTML(data.usuario.nombre)}</strong>
             </span>
+            ${enlaceAdmin}
             <a href="#" class="btn-secondary btn-logout" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">
               Cerrar Sesión
             </a>
@@ -37,7 +43,7 @@ function initNavbarAuth() {
         const btnLogout = navAuth.querySelector('.btn-logout');
         btnLogout.addEventListener('click', (e) => {
           e.preventDefault();
-          fetch('../backend/api/logout.php')
+          fetch('/api/logout', { credentials: 'include' })
             .then(res => res.json())
             .then(logoutData => {
               if (logoutData.ok) {

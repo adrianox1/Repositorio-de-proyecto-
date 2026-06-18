@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      fetch('../backend/api/login.php', {
+      fetch('/api/login', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           correo: correo,
@@ -34,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         if (data.ok) {
           alert(`¡Ingreso correcto! Bienvenido(a) ${data.usuario.nombre}.`);
-          window.location.href = 'index.html';
+          // Los administradores van directo al panel de gestión
+          window.location.href = data.usuario.rol === 'ADMIN' ? 'admin.html' : 'index.html';
         } else {
           console.error("Error de credenciales al iniciar sesión:", data.error);
           alert("Correo o contraseña incorrectos.");
