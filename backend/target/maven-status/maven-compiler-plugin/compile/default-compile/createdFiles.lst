@@ -2,6 +2,7 @@ com\example\proyecto\model\Usuario.class
 com\example\proyecto\ProyectoApplication.class
 com\example\proyecto\service\UsuarioService.class
 com\example\proyecto\controller\ApiController.class
+com\example\proyecto\config\PasswordConfig.class
 com\example\proyecto\model\Usuario$Rol.class
 com\example\proyecto\config\WebConfig.class
 com\example\proyecto\repository\UsuarioRepository.class

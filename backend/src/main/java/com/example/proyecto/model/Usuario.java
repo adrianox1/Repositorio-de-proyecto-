@@ -124,7 +124,7 @@ public class Usuario {
 
     // Enum
     public enum Rol {
-        ADMIN, USUARIO, VOLUNTARIO
+        ADMIN, USUARIO
     }
 
     @Override

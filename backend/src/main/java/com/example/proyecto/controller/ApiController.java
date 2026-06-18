@@ -78,6 +78,39 @@ public class ApiController {
         return ok();
     }
 
+    /**
+     * POST /api/registro  -> registro público de un usuario normal.
+     * body: { correo|email, contrasena|password, nombre, telefono, direccion }
+     * El rol siempre es USUARIO (los ADMIN/VOLUNTARIO se crean desde el panel).
+     */
+    @PostMapping("/registro")
+    public ResponseEntity<Map<String, Object>> registro(@RequestBody Map<String, String> body) {
+        String nombre = body.getOrDefault("nombre", "").trim();
+        String email = body.getOrDefault("correo", body.getOrDefault("email", "")).trim().toLowerCase();
+        String password = body.getOrDefault("contrasena", body.getOrDefault("password", ""));
+        String telefono = emptyToNull(body.get("telefono"));
+        String direccion = emptyToNull(body.get("direccion"));
+
+        if (nombre.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            return ResponseEntity.badRequest().body(error("Nombre, correo y contraseña son requeridos"));
+        }
+        if (telefono == null || direccion == null) {
+            return ResponseEntity.badRequest().body(error("Teléfono y dirección son requeridos"));
+        }
+        if (usuarioService.existeEmail(email)) {
+            return ResponseEntity.badRequest().body(error("Este correo ya está registrado"));
+        }
+
+        Usuario nuevo = new Usuario(nombre, email, password); // rol USUARIO por defecto
+        nuevo.setTelefono(telefono);
+        nuevo.setDireccion(direccion);
+
+        Usuario guardado = usuarioService.registrarUsuario(nuevo);
+        Map<String, Object> res = ok();
+        res.put("usuario", aMapaPublico(guardado));
+        return ResponseEntity.status(HttpStatus.CREATED).body(res);
+    }
+
     // ============================================================
     // GESTIÓN DE USUARIOS (solo ADMIN)
     // ============================================================

@@ -145,9 +145,8 @@
   letter-spacing: 0.03em;
 }
 
-.badge-admin      { background: #fde8c4; color: #9a6400; }
-.badge-usuario    { background: #d7f0e6; color: #1f7a5a; }
-.badge-voluntario { background: #d9e6f5; color: #1B3A58; }
+.badge-admin   { background: #fde8c4; color: #9a6400; }
+.badge-usuario { background: #d7f0e6; color: #1f7a5a; }
 
 .badge-activo   { background: #d7f0e6; color: #1f7a5a; }
 .badge-inactivo { background: #f5d9d9; color: #a33; }

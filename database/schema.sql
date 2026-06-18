@@ -89,8 +89,11 @@ CREATE TABLE seguimientos (
 
 -- ------------------------------------------------------------
 -- DATOS INICIALES
--- Contraseñas en texto plano (pendiente Tarea #1: BCrypt).
--- Cuando se implemente BCrypt, reemplazar password por el hash.
+-- Las contraseñas van en texto plano SOLO para facilitar las pruebas.
+-- El backend usa BCrypt: en el primer login de cada usuario la contraseña
+-- se vuelve a guardar cifrada automáticamente (migración transparente).
+-- Credenciales de prueba: admin@waupiura.com / admin123
+--                          diego123@gmail.com / diego123
 -- ------------------------------------------------------------
 INSERT INTO usuarios (nombre, email, password, rol, activo, fecha_registro) VALUES
   ('Admin WauPiura', 'admin@waupiura.com', 'admin123', 'ADMIN',   1, NOW()),
