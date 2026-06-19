@@ -188,6 +188,10 @@
 .badge-activo   { background: #d7f0e6; color: #1f7a5a; }
 .badge-inactivo { background: #f5d9d9; color: #a33; }
 
+.badge-pendiente { background: #fdecc8; color: #9a6400; }
+.badge-aprobada  { background: #d7f0e6; color: #1f7a5a; }
+.badge-rechazada { background: #f5d9d9; color: #a33; }
+
 /* ---- Botón eliminar ---- */
 .btn-delete {
   background: #f5d9d9;

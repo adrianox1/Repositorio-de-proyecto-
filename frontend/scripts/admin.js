@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initFormularioCrear();
     cargarMascotasAdmin();
     initFormularioMascota();
+    cargarSolicitudes();
   });
 });
 
@@ -330,5 +331,94 @@ function eliminarMascotaAdmin(id, nombre) {
     .catch(err => {
       console.error('Error al eliminar mascota:', err);
       alert('Error de conexión al eliminar.');
+    });
+}
+
+// ==========================================
+// 6. SOLICITUDES DE ADOPCIÓN (admin)
+// ==========================================
+function cargarSolicitudes() {
+  const tabla = document.getElementById('tablaSolicitudes');
+  if (!tabla) return;
+
+  api('/api/solicitudes')
+    .then(res => res.json())
+    .then(data => {
+      if (!data.ok) {
+        tabla.innerHTML = `<tr><td colspan="8" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar las solicitudes.')}</td></tr>`;
+        return;
+      }
+      const solicitudes = data.solicitudes || [];
+      actualizarStatsSolicitudes(solicitudes);
+
+      if (solicitudes.length === 0) {
+        tabla.innerHTML = `<tr><td colspan="8" class="table-empty">No hay solicitudes registradas.</td></tr>`;
+        return;
+      }
+
+      tabla.innerHTML = '';
+      solicitudes.forEach(s => {
+        const tel = s.usuario.telefono
+          ? `<a href="tel:${escapeHTML(s.usuario.telefono)}">${escapeHTML(s.usuario.telefono)}</a>`
+          : '<span style="color:#8a97a6;">Sin teléfono</span>';
+
+        const acciones = s.estado === 'pendiente'
+          ? `<button class="btn-secondary btn-aprobar" data-id="${s.id}" style="padding:0.4rem 0.7rem; font-size:0.78rem;">Aprobar</button>
+             <button class="btn-delete btn-rechazar" data-id="${s.id}">Rechazar</button>`
+          : `<span style="color:#8a97a6; font-size:0.8rem;">Resuelta</span>`;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${s.id}</td>
+          <td>${escapeHTML(s.mascota.nombre)}</td>
+          <td>${escapeHTML(s.usuario.nombre)}<br><small style="color:#8a97a6;">${escapeHTML(s.usuario.email || '')}</small></td>
+          <td>${tel}</td>
+          <td style="max-width:240px;">${escapeHTML(s.mensaje)}</td>
+          <td><span class="badge badge-${escapeHTML(s.estado)}">${escapeHTML(s.estado)}</span></td>
+          <td>${formatDate((s.creadoEn || '').slice(0, 10))}</td>
+          <td>${acciones}</td>
+        `;
+        tabla.appendChild(tr);
+      });
+
+      tabla.querySelectorAll('.btn-aprobar').forEach(btn => {
+        btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'aprobada'));
+      });
+      tabla.querySelectorAll('.btn-rechazar').forEach(btn => {
+        btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'rechazada'));
+      });
+    })
+    .catch(err => {
+      console.error('Error al cargar solicitudes:', err);
+      tabla.innerHTML = `<tr><td colspan="8" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+    });
+}
+
+function actualizarStatsSolicitudes(solicitudes) {
+  document.getElementById('statSolTotal').textContent = solicitudes.length;
+  document.getElementById('statSolPendientes').textContent = solicitudes.filter(s => s.estado === 'pendiente').length;
+  document.getElementById('statSolAprobadas').textContent = solicitudes.filter(s => s.estado === 'aprobada').length;
+}
+
+function cambiarEstadoSolicitud(id, estado) {
+  const verbo = estado === 'aprobada' ? 'aprobar' : 'rechazar';
+  if (!confirm(`¿Seguro que deseas ${verbo} esta solicitud?`)) return;
+
+  api(`/api/solicitudes/${id}/estado`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ estado: estado })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.ok) {
+        cargarSolicitudes();
+      } else {
+        alert(data.error || 'No se pudo actualizar la solicitud.');
+      }
+    })
+    .catch(err => {
+      console.error('Error al actualizar solicitud:', err);
+      alert('Error de conexión al actualizar.');
     });
 }

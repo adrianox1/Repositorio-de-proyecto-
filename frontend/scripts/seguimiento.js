@@ -33,34 +33,29 @@ function initTracking() {
   const timelineContainer = document.querySelector('.timeline');
   const notesContainer = document.querySelector('.notes-card p');
 
-  // Fetch a backend/api/seguimiento.php?id=X
-  fetch(`../backend/api/seguimiento.php?id=${petId}`)
+  // Cargar la mascota y su historial desde el backend Java
+  fetch(`/api/mascotas/${petId}`, { credentials: 'include' })
     .then(res => res.json())
     .then(data => {
-      if (!data.ok) {
-        console.error("Fallo al obtener el seguimiento en el backend:", data.error);
-        alert("No se pudo cargar el seguimiento de esta mascota.");
-        window.location.href = 'catalogo.html';
-        return;
+      if (!data.ok || !data.mascota) {
+        throw new Error(data.error || 'Mascota no encontrada');
       }
-
       const pet = data.mascota;
-      const history = data.seguimientos;
 
       // 1.1 Actualizar Tarjeta Resumen
       if (petAvatar) {
         petAvatar.textContent = pet.especie === 'perro' ? '🐶' : '🐱';
         petAvatar.className = `pet-avatar ${pet.especie === 'perro' ? 'pet-dog' : 'pet-cat'}`;
-        if (pet.foto_url) {
-          petAvatar.innerHTML = `<img src="${escapeHTML(pet.foto_url)}" alt="${escapeHTML(pet.nombre)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+        if (pet.fotoUrl) {
+          petAvatar.innerHTML = `<img src="${escapeHTML(pet.fotoUrl)}" alt="${escapeHTML(pet.nombre)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
         }
       }
       if (petNameEl) petNameEl.textContent = pet.nombre;
       if (petMetaEl) {
-        petMetaEl.textContent = `${escapeHTML(pet.raza)} · ${pet.genero === 'macho' ? 'Macho' : 'Hembra'} · ${pet.edad_meses} meses aprox.`;
+        petMetaEl.textContent = `${escapeHTML(pet.raza || 'Sin raza')} · ${pet.genero === 'macho' ? 'Macho' : 'Hembra'} · ${pet.edadMeses} meses aprox.`;
       }
 
-      // Agregar Distintivo de Estado
+      // Distintivo de Estado
       const oldBadge = badgeContainer.querySelector('.status-badge');
       if (oldBadge) oldBadge.remove();
       const badge = document.createElement('span');
@@ -68,18 +63,17 @@ function initTracking() {
       badge.textContent = getStatusText(pet.estado);
       badgeContainer.appendChild(badge);
 
-      // 1.2 Actualizar Datos Generales
+      // 1.2 Datos Generales
       if (generalList) {
         generalList.innerHTML = `
-          <li><strong>Fecha de Registro:</strong> ${formatDate(pet.creado_en)}</li>
-          <li><strong>Lugar de Rescate:</strong> ${escapeHTML(pet.lugar_rescate || 'Región Piura')}</li>
+          <li><strong>Fecha de Registro:</strong> ${formatDate((pet.creadoEn || '').slice(0, 10))}</li>
+          <li><strong>Lugar de Rescate:</strong> ${escapeHTML(pet.lugarRescate || 'Región Piura')}</li>
           <li><strong>Responsable:</strong> ${escapeHTML(pet.responsable || 'Equipo WauPiura')}</li>
           <li><strong>Estado Actual:</strong> ${getStatusText(pet.estado)}</li>
-          <li><strong>Última Actualización:</strong> ${formatDate(pet.ultima_actualizacion)}</li>
         `;
       }
 
-      // 1.3 Actualizar Condición de Salud
+      // 1.3 Condición de Salud
       if (healthList) {
         healthList.innerHTML = `
           <li><strong>Diagnóstico de Entrada:</strong> ${escapeHTML(pet.condicion || 'En evaluación inicial')}</li>
@@ -89,49 +83,54 @@ function initTracking() {
         `;
       }
 
-      // 1.4 Actualizar Observaciones
+      // 1.4 Observaciones
       if (notesContainer) {
-        notesContainer.textContent = pet.descripcion || "No se registran notas complejas adicionales para esta mascota.";
+        notesContainer.textContent = pet.descripcion || "No se registran notas adicionales para esta mascota.";
       }
 
-      // 1.5 Actualizar Stepper de Progreso
+      // 1.5 Stepper de Progreso
       updateStepper(pet.estado);
 
-      // 1.6 Renderizar Línea de Tiempo de Hitos (Tabla seguimientos)
-      if (timelineContainer) {
-        timelineContainer.innerHTML = '';
-        if (history.length === 0) {
-          timelineContainer.innerHTML = `
-            <div class="timeline-item active">
-              <span class="timeline-dot"></span>
-              <div>
-                <h4>Ingreso al Refugio</h4>
-                <p>Se inicializó el caso en base de datos. Pendiente de hitos clínicos adicionales.</p>
-                <small>${formatDate(pet.creado_en)}</small>
-              </div>
-            </div>
-          `;
-        } else {
-          history.forEach((h, index) => {
-            const hCard = document.createElement('div');
-            const statusClass = index === 0 ? 'active' : 'completed';
-            hCard.className = `timeline-item ${statusClass}`;
-            hCard.innerHTML = `
-              <span class="timeline-dot"></span>
-              <div>
-                <h4>${escapeHTML(h.titulo)}</h4>
-                <p>${escapeHTML(h.descripcion)}</p>
-                <span class="status-badge ${getStatusBadgeClass(h.estado)}" style="font-size:0.7rem; padding:0.1rem 0.5rem; margin-top:0.25rem;">
-                  ${getStatusText(h.estado)}
-                </span>
-                <br>
-                <small>${formatDate(h.fecha)}</small>
+      // 1.6 Historial de hitos (segunda llamada)
+      return fetch(`/api/seguimientos/mascota/${petId}`, { credentials: 'include' })
+        .then(res => res.json())
+        .then(seg => {
+          const history = (seg.ok && seg.seguimientos) ? seg.seguimientos : [];
+          if (!timelineContainer) return;
+
+          timelineContainer.innerHTML = '';
+          if (history.length === 0) {
+            timelineContainer.innerHTML = `
+              <div class="timeline-item active">
+                <span class="timeline-dot"></span>
+                <div>
+                  <h4>Ingreso al Refugio</h4>
+                  <p>Se inicializó el caso en base de datos. Pendiente de hitos clínicos adicionales.</p>
+                  <small>${formatDate((pet.creadoEn || '').slice(0, 10))}</small>
+                </div>
               </div>
             `;
-            timelineContainer.appendChild(hCard);
-          });
-        }
-      }
+          } else {
+            history.forEach((h, index) => {
+              const hCard = document.createElement('div');
+              const statusClass = index === 0 ? 'active' : 'completed';
+              hCard.className = `timeline-item ${statusClass}`;
+              hCard.innerHTML = `
+                <span class="timeline-dot"></span>
+                <div>
+                  <h4>${escapeHTML(h.titulo)}</h4>
+                  <p>${escapeHTML(h.descripcion)}</p>
+                  <span class="status-badge ${getStatusBadgeClass(h.estado)}" style="font-size:0.7rem; padding:0.1rem 0.5rem; margin-top:0.25rem;">
+                    ${getStatusText(h.estado)}
+                  </span>
+                  <br>
+                  <small>${formatDate((h.fecha || '').slice(0, 10))}</small>
+                </div>
+              `;
+              timelineContainer.appendChild(hCard);
+            });
+          }
+        });
     })
     .catch(err => {
       console.error("Error técnico al cargar seguimiento clínico:", err);
