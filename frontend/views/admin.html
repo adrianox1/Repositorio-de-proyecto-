@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Panel administrativo de WauPiura para la gestión de usuarios.">
+  <meta name="description" content="Panel administrativo de WauPiura para la gestión de usuarios y mascotas.">
   <title>Panel Administrativo | WauPiura</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,69 +37,137 @@
     <section class="admin-hero">
       <div class="container">
         <p class="eyebrow">Panel administrativo</p>
-        <h1>Gestión de usuarios</h1>
-        <p>Administra las cuentas registradas en la plataforma WauPiura: crea, consulta y elimina usuarios.</p>
+        <h1>Administración de WauPiura</h1>
+        <p>Gestiona las cuentas y las mascotas registradas en la plataforma.</p>
       </div>
     </section>
 
     <section class="container admin-section">
-      <!-- Tarjetas resumen -->
-      <div class="admin-stats">
-        <article class="stat-card">
-          <span class="stat-number" id="statTotal">—</span>
-          <span class="stat-label">Usuarios totales</span>
+      <!-- Pestañas -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="tabUsuarios">Usuarios</button>
+        <button class="admin-tab" data-tab="tabMascotas">Mascotas</button>
+      </div>
+
+      <!-- ============ PESTAÑA USUARIOS ============ -->
+      <div id="tabUsuarios" class="tab-panel">
+        <div class="admin-stats">
+          <article class="stat-card">
+            <span class="stat-number" id="statTotal">—</span>
+            <span class="stat-label">Usuarios totales</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-number" id="statAdmins">—</span>
+            <span class="stat-label">Administradores</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-number" id="statActivos">—</span>
+            <span class="stat-label">Cuentas activas</span>
+          </article>
+        </div>
+
+        <article class="admin-card">
+          <h3>Registrar nuevo usuario</h3>
+          <form id="formCrear" class="admin-form" novalidate>
+            <div class="form-grid">
+              <input type="text" name="nombre" placeholder="Nombre completo" required>
+              <input type="email" name="email" placeholder="Correo electrónico" required>
+              <input type="password" name="password" placeholder="Contraseña" required>
+              <input type="text" name="telefono" placeholder="Teléfono (opcional)">
+              <input type="text" name="direccion" placeholder="Dirección (opcional)">
+              <select name="rol">
+                <option value="USUARIO">Usuario</option>
+                <option value="ADMIN">Administrador</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary">Crear usuario</button>
+          </form>
         </article>
-        <article class="stat-card">
-          <span class="stat-number" id="statAdmins">—</span>
-          <span class="stat-label">Administradores</span>
-        </article>
-        <article class="stat-card">
-          <span class="stat-number" id="statActivos">—</span>
-          <span class="stat-label">Cuentas activas</span>
+
+        <article class="admin-card">
+          <h3>Usuarios registrados</h3>
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Registro</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaUsuarios">
+                <tr><td colspan="7" class="table-empty">Cargando usuarios...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </article>
       </div>
 
-      <!-- Formulario de creación -->
-      <article class="admin-card">
-        <h3>Registrar nuevo usuario</h3>
-        <form id="formCrear" class="admin-form" novalidate>
-          <div class="form-grid">
-            <input type="text" name="nombre" placeholder="Nombre completo" required>
-            <input type="email" name="email" placeholder="Correo electrónico" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            <input type="text" name="telefono" placeholder="Teléfono (opcional)">
-            <input type="text" name="direccion" placeholder="Dirección (opcional)">
-            <select name="rol">
-              <option value="USUARIO">Usuario</option>
-              <option value="ADMIN">Administrador</option>
-            </select>
-          </div>
-          <button type="submit" class="btn-primary">Crear usuario</button>
-        </form>
-      </article>
+      <!-- ============ PESTAÑA MASCOTAS ============ -->
+      <div id="tabMascotas" class="tab-panel" hidden>
+        <article class="admin-card">
+          <h3 id="formMascotaTitulo">Registrar nueva mascota</h3>
+          <form id="formMascotaAdmin" class="admin-form" novalidate>
+            <input type="hidden" name="id">
+            <div class="form-grid">
+              <input type="text" name="nombre" placeholder="Nombre de la mascota" required>
+              <select name="especie">
+                <option value="perro">Perro</option>
+                <option value="gato">Gato</option>
+                <option value="otro">Otro</option>
+              </select>
+              <select name="genero">
+                <option value="macho">Macho</option>
+                <option value="hembra">Hembra</option>
+              </select>
+              <input type="text" name="raza" placeholder="Raza (opcional)">
+              <input type="number" name="edadMeses" placeholder="Edad en meses" min="0">
+              <input type="text" name="lugarRescate" placeholder="Lugar / zona (opcional)">
+              <input type="url" name="fotoUrl" placeholder="URL de la foto (opcional)">
+              <select name="estado">
+                <option value="evaluacion">Evaluación</option>
+                <option value="tratamiento">Tratamiento</option>
+                <option value="recuperacion">Recuperación</option>
+                <option value="disponible">Disponible</option>
+              </select>
+              <select name="disponible">
+                <option value="true">Disponible para adopción</option>
+                <option value="false">No disponible</option>
+              </select>
+            </div>
+            <div style="display:flex; gap:0.8rem;">
+              <button type="submit" class="btn-primary" id="btnGuardarMascota">Registrar mascota</button>
+              <button type="button" class="btn-secondary" id="btnCancelarMascota" style="display:none;">Cancelar</button>
+            </div>
+          </form>
+        </article>
 
-      <!-- Tabla de usuarios -->
-      <article class="admin-card">
-        <h3>Usuarios registrados</h3>
-        <div class="table-wrapper">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Registro</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="tablaUsuarios">
-              <tr><td colspan="7" class="table-empty">Cargando usuarios...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
+        <article class="admin-card">
+          <h3>Todas las mascotas</h3>
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Especie</th>
+                  <th>Estado</th>
+                  <th>Propietario</th>
+                  <th>Disponible</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaMascotasAdmin">
+                <tr><td colspan="7" class="table-empty">Cargando mascotas...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 

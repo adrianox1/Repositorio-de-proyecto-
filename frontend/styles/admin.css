@@ -27,6 +27,43 @@
   gap: 1.5rem;
 }
 
+/* ---- Pestañas ---- */
+.admin-tabs {
+  display: flex;
+  gap: 0.5rem;
+  background: var(--blanco);
+  padding: 0.4rem;
+  border-radius: 14px;
+  box-shadow: var(--sombra);
+  width: fit-content;
+}
+
+.admin-tab {
+  border: none;
+  background: transparent;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--azul-oscuro);
+  cursor: pointer;
+}
+
+.admin-tab.active {
+  background: var(--verde-menta-oscuro);
+  color: var(--blanco);
+}
+
+.tab-panel {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.tab-panel[hidden] {
+  display: none;
+}
+
 /* ---- Tarjetas resumen ---- */
 .admin-stats {
   display: grid;

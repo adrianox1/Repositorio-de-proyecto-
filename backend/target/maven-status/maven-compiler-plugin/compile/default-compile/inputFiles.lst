@@ -1,9 +1,14 @@
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\config\PasswordConfig.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\config\WebConfig.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\controller\ApiController.java
+C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\controller\MascotaController.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\controller\UsuarioController.java
+C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\model\Mascota.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\model\Usuario.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\ProyectoApplication.java
+C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\repository\MascotaRepository.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\repository\UsuarioRepository.java
+C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\service\MascotaService.java
+C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\service\MascotaServiceImpl.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\service\UsuarioService.java
 C:\Users\diego\OneDrive\Escritorio\PoryectoAntiguo\Repositorio-de-proyecto-\backend\src\main\java\com\example\proyecto\service\UsuarioServiceImpl.java

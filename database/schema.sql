@@ -55,7 +55,9 @@ CREATE TABLE mascotas (
   lugar_rescate        VARCHAR(150)  NULL,
   ultima_actualizacion DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   creado_en            DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+  usuario_id           BIGINT        NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_mascota_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ------------------------------------------------------------

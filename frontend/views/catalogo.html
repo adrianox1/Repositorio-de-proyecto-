@@ -56,7 +56,6 @@
             y voluntarios conozcan su evolución.
           </p>
         </div>
-        <a href="#reportar" class="cta-button">Reportar mascota</a>
       </div>
 
       <div class="catalog-summary">
@@ -108,63 +107,6 @@
       </div>
     </section>
 
-    <section id="reportar" class="container report-section">
-      <div class="report-card">
-        <div>
-          <p class="eyebrow">Nuevo avance del proyecto</p>
-          <h2>Reporte de mascota rescatada o enferma</h2>
-          <p>
-            Esta sección permite que un ciudadano, rescatista o voluntario registre una
-            mascota encontrada en estado vulnerable para iniciar su seguimiento dentro de WauPiura.
-          </p>
-        </div>
-
-        <form class="report-form" novalidate>
-          <div class="form-row">
-            <input type="text" id="report-nombre" placeholder="Nombre referencial (ej. Pipo, Negrito)" required>
-            <select id="report-especie" required>
-              <option value="">Tipo de mascota</option>
-              <option value="perro">Perro</option>
-              <option value="gato">Gato</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <select id="report-genero" required>
-              <option value="">Género de la mascota</option>
-              <option value="macho">Macho</option>
-              <option value="hembra">Hembra</option>
-            </select>
-            <input type="text" id="report-raza" placeholder="Raza o descripción física (opcional)">
-          </div>
-
-          <div class="form-row">
-            <input type="number" id="report-edad" placeholder="Edad aproximada en meses  (opcional)" min="0">
-            <input type="text" id="report-lugar" placeholder="Ubicación de rescate" required>
-          </div>
-
-          <div class="form-row">
-            <select id="report-estado" required>
-              <option value="">Seleccionar estado inicial</option>
-              <option value="evaluacion">En evaluación veterinaria</option>
-              <option value="tratamiento">En tratamiento</option>
-              <option value="recuperacion">En recuperación</option>
-            </select>
-            <input type="text" id="report-condicion" placeholder="Condición observada" required>
-          </div>
-
-          <input type="url" id="report-foto"
-            placeholder="URL de la foto de la mascota (ej. https://... o dejar en blanco) (opcional)">
-
-          <textarea id="report-descripcion"
-            placeholder="Descripción del caso: síntomas, situación de rescate y detalles de ayuda necesaria..."
-            required></textarea>
-
-          <button type="submit" class="btn-register">Registrar caso de rescate</button>
-        </form>
-      </div>
-    </section>
   </main>
 
   <!-- Modal de Adopción Premium -->

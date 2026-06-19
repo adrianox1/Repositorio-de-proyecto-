@@ -21,22 +21,21 @@ function initNavbarAuth() {
     .then(res => res.json())
     .then(data => {
       if (data.ok && data.usuario) {
-        // Enlace al panel admin solo si el usuario es administrador
-        const enlaceAdmin = data.usuario.rol === 'ADMIN'
+        // El admin gestiona todo desde el panel; el usuario normal ve "Mis Mascotas"
+        const esAdmin = data.usuario.rol === 'ADMIN';
+        const enlaceContextual = esAdmin
           ? `<a href="admin.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Panel admin</a>`
-          : '';
+          : `<a href="mascotas.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Mis Mascotas</a>`;
 
         // Usuario logueado: Reemplazar botones de login/registro
         navAuth.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 1.2rem;">
-            <span style="font-weight: 700; color: var(--azul-oscuro); font-size: 0.95rem;">
-              👤 Hola, <strong>${escapeHTML(data.usuario.nombre)}</strong>
-            </span>
-            ${enlaceAdmin}
-            <a href="#" class="btn-secondary btn-logout" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">
-              Cerrar Sesión
-            </a>
-          </div>
+          <span style="font-weight: 700; color: var(--azul-oscuro); font-size: 0.95rem; white-space: nowrap;">
+            👤 Hola, <strong>${escapeHTML(data.usuario.nombre)}</strong>
+          </span>
+          ${enlaceContextual}
+          <a href="#" class="btn-secondary btn-logout" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">
+            Cerrar Sesión
+          </a>
         `;
 
         // Evento de cierre de sesión
