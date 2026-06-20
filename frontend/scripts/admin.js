@@ -157,6 +157,29 @@ function initFormularioCrear() {
       rol: fd.get('rol')
     };
 
+    limpiarValidacion(form);
+    const errores = [];
+    if (!Validar.requerido(body.nombre)) {
+      errores.push({ input: form.nombre, mensaje: 'El nombre es obligatorio.' });
+    }
+    if (!Validar.requerido(body.email)) {
+      errores.push({ input: form.email, mensaje: 'El correo es obligatorio.' });
+    } else if (!Validar.email(body.email)) {
+      errores.push({ input: form.email, mensaje: 'El correo no tiene un formato válido.' });
+    }
+    if (!Validar.requerido(body.password)) {
+      errores.push({ input: form.password, mensaje: 'La contraseña es obligatoria.' });
+    } else if (!Validar.min(body.password, 6)) {
+      errores.push({ input: form.password, mensaje: 'La contraseña debe tener al menos 6 caracteres.' });
+    }
+    if (Validar.requerido(body.telefono) && !Validar.telefono(body.telefono)) {
+      errores.push({ input: form.telefono, mensaje: 'El teléfono debe tener entre 6 y 20 dígitos.' });
+    }
+    if (errores.length > 0) {
+      mostrarErrores(form, errores);
+      return;
+    }
+
     api('/api/usuarios', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -252,8 +275,19 @@ function initFormularioMascota() {
       disponible: fd.get('disponible')
     };
 
-    if (!body.nombre.trim()) {
-      alert('El nombre de la mascota es obligatorio.');
+    limpiarValidacion(form);
+    const errores = [];
+    if (!Validar.requerido(body.nombre)) {
+      errores.push({ input: form.nombre, mensaje: 'El nombre de la mascota es obligatorio.' });
+    }
+    if (!Validar.noNegativo(body.edadMeses)) {
+      errores.push({ input: form.edadMeses, mensaje: 'La edad debe ser un número válido (0 o más).' });
+    }
+    if (Validar.requerido(body.fotoUrl) && !Validar.url(body.fotoUrl)) {
+      errores.push({ input: form.fotoUrl, mensaje: 'La URL de la foto no es válida.' });
+    }
+    if (errores.length > 0) {
+      mostrarErrores(form, errores);
       return;
     }
 

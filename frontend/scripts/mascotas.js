@@ -116,8 +116,19 @@ function initFormulario() {
       descripcion: fd.get('descripcion')
     };
 
-    if (!body.nombre.trim()) {
-      alert('El nombre de la mascota es obligatorio.');
+    limpiarValidacion(form);
+    const errores = [];
+    if (!Validar.requerido(body.nombre)) {
+      errores.push({ input: form.nombre, mensaje: 'El nombre de la mascota es obligatorio.' });
+    }
+    if (!Validar.noNegativo(body.edadMeses)) {
+      errores.push({ input: form.edadMeses, mensaje: 'La edad debe ser un número válido (0 o más).' });
+    }
+    if (Validar.requerido(body.fotoUrl) && !Validar.url(body.fotoUrl)) {
+      errores.push({ input: form.fotoUrl, mensaje: 'La URL de la foto no es válida.' });
+    }
+    if (errores.length > 0) {
+      mostrarErrores(form, errores);
       return;
     }
 

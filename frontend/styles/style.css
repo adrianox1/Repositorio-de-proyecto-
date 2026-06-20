@@ -26,6 +26,24 @@ body {
   margin: 0 auto;
 }
 
+/* ================= VALIDACIÓN DE FORMULARIOS ================= */
+.campo-invalido {
+  border-color: #e24b4a !important;
+  box-shadow: 0 0 0 2px rgba(226, 75, 74, 0.15);
+}
+
+.form-errores {
+  display: none;
+  background: #fceaea;
+  color: #a33;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
 /* ================= TYPOGRAPHY & UTILITIES ================= */
 .text-center {
   text-align: center;

@@ -31,6 +31,47 @@ function apiFetch(url, options = {}) {
 window.apiFetch = apiFetch;
 
 // ==========================================
+// VALIDACIÓN DE FORMULARIOS (cliente)
+// Utilidades compartidas por todos los formularios de la app.
+// ==========================================
+const Validar = {
+  requerido: (v) => v != null && String(v).trim() !== '',
+  email:     (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v).trim()),
+  telefono:  (v) => /^[0-9+\-\s()]{6,20}$/.test(String(v).trim()),
+  min:       (v, n) => String(v).trim().length >= n,
+  noNegativo:(v) => v === '' || v == null || (!isNaN(Number(v)) && Number(v) >= 0),
+  url:       (v) => { try { new URL(String(v).trim()); return true; } catch (e) { return false; } }
+};
+
+/** Quita marcas de error previas del formulario. */
+function limpiarValidacion(form) {
+  form.querySelectorAll('.campo-invalido').forEach(el => el.classList.remove('campo-invalido'));
+  const cont = form.querySelector('.form-errores');
+  if (cont) { cont.innerHTML = ''; cont.style.display = 'none'; }
+}
+
+/** Muestra una lista de errores arriba del formulario y marca los campos. */
+function mostrarErrores(form, errores) {
+  let cont = form.querySelector('.form-errores');
+  if (!cont) {
+    cont = document.createElement('div');
+    cont.className = 'form-errores';
+    form.insertBefore(cont, form.firstChild);
+  }
+  cont.innerHTML = errores.map(e => `• ${escapeHTML(e.mensaje)}`).join('<br>');
+  cont.style.display = 'block';
+  errores.forEach(e => { if (e.input) e.input.classList.add('campo-invalido'); });
+  cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Al corregir un campo, quita su borde rojo automáticamente
+document.addEventListener('input', (e) => {
+  if (e.target.classList && e.target.classList.contains('campo-invalido')) {
+    e.target.classList.remove('campo-invalido');
+  }
+});
+
+// ==========================================
 // 1. CONTROL DE AUTENTICACIÓN Y NAVBAR
 // ==========================================
 function initNavbarAuth() {

@@ -192,9 +192,19 @@ function abrirModal(petId, petName) {
 
   document.getElementById('modal-adoption-form').onsubmit = (e) => {
     e.preventDefault();
-    const mensaje = document.getElementById('modal-message').value.trim();
-    if (!mensaje) {
-      alert('El mensaje de motivación no puede estar vacío.');
+    const modalForm = document.getElementById('modal-adoption-form');
+    const textarea = document.getElementById('modal-message');
+    const mensaje = textarea.value.trim();
+
+    limpiarValidacion(modalForm);
+    const errores = [];
+    if (!Validar.requerido(mensaje)) {
+      errores.push({ input: textarea, mensaje: 'El mensaje de motivación es obligatorio.' });
+    } else if (!Validar.min(mensaje, 10)) {
+      errores.push({ input: textarea, mensaje: 'Cuéntanos un poco más (mínimo 10 caracteres).' });
+    }
+    if (errores.length > 0) {
+      mostrarErrores(modalForm, errores);
       return;
     }
 

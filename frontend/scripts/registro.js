@@ -22,48 +22,49 @@ document.addEventListener('DOMContentLoaded', () => {
       const direccion = addressInput ? addressInput.value.trim() : '';
       const contrasena = passInput ? passInput.value : '';
 
-      // Validaciones frontend obligatorias
-      if (!nombre) {
-        alert("El nombre es obligatorio.");
-        return;
-      }
-      if (!correo) {
-        alert("El correo es obligatorio.");
-        return;
+      // Validaciones del cliente
+      limpiarValidacion(registerForm);
+      const errores = [];
+
+      if (!Validar.requerido(nombre)) {
+        errores.push({ input: nameInput, mensaje: 'El nombre es obligatorio.' });
+      } else if (!Validar.min(nombre, 2)) {
+        errores.push({ input: nameInput, mensaje: 'El nombre es demasiado corto.' });
       }
 
-      // Validar formato de correo electrónico
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(correo)) {
-        alert("El formato del correo no es válido.");
-        return;
+      if (!Validar.requerido(correo)) {
+        errores.push({ input: emailInput, mensaje: 'El correo es obligatorio.' });
+      } else if (!Validar.email(correo)) {
+        errores.push({ input: emailInput, mensaje: 'El correo no tiene un formato válido.' });
       }
 
-      if (!telefono) {
-        alert("El teléfono es obligatorio.");
-        return;
-      }
-      if (!direccion) {
-        alert("La dirección es obligatoria.");
-        return;
+      if (!Validar.requerido(telefono)) {
+        errores.push({ input: phoneInput, mensaje: 'El teléfono es obligatorio.' });
+      } else if (!Validar.telefono(telefono)) {
+        errores.push({ input: phoneInput, mensaje: 'El teléfono debe tener entre 6 y 20 dígitos.' });
       }
 
-      if (!contrasena) {
-        alert("La contraseña es obligatoria.");
-        return;
+      if (!Validar.requerido(direccion)) {
+        errores.push({ input: addressInput, mensaje: 'La dirección es obligatoria.' });
       }
 
-      // Si existe confirmar contraseña, debe coincidir con la contraseña
+      if (!Validar.requerido(contrasena)) {
+        errores.push({ input: passInput, mensaje: 'La contraseña es obligatoria.' });
+      } else if (!Validar.min(contrasena, 6)) {
+        errores.push({ input: passInput, mensaje: 'La contraseña debe tener al menos 6 caracteres.' });
+      }
+
       if (confirmPassInput) {
-        const confirmarContrasena = confirmPassInput.value;
-        if (!confirmarContrasena) {
-          alert("Por favor, confirma tu contraseña.");
-          return;
+        if (!Validar.requerido(confirmPassInput.value)) {
+          errores.push({ input: confirmPassInput, mensaje: 'Confirma tu contraseña.' });
+        } else if (confirmPassInput.value !== contrasena) {
+          errores.push({ input: confirmPassInput, mensaje: 'Las contraseñas no coinciden.' });
         }
-        if (confirmarContrasena !== contrasena) {
-          alert("Las contraseñas no coinciden.");
-          return;
-        }
+      }
+
+      if (errores.length > 0) {
+        mostrarErrores(registerForm, errores);
+        return;
       }
 
       fetch('/api/registro', {

@@ -30,8 +30,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const correo = emailInput.value.trim();
       const contrasena = passInput.value;
 
-      if (!correo || !contrasena) {
-        alert("Completa todos los campos.");
+      limpiarValidacion(loginForm);
+      const errores = [];
+      if (!Validar.requerido(correo)) {
+        errores.push({ input: emailInput, mensaje: 'El correo es obligatorio.' });
+      } else if (!Validar.email(correo)) {
+        errores.push({ input: emailInput, mensaje: 'El correo no tiene un formato válido.' });
+      }
+      if (!Validar.requerido(contrasena)) {
+        errores.push({ input: passInput, mensaje: 'La contraseña es obligatoria.' });
+      }
+      if (errores.length > 0) {
+        mostrarErrores(loginForm, errores);
         return;
       }
 
