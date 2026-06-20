@@ -4,6 +4,19 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Aviso si el usuario llegó aquí porque su sesión expiró
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('expirado') === '1') {
+    const card = document.querySelector('.auth-card');
+    if (card) {
+      const aviso = document.createElement('p');
+      aviso.textContent = 'Tu sesión expiró. Vuelve a iniciar sesión para continuar.';
+      aviso.style.cssText = 'background:#fdecc8; color:#9a6400; padding:0.75rem 1rem; border-radius:12px; font-size:0.9rem; font-weight:700; margin-bottom:1rem;';
+      const form = card.querySelector('.auth-form');
+      card.insertBefore(aviso, form);
+    }
+  }
+
   const loginForm = document.querySelector('.auth-form');
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {

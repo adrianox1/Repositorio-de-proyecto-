@@ -3,9 +3,9 @@
  * Específico para admin.html. Consume la API REST del backend Java (/api).
  */
 
-// fetch con cookies de sesión (funciona en mismo origen y con Live Server + CORS)
+// Usa el interceptor de sesión global (redirige a login si la sesión expira)
 function api(url, options = {}) {
-  return fetch(url, { credentials: 'include', ...options });
+  return apiFetch(url, options);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

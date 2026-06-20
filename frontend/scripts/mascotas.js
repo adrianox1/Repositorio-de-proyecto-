@@ -4,8 +4,9 @@
  * Consume la API REST del backend Java (/api/mascotas).
  */
 
+// Usa el interceptor de sesión global (redirige a login si la sesión expira)
 function api(url, options = {}) {
-  return fetch(url, { credentials: 'include', ...options });
+  return apiFetch(url, options);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

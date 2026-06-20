@@ -3,8 +3,9 @@
  * Específico para catalogo.html. Consume el backend Java (/api).
  */
 
+// Usa el interceptor de sesión global (redirige a login si la sesión expira)
 function api(url, options = {}) {
-  return fetch(url, { credentials: 'include', ...options });
+  return apiFetch(url, options);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

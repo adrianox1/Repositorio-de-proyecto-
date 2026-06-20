@@ -10,6 +10,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
+// INTERCEPTOR DE SESIÓN
+// Envoltura de fetch para toda la app: si el backend responde 401
+// (sesión expirada / no iniciada en una ruta protegida), redirige
+// automáticamente al login. El 403 (sin permiso) NO redirige.
+// ==========================================
+function apiFetch(url, options = {}) {
+  return fetch(url, { credentials: 'include', ...options }).then(res => {
+    if (res.status === 401 && url.indexOf('/api/') !== -1) {
+      // Evita bucles si ya estamos en la página de login
+      if (!window.location.pathname.endsWith('iniciar-sesion.html')) {
+        window.location.href = 'iniciar-sesion.html?expirado=1';
+      }
+      return Promise.reject(new Error('Sesión expirada'));
+    }
+    return res;
+  });
+}
+// Disponible globalmente para los demás scripts
+window.apiFetch = apiFetch;
+
+// ==========================================
 // 1. CONTROL DE AUTENTICACIÓN Y NAVBAR
 // ==========================================
 function initNavbarAuth() {
