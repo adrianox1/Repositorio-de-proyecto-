@@ -22,4 +22,5 @@ com\example\proyecto\repository\SolicitudRepository.class
 com\example\proyecto\config\PasswordConfig.class
 com\example\proyecto\model\Solicitud.class
 com\example\proyecto\repository\UsuarioRepository.class
+com\example\proyecto\controller\UploadController.class
 com\example\proyecto\service\SolicitudService.class

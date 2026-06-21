@@ -128,7 +128,7 @@
               <input type="text" name="raza" placeholder="Raza (opcional)">
               <input type="number" name="edadMeses" placeholder="Edad en meses" min="0">
               <input type="text" name="lugarRescate" placeholder="Lugar / zona (opcional)">
-              <input type="url" name="fotoUrl" placeholder="URL de la foto (opcional)">
+              <input type="url" name="fotoUrl" placeholder="O pega una URL de foto (opcional)">
               <select name="estado">
                 <option value="evaluacion">Evaluación</option>
                 <option value="tratamiento">Tratamiento</option>
@@ -140,6 +140,10 @@
                 <option value="false">No disponible</option>
               </select>
             </div>
+            <label style="display:block; font-weight:700; font-size:0.85rem; margin:0 0 0.4rem; color:var(--azul-oscuro);">
+              Subir foto desde tu dispositivo (opcional)
+            </label>
+            <input type="file" name="foto" accept="image/*" style="margin-bottom:1.2rem;">
             <div style="display:flex; gap:0.8rem;">
               <button type="submit" class="btn-primary" id="btnGuardarMascota">Registrar mascota</button>
               <button type="button" class="btn-secondary" id="btnCancelarMascota" style="display:none;">Cancelar</button>

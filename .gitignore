@@ -10,3 +10,5 @@ node_modules/
 vendor/
 tmp/
 cache/
+backend/uploads/
+uploads/

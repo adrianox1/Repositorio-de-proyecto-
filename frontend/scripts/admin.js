@@ -259,7 +259,7 @@ function initFormularioMascota() {
   const btnCancelar = document.getElementById('btnCancelarMascota');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const fd = new FormData(form);
     const id = fd.get('id');
@@ -289,6 +289,26 @@ function initFormularioMascota() {
     if (errores.length > 0) {
       mostrarErrores(form, errores);
       return;
+    }
+
+    // Si se eligió un archivo, súbelo primero y usa la ruta resultante
+    const fileInput = form.foto;
+    if (fileInput && fileInput.files.length > 0) {
+      try {
+        const fdFoto = new FormData();
+        fdFoto.append('archivo', fileInput.files[0]);
+        const resp = await api('/api/uploads/mascota', { method: 'POST', body: fdFoto });
+        const dataFoto = await resp.json();
+        if (!dataFoto.ok) {
+          alert(dataFoto.error || 'No se pudo subir la imagen.');
+          return;
+        }
+        body.fotoUrl = dataFoto.url;
+      } catch (err) {
+        console.error('Error al subir la imagen:', err);
+        alert('Error de conexión al subir la imagen.');
+        return;
+      }
     }
 
     const esEdicion = id && id.trim() !== '';

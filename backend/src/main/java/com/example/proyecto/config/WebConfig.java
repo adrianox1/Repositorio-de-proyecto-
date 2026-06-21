@@ -1,5 +1,6 @@
 package com.example.proyecto.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -20,6 +21,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     private static final String FRONTEND = "file:../frontend/";
 
+    @Value("${app.upload.dir:uploads}")
+    private String uploadDir;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/views/**").addResourceLocations(FRONTEND + "views/");
@@ -27,6 +31,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/scripts/**").addResourceLocations(FRONTEND + "scripts/");
         registry.addResourceHandler("/images/**")
                 .addResourceLocations(FRONTEND + "images/", "file:../images/");
+        // Sirve las imágenes subidas por los usuarios
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + uploadDir + "/");
     }
 
     @Override
