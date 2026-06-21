@@ -83,6 +83,13 @@
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
 
+        <!-- Lee el archivo .env y expone sus variables a Spring -->
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
