@@ -1,0 +1,11 @@
+# No copiar al contexto de build (más rápido y liviano)
+**/target/
+**/.mvn/
+.git/
+.github/
+**/node_modules/
+**/uploads/
+**/.env
+*.log
+.idea/
+.vscode/

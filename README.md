@@ -30,6 +30,20 @@ Repositorio-de-proyecto-/
    ```
 5. Abrir en el navegador: `http://localhost:8080/views/index.html`
 
+## Cómo ejecutarlo con Docker (recomendado)
+Con Docker **no necesitas instalar MySQL, JDK ni Maven**, solo Docker Desktop.
+
+```bash
+docker compose up --build
+```
+
+Eso levanta dos contenedores: la base de datos MySQL (con las tablas y usuarios de prueba ya creados) y el backend. Luego abre:
+`http://localhost:8080/views/index.html`
+
+Para detenerlo: `Ctrl + C` y luego `docker compose down` (agrega `-v` si quieres borrar también los datos).
+
+> La base de datos también queda accesible para MySQL Workbench en `127.0.0.1:3307`.
+
 ## Usuarios de prueba
 | Rol | Correo | Contraseña |
 |---|---|---|
