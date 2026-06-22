@@ -8,28 +8,18 @@ on:
   pull_request:
   workflow_dispatch:   # permite lanzarlo a mano desde la pestaña Actions
 
-# Credenciales del MySQL temporal del CI, definidas en UN SOLO lugar.
-# Tu archivo .env local es independiente (no se sube a Git), así que
-# cambiarlo NUNCA obliga a tocar este workflow.
-env:
-  DB_HOST: 127.0.0.1
-  DB_PORT: 3306
-  DB_NAME: WauPiura
-  DB_USER: root
-  DB_PASSWORD: diego123
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    # MySQL temporal con las credenciales del bloque env de arriba,
+    # MySQL temporal con las MISMAS credenciales que application.properties,
     # para que el test @SpringBootTest pueda conectarse al levantar el contexto.
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: ${{ env.DB_PASSWORD }}
-          MYSQL_DATABASE: ${{ env.DB_NAME }}
+          MYSQL_ROOT_PASSWORD: diego123
+          MYSQL_DATABASE: WauPiura
         ports:
           - 3306:3306
         options: >-
@@ -51,11 +41,11 @@ jobs:
 
       - name: Compilar y correr tests
         working-directory: backend
-        # La app lee estas variables igual que del .env local (mismo nombre).
+        # La app lee estas variables igual que del .env local (mismos nombres).
         env:
-          DB_HOST: ${{ env.DB_HOST }}
-          DB_PORT: ${{ env.DB_PORT }}
-          DB_NAME: ${{ env.DB_NAME }}
-          DB_USER: ${{ env.DB_USER }}
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_NAME: WauPiura
+          DB_USER: root
+          DB_PASSWORD: diego123
         run: mvn -B clean verify
