@@ -1,0 +1,51 @@
+name: CI - Backend (compilar y testear)
+
+# Se ejecuta automáticamente en cada push y en cada Pull Request.
+# Corre en los servidores de GitHub (la nube), NO en tu PC ni en la de tu enamorada:
+# basta con hacer "git push" desde cualquier laptop y GitHub lo ejecuta solo.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:   # permite lanzarlo a mano desde la pestaña Actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # MySQL temporal con las MISMAS credenciales que application.properties,
+    # para que el test @SpringBootTest pueda conectarse al levantar el contexto.
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: diego123
+          MYSQL_DATABASE: WauPiura
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Compilar y correr tests
+        working-directory: backend
+        # La app lee estas variables igual que del .env local (mismos nombres).
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_NAME: WauPiura
+          DB_USER: root
+          DB_PASSWORD: diego123
+        run: mvn -B clean verify

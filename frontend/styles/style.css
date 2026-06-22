@@ -1,0 +1,327 @@
+/* ================= CSS VARIABLES & RESET ================= */
+:root {
+  --amarillo-suave: #F8C66A;
+  --verde-menta-oscuro: #77C9A7;
+  --azul-oscuro: #1B3A58;
+  --gris-claro: #F4F4F6;
+  --blanco: #FFFFFF;
+  --sombra: 0 10px 30px rgba(27, 58, 88, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--azul-oscuro);
+  line-height: 1.6;
+  background-color: #F7FAFC;
+}
+
+.container {
+  width: min(1200px, 90%);
+  margin: 0 auto;
+}
+
+/* ================= VALIDACIÓN DE FORMULARIOS ================= */
+.campo-invalido {
+  border-color: #e24b4a !important;
+  box-shadow: 0 0 0 2px rgba(226, 75, 74, 0.15);
+}
+
+.form-errores {
+  display: none;
+  background: #fceaea;
+  color: #a33;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* ================= TYPOGRAPHY & UTILITIES ================= */
+.text-center {
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--verde-menta-oscuro);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  margin-bottom: 0.7rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.1rem;
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+}
+
+.btn-secondary {
+  background: #F4F4F6;
+  color: var(--azul-oscuro);
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--amarillo-suave);
+  color: var(--azul-oscuro);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 800;
+  margin-top: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* ================= ANIMATIONS ================= */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-section {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ================= GLOBAL COMPONENTS ================= */
+
+/* Navbar */
+header {
+  padding: 1rem 0;
+  background: var(--blanco);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navbar,
+.nav-left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar {
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.nav-left {
+  gap: 1.5rem;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: var(--azul-oscuro);
+  display: flex;
+  align-items: center;
+}
+
+.logo span {
+  background: var(--amarillo-suave);
+  padding: 0.4rem 0.6rem;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+nav {
+  display: flex;
+  gap: 1.75rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--azul-oscuro);
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+nav a:hover,
+.active-link {
+  color: var(--verde-menta-oscuro);
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.nav-auth a {
+  white-space: nowrap;
+}
+
+.btn-login {
+  text-decoration: none;
+  color: var(--azul-oscuro);
+  font-weight: 700;
+  padding: 0.6rem;
+}
+
+.btn-register {
+  text-decoration: none;
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+/* Forms & Cards */
+.report-section {
+  padding-bottom: 80px;
+}
+
+.report-card {
+  background: var(--blanco);
+  border-radius: 30px;
+  padding: 2rem;
+  box-shadow: var(--sombra);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.report-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.report-form input,
+.report-form select,
+.report-form textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 2px solid var(--gris-claro);
+  border-radius: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.report-form input.input-error,
+.report-form select.input-error,
+.report-form textarea.input-error {
+  border-color: #B42318;
+}
+
+.report-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.report-form input:focus,
+.report-form select:focus,
+.report-form textarea:focus {
+  border-color: var(--amarillo-suave);
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.status-treatment { background: #FFE3E3; color: #B42318; }
+.status-recovery { background: #FFF1C7; color: #946200; }
+.status-available { background: #D9F2E6; color: #13795B; }
+.status-review { background: #E8F0FF; color: #1D4ED8; }
+
+/* Scroll to Top Button */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--verde-menta-oscuro);
+  color: var(--blanco);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(119, 201, 167, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  background-color: var(--azul-oscuro);
+  box-shadow: 0 6px 20px rgba(27, 58, 88, 0.3);
+  transform: translateY(-3px);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .nav-auth { display: none; }
+  nav { gap: 1rem; }
+}
+
+@media (max-width: 600px) {
+  .navbar, .nav-left { align-items: center; width: 100%; }
+  .nav-left { flex-direction: column; gap: 1rem; }
+  nav { flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .scroll-top-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 1.3rem; }
+}

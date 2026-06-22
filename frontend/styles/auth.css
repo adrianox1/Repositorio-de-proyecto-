@@ -1,0 +1,78 @@
+/* ================= PAGE: AUTH ================= */
+.auth-body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: var(--azul-oscuro);
+  background-image: radial-gradient(circle at 10% 20%, rgba(119, 201, 167, 0.15) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.15) 0%, transparent 40%);
+  padding: 2rem;
+}
+
+.auth-card {
+  background: var(--blanco);
+  padding: 3rem 2.5rem;
+  border-radius: 30px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  width: min(420px, 100%);
+  text-align: center;
+  position: relative;
+}
+
+.auth-card .logo {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  display: flex;
+}
+
+.auth-card h2 {
+  font-size: 1.8rem;
+  color: var(--azul-oscuro);
+  margin-bottom: 0.5rem;
+}
+
+.auth-card p {
+  color: #64748B;
+  margin-bottom: 2rem;
+}
+
+.auth-form {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 2px solid #E2E8F0;
+  border-radius: 15px;
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s;
+  font-family: inherit;
+  color: var(--azul-oscuro);
+}
+
+.auth-input::placeholder { color: #94A3B8; }
+
+.auth-input:focus {
+  border-color: var(--verde-menta-oscuro);
+  box-shadow: 0 0 0 4px rgba(119, 201, 167, 0.15);
+}
+
+.auth-card .btn-register {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.05rem;
+  margin-top: 0.5rem;
+  border-radius: 15px;
+}
+
+.auth-link {
+  color: var(--verde-menta-oscuro);
+  font-weight: 800;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.auth-link:hover { opacity: 0.8; }

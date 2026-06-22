@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Registra y administra las mascotas que pones en adopción en WauPiura.">
+  <title>Mis Mascotas | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+      </div>
+
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="admin-hero">
+      <div class="container">
+        <p class="eyebrow">Mis mascotas</p>
+        <h1>Registra una mascota en adopción</h1>
+        <p>Publica los datos de tu mascota para que otras personas puedan adoptarla. Puedes editar o eliminar las tuyas cuando quieras.</p>
+      </div>
+    </section>
+
+    <section class="container admin-section">
+      <!-- Formulario de registro / edición -->
+      <article class="admin-card">
+        <h3 id="formTitulo">Registrar nueva mascota</h3>
+        <form id="formMascota" class="admin-form" novalidate>
+          <input type="hidden" name="id">
+          <div class="form-grid">
+            <input type="text" name="nombre" placeholder="Nombre de la mascota" required>
+            <select name="especie">
+              <option value="perro">Perro</option>
+              <option value="gato">Gato</option>
+              <option value="otro">Otro</option>
+            </select>
+            <select name="genero">
+              <option value="macho">Macho</option>
+              <option value="hembra">Hembra</option>
+            </select>
+            <input type="text" name="raza" placeholder="Raza (opcional)">
+            <input type="number" name="edadMeses" placeholder="Edad en meses" min="0">
+            <input type="text" name="lugarRescate" placeholder="Lugar / zona (opcional)">
+            <input type="url" name="fotoUrl" placeholder="O pega una URL de foto (opcional)">
+          </div>
+          <label style="display:block; font-weight:700; font-size:0.85rem; margin:0 0 0.4rem; color:var(--azul-oscuro);">
+            Subir foto desde tu dispositivo (opcional)
+          </label>
+          <input type="file" name="foto" accept="image/*" style="margin-bottom:1.2rem;">
+          <textarea name="descripcion" placeholder="Descripción de la mascota" rows="3"
+            style="width:100%; padding:0.75rem 1rem; border:2px solid #e3e8ee; border-radius:12px; font-family:inherit; font-size:0.95rem; margin-bottom:1.2rem;"></textarea>
+          <div style="display:flex; gap:0.8rem;">
+            <button type="submit" class="btn-primary" id="btnGuardar">Registrar mascota</button>
+            <button type="button" class="btn-secondary" id="btnCancelar" style="display:none;">Cancelar</button>
+          </div>
+        </form>
+      </article>
+
+      <!-- Tabla de mascotas del usuario -->
+      <article class="admin-card">
+        <h3>Mis mascotas registradas</h3>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Especie</th>
+                <th>Género</th>
+                <th>Estado</th>
+                <th>Disponible</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaMascotas">
+              <tr><td colspan="7" class="table-empty">Cargando mascotas...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="../scripts/global.js"></script>
+  <script src="../scripts/mascotas.js"></script>
+</body>
+</html>
