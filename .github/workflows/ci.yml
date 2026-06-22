@@ -18,7 +18,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: diego123
+          MYSQL_ROOT_PASSWORD: Grissel123
           MYSQL_DATABASE: WauPiura
         ports:
           - 3306:3306
@@ -47,5 +47,5 @@ jobs:
           DB_PORT: 3306
           DB_NAME: WauPiura
           DB_USER: root
-          DB_PASSWORD: diego123
+          DB_PASSWORD: Grissel123
         run: mvn -B clean verify
