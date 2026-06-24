@@ -1,0 +1,32 @@
+package com.example.proyecto.controller;
+
+import com.example.proyecto.service.SolicitudAdopcionService;
+import com.example.proyecto.service.ContactoService;
+import com.example.proyecto.service.MascotaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/admin")
+public class AdminController {
+    
+    @Autowired
+    private SolicitudAdopcionService solicitudService;
+    
+    @Autowired
+    private ContactoService contactoService;
+    
+    @Autowired
+    private MascotaService mascotaService;
+    
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        model.addAttribute("solicitudesPendientes", solicitudService.obtenerSolicitudesPendientes());
+        model.addAttribute("mensajesNoLeidos", contactoService.obtenerMensajesNoLeidos());
+        model.addAttribute("totalMascotas", mascotaService.getAllMascotas().size());
+        return "admin/dashboard";
+    }
+}

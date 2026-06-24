@@ -1,0 +1,16 @@
+package com.example.proyecto.service;
+
+import com.example.proyecto.model.Mascota;
+import java.util.List;
+import java.util.Optional;
+
+public interface MascotaService {
+    List<Mascota> getAllMascotas();
+    Optional<Mascota> getMascotaById(Long id);
+    List<Mascota> getMascotasDisponibles();
+    List<Mascota> getMascotasByRaza(String raza);
+    List<Mascota> buscarMascota(String nombre);
+    Mascota guardarMascota(Mascota mascota);
+    Mascota actualizarMascota(Long id, Mascota mascota);
+    void eliminarMascota(Long id);
+}

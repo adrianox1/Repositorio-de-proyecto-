@@ -1,0 +1,30 @@
+package com.example.proyecto.controller;
+
+import com.example.proyecto.service.MascotaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+    
+    @Autowired
+    private MascotaService mascotaService;
+    
+    @GetMapping("/")
+    public String index(Model model) {
+        model.addAttribute("mascotas", mascotaService.getMascotasDisponibles());
+        return "index";
+    }
+    
+    @GetMapping("/nosotros")
+    public String nosotros() {
+        return "nosotros";
+    }
+    
+    @GetMapping("/requisitos")
+    public String requisitos() {
+        return "requisitos";
+    }
+}

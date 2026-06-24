@@ -1,0 +1,88 @@
+package com.example.proyecto.service;
+
+import com.example.proyecto.model.SolicitudAdopcion;
+import com.example.proyecto.model.Mascota;
+import com.example.proyecto.repository.SolicitudAdopcionRepository;
+import com.example.proyecto.repository.MascotaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class SolicitudAdopcionServiceImpl implements SolicitudAdopcionService {
+    
+    @Autowired
+    private SolicitudAdopcionRepository solicitudRepository;
+    
+    @Autowired
+    private MascotaRepository mascotaRepository;
+    
+    @Override
+    public SolicitudAdopcion crearSolicitud(SolicitudAdopcion solicitud) {
+        return solicitudRepository.save(solicitud);
+    }
+    
+    @Override
+    public List<SolicitudAdopcion> obtenerSolicitudesPorUsuario(Long usuarioId) {
+        // Obtener usuario y luego buscar solicitudes por usuario
+        return solicitudRepository.findByUsuario_Id(usuarioId);
+    }
+    
+    @Override
+    public List<SolicitudAdopcion> obtenerSolicitudesPorMascota(Long mascotaId) {
+        Mascota mascota = mascotaRepository.findById(mascotaId).orElse(null);
+        return solicitudRepository.findByMascota(mascota);
+    }
+    
+    @Override
+    public SolicitudAdopcion aceptarSolicitud(Long solicitudId, String comentarios) {
+        Optional<SolicitudAdopcion> solicitudOpt = solicitudRepository.findById(solicitudId);
+        if (solicitudOpt.isPresent()) {
+            SolicitudAdopcion solicitud = solicitudOpt.get();
+            solicitud.setEstado(SolicitudAdopcion.EstadoSolicitud.APROBADA);
+            solicitud.setFechaRespuesta(LocalDateTime.now());
+            solicitud.setComentarios(comentarios);
+            // Cambiar estado de la mascota a adoptada
+            Mascota mascota = solicitud.getMascota();
+            mascota.setEstadoAdopcion(Mascota.EstadoAdopcion.ADOPTADO);
+            mascotaRepository.save(mascota);
+            return solicitudRepository.save(solicitud);
+        }
+        return null;
+    }
+    
+    @Override
+    public SolicitudAdopcion rechazarSolicitud(Long solicitudId, String motivoRechazo) {
+        Optional<SolicitudAdopcion> solicitudOpt = solicitudRepository.findById(solicitudId);
+        if (solicitudOpt.isPresent()) {
+            SolicitudAdopcion solicitud = solicitudOpt.get();
+            solicitud.setEstado(SolicitudAdopcion.EstadoSolicitud.RECHAZADA);
+            solicitud.setFechaRespuesta(LocalDateTime.now());
+            solicitud.setMotivoRechazo(motivoRechazo);
+            return solicitudRepository.save(solicitud);
+        }
+        return null;
+    }
+    
+    @Override
+    public Optional<SolicitudAdopcion> obtenerSolicitudById(Long id) {
+        return solicitudRepository.findById(id);
+    }
+    
+    @Override
+    public List<SolicitudAdopcion> obtenerSolicitudesPendientes() {
+        return solicitudRepository.findByEstado(SolicitudAdopcion.EstadoSolicitud.PENDIENTE);
+    }
+    
+    @Override
+    public void cancelarSolicitud(Long solicitudId) {
+        Optional<SolicitudAdopcion> solicitudOpt = solicitudRepository.findById(solicitudId);
+        if (solicitudOpt.isPresent()) {
+            SolicitudAdopcion solicitud = solicitudOpt.get();
+            solicitud.setEstado(SolicitudAdopcion.EstadoSolicitud.CANCELADA);
+            solicitudRepository.save(solicitud);
+        }
+    }
+}

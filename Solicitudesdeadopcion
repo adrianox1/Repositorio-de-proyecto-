@@ -1,0 +1,16 @@
+package com.example.proyecto.service;
+
+import com.example.proyecto.model.SolicitudAdopcion;
+import java.util.List;
+import java.util.Optional;
+
+public interface SolicitudAdopcionService {
+    SolicitudAdopcion crearSolicitud(SolicitudAdopcion solicitud);
+    List<SolicitudAdopcion> obtenerSolicitudesPorUsuario(Long usuarioId);
+    List<SolicitudAdopcion> obtenerSolicitudesPorMascota(Long mascotaId);
+    SolicitudAdopcion aceptarSolicitud(Long solicitudId, String comentarios);
+    SolicitudAdopcion rechazarSolicitud(Long solicitudId, String motivoRechazo);
+    Optional<SolicitudAdopcion> obtenerSolicitudById(Long id);
+    List<SolicitudAdopcion> obtenerSolicitudesPendientes();
+    void cancelarSolicitud(Long solicitudId);
+}
