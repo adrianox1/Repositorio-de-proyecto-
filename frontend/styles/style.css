@@ -150,13 +150,25 @@ header {
   color: var(--azul-oscuro);
   display: flex;
   align-items: center;
+  gap: 0.35rem;
+}
+
+.logo::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background-image: url("../assets/favicon.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .logo span {
   background: var(--amarillo-suave);
   padding: 0.4rem 0.6rem;
   border-radius: 10px;
-  margin-right: 5px;
 }
 
 nav {
