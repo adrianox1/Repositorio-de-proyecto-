@@ -214,20 +214,25 @@ function resetFormulario() {
 // 4. ELIMINAR
 // ==========================================
 function eliminarMascota(id, nombre) {
-  if (!confirm(`¿Seguro que deseas eliminar a "${nombre}"?`)) return;
-
-  api(`/api/mascotas/${id}`, { method: 'DELETE' })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        toast('Mascota eliminada.', 'success');
-        cargarMisMascotas();
-      } else {
-        toast(data.error || 'No se pudo eliminar la mascota.', 'error');
-      }
-    })
-    .catch(err => {
-      console.error('Error al eliminar mascota:', err);
-      toast('Error de conexión al eliminar.', 'error');
-    });
+  confirmar({
+    titulo: `Eliminar a "${nombre}"`,
+    mensaje: 'Esta acción no se puede deshacer.',
+    textoAceptar: 'Sí, eliminar'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/mascotas/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast('Mascota eliminada.', 'success');
+          cargarMisMascotas();
+        } else {
+          toast(data.error || 'No se pudo eliminar la mascota.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al eliminar mascota:', err);
+        toast('Error de conexión al eliminar.', 'error');
+      });
+  });
 }

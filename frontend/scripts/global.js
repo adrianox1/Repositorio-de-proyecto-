@@ -249,3 +249,42 @@ function toast(mensaje, tipo = 'info', duracion = 4000) {
 }
 
 window.toast = toast;
+
+// ==========================================
+// MODAL DE CONFIRMACIÓN
+// Reemplaza el confirm() nativo del navegador.
+// Uso: confirmar({ titulo, mensaje, textoAceptar, variante })
+//   .then(ok => { if (ok) { /* acción */ } })
+// variante: 'peligro' (rojo, default) | 'ok' (verde)
+// ==========================================
+function confirmar({ titulo = '¿Estás seguro?', mensaje = '', textoAceptar = 'Confirmar', variante = 'peligro' } = {}) {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.id = 'confirm-overlay';
+    overlay.innerHTML = `
+      <div class="confirm-box" role="dialog" aria-modal="true">
+        <div class="confirm-icono">${variante === 'peligro' ? '🗑️' : '✅'}</div>
+        <div class="confirm-titulo">${escapeHTML(titulo)}</div>
+        ${mensaje ? `<div class="confirm-mensaje">${escapeHTML(mensaje)}</div>` : ''}
+        <div class="confirm-acciones">
+          <button class="confirm-btn-cancelar">Cancelar</button>
+          <button class="confirm-btn-aceptar ${variante === 'ok' ? 'verde' : ''}">${escapeHTML(textoAceptar)}</button>
+        </div>
+      </div>
+    `;
+
+    const cerrar = (resultado) => {
+      overlay.remove();
+      resolve(resultado);
+    };
+
+    overlay.querySelector('.confirm-btn-cancelar').addEventListener('click', () => cerrar(false));
+    overlay.querySelector('.confirm-btn-aceptar').addEventListener('click', () => cerrar(true));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) cerrar(false); });
+
+    document.body.appendChild(overlay);
+    overlay.querySelector('.confirm-btn-aceptar').focus();
+  });
+}
+
+window.confirmar = confirmar;

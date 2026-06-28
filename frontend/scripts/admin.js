@@ -121,22 +121,27 @@ function actualizarEstadisticas(usuarios) {
 // 3. ELIMINAR USUARIO
 // ==========================================
 function eliminarUsuario(id, nombre) {
-  if (!confirm(`¿Seguro que deseas eliminar a "${nombre}"? Esta acción no se puede deshacer.`)) return;
-
-  api(`/api/usuarios/${id}`, { method: 'DELETE' })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        toast('Usuario eliminado.', 'success');
-        cargarUsuarios();
-      } else {
-        toast(data.error || 'No se pudo eliminar el usuario.', 'error');
-      }
-    })
-    .catch(err => {
-      console.error('Error al eliminar usuario:', err);
-      toast('Error de conexión al eliminar.', 'error');
-    });
+  confirmar({
+    titulo: `Eliminar a "${nombre}"`,
+    mensaje: 'Esta acción no se puede deshacer.',
+    textoAceptar: 'Sí, eliminar'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/usuarios/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast('Usuario eliminado.', 'success');
+          cargarUsuarios();
+        } else {
+          toast(data.error || 'No se pudo eliminar el usuario.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al eliminar usuario:', err);
+        toast('Error de conexión al eliminar.', 'error');
+      });
+  });
 }
 
 // ==========================================
@@ -372,22 +377,27 @@ function resetFormularioMascota() {
 }
 
 function eliminarMascotaAdmin(id, nombre) {
-  if (!confirm(`¿Seguro que deseas eliminar a "${nombre}"?`)) return;
-
-  api(`/api/mascotas/${id}`, { method: 'DELETE' })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        toast('Mascota eliminada.', 'success');
-        cargarMascotasAdmin();
-      } else {
-        toast(data.error || 'No se pudo eliminar la mascota.', 'error');
-      }
-    })
-    .catch(err => {
-      console.error('Error al eliminar mascota:', err);
-      toast('Error de conexión al eliminar.', 'error');
-    });
+  confirmar({
+    titulo: `Eliminar a "${nombre}"`,
+    mensaje: 'Esta acción no se puede deshacer.',
+    textoAceptar: 'Sí, eliminar'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/mascotas/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast('Mascota eliminada.', 'success');
+          cargarMascotasAdmin();
+        } else {
+          toast(data.error || 'No se pudo eliminar la mascota.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al eliminar mascota:', err);
+        toast('Error de conexión al eliminar.', 'error');
+      });
+  });
 }
 
 // ==========================================
@@ -457,25 +467,33 @@ function actualizarStatsSolicitudes(solicitudes) {
 }
 
 function cambiarEstadoSolicitud(id, estado) {
-  const verbo = estado === 'aprobada' ? 'aprobar' : 'rechazar';
-  if (!confirm(`¿Seguro que deseas ${verbo} esta solicitud?`)) return;
-
-  api(`/api/solicitudes/${id}/estado`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ estado: estado })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        toast(`Solicitud ${estado === 'aprobada' ? 'aprobada' : 'rechazada'}.`, 'success');
-        cargarSolicitudes();
-      } else {
-        toast(data.error || 'No se pudo actualizar la solicitud.', 'error');
-      }
+  const esAprobar = estado === 'aprobada';
+  confirmar({
+    titulo: esAprobar ? 'Aprobar solicitud' : 'Rechazar solicitud',
+    mensaje: esAprobar
+      ? '¿Confirmas que deseas aprobar esta solicitud de adopción?'
+      : '¿Confirmas que deseas rechazar esta solicitud de adopción?',
+    textoAceptar: esAprobar ? 'Sí, aprobar' : 'Sí, rechazar',
+    variante: esAprobar ? 'ok' : 'peligro'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/solicitudes/${id}/estado`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ estado: estado })
     })
-    .catch(err => {
-      console.error('Error al actualizar solicitud:', err);
-      toast('Error de conexión al actualizar.', 'error');
-    });
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast(`Solicitud ${esAprobar ? 'aprobada' : 'rechazada'}.`, 'success');
+          cargarSolicitudes();
+        } else {
+          toast(data.error || 'No se pudo actualizar la solicitud.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al actualizar solicitud:', err);
+        toast('Error de conexión al actualizar.', 'error');
+      });
+  });
 }
