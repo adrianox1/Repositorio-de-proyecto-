@@ -46,20 +46,20 @@ function protegerRuta() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok || !data.usuario) {
-        alert('Debes iniciar sesión para acceder al panel administrativo.');
-        window.location.href = 'iniciar-sesion.html';
+        toast('Debes iniciar sesión para acceder al panel administrativo.', 'warning');
+        setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1200);
         return false;
       }
       if (data.usuario.rol !== 'ADMIN') {
-        alert('Acceso restringido: solo administradores.');
-        window.location.href = 'index.html';
+        toast('Acceso restringido: solo administradores.', 'error');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
         return false;
       }
       return true;
     })
     .catch(() => {
-      alert('No se pudo verificar la sesión. Inicia sesión nuevamente.');
-      window.location.href = 'iniciar-sesion.html';
+      toast('No se pudo verificar la sesión. Inicia sesión nuevamente.', 'error');
+      setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1500);
       return false;
     });
 }
@@ -127,14 +127,15 @@ function eliminarUsuario(id, nombre) {
     .then(res => res.json())
     .then(data => {
       if (data.ok) {
+        toast('Usuario eliminado.', 'success');
         cargarUsuarios();
       } else {
-        alert(data.error || 'No se pudo eliminar el usuario.');
+        toast(data.error || 'No se pudo eliminar el usuario.', 'error');
       }
     })
     .catch(err => {
       console.error('Error al eliminar usuario:', err);
-      alert('Error de conexión al eliminar.');
+      toast('Error de conexión al eliminar.', 'error');
     });
 }
 
@@ -188,16 +189,16 @@ function initFormularioCrear() {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert('Usuario creado correctamente.');
+          toast('Usuario creado correctamente.', 'success');
           form.reset();
           cargarUsuarios();
         } else {
-          alert(data.error || 'No se pudo crear el usuario.');
+          toast(data.error || 'No se pudo crear el usuario.', 'error');
         }
       })
       .catch(err => {
         console.error('Error al crear usuario:', err);
-        alert('Error de conexión al crear el usuario.');
+        toast('Error de conexión al crear el usuario.', 'error');
       });
   });
 }
@@ -300,13 +301,13 @@ function initFormularioMascota() {
         const resp = await api('/api/uploads/mascota', { method: 'POST', body: fdFoto });
         const dataFoto = await resp.json();
         if (!dataFoto.ok) {
-          alert(dataFoto.error || 'No se pudo subir la imagen.');
+          toast(dataFoto.error || 'No se pudo subir la imagen.', 'error');
           return;
         }
         body.fotoUrl = dataFoto.url;
       } catch (err) {
         console.error('Error al subir la imagen:', err);
-        alert('Error de conexión al subir la imagen.');
+        toast('Error de conexión al subir la imagen.', 'error');
         return;
       }
     }
@@ -323,16 +324,16 @@ function initFormularioMascota() {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.');
+          toast(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.', 'success');
           resetFormularioMascota();
           cargarMascotasAdmin();
         } else {
-          alert(data.error || 'No se pudo guardar la mascota.');
+          toast(data.error || 'No se pudo guardar la mascota.', 'error');
         }
       })
       .catch(err => {
         console.error('Error al guardar mascota:', err);
-        alert('Error de conexión al guardar.');
+        toast('Error de conexión al guardar.', 'error');
       });
   });
 
@@ -377,14 +378,15 @@ function eliminarMascotaAdmin(id, nombre) {
     .then(res => res.json())
     .then(data => {
       if (data.ok) {
+        toast('Mascota eliminada.', 'success');
         cargarMascotasAdmin();
       } else {
-        alert(data.error || 'No se pudo eliminar la mascota.');
+        toast(data.error || 'No se pudo eliminar la mascota.', 'error');
       }
     })
     .catch(err => {
       console.error('Error al eliminar mascota:', err);
-      alert('Error de conexión al eliminar.');
+      toast('Error de conexión al eliminar.', 'error');
     });
 }
 
@@ -466,13 +468,14 @@ function cambiarEstadoSolicitud(id, estado) {
     .then(res => res.json())
     .then(data => {
       if (data.ok) {
+        toast(`Solicitud ${estado === 'aprobada' ? 'aprobada' : 'rechazada'}.`, 'success');
         cargarSolicitudes();
       } else {
-        alert(data.error || 'No se pudo actualizar la solicitud.');
+        toast(data.error || 'No se pudo actualizar la solicitud.', 'error');
       }
     })
     .catch(err => {
       console.error('Error al actualizar solicitud:', err);
-      alert('Error de conexión al actualizar.');
+      toast('Error de conexión al actualizar.', 'error');
     });
 }

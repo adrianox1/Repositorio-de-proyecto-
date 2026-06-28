@@ -214,3 +214,38 @@ function getStatusText(status) {
     default: return status;
   }
 }
+
+// ==========================================
+// SISTEMA DE NOTIFICACIONES TOAST
+// Reemplaza los alert() nativos del navegador.
+// Uso: toast('Mensaje', 'success' | 'error' | 'warning' | 'info')
+// ==========================================
+function toast(mensaje, tipo = 'info', duracion = 4000) {
+  let contenedor = document.getElementById('toast-container');
+  if (!contenedor) {
+    contenedor = document.createElement('div');
+    contenedor.id = 'toast-container';
+    document.body.appendChild(contenedor);
+  }
+
+  const iconos = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+
+  const el = document.createElement('div');
+  el.className = `toast toast-${tipo}`;
+  el.innerHTML = `
+    <span class="toast-icono">${iconos[tipo] || 'ℹ️'}</span>
+    <span class="toast-texto">${escapeHTML(mensaje)}</span>
+    <button class="toast-cerrar" aria-label="Cerrar">✕</button>
+  `;
+
+  const cerrar = () => {
+    el.classList.add('saliendo');
+    setTimeout(() => el.remove(), 400);
+  };
+
+  el.querySelector('.toast-cerrar').addEventListener('click', cerrar);
+  contenedor.appendChild(el);
+  setTimeout(cerrar, duracion);
+}
+
+window.toast = toast;

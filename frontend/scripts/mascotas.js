@@ -28,8 +28,8 @@ function protegerRuta() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok || !data.usuario) {
-        alert('Debes iniciar sesión para administrar tus mascotas.');
-        window.location.href = 'iniciar-sesion.html';
+        toast('Debes iniciar sesión para administrar tus mascotas.', 'warning');
+        setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1200);
         return false;
       }
       return true;
@@ -141,13 +141,13 @@ function initFormulario() {
         const resp = await api('/api/uploads/mascota', { method: 'POST', body: fdFoto });
         const dataFoto = await resp.json();
         if (!dataFoto.ok) {
-          alert(dataFoto.error || 'No se pudo subir la imagen.');
+          toast(dataFoto.error || 'No se pudo subir la imagen.', 'error');
           return;
         }
         body.fotoUrl = dataFoto.url;
       } catch (err) {
         console.error('Error al subir la imagen:', err);
-        alert('Error de conexión al subir la imagen.');
+        toast('Error de conexión al subir la imagen.', 'error');
         return;
       }
     }
@@ -164,16 +164,16 @@ function initFormulario() {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.');
+          toast(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.', 'success');
           resetFormulario();
           cargarMisMascotas();
         } else {
-          alert(data.error || 'No se pudo guardar la mascota.');
+          toast(data.error || 'No se pudo guardar la mascota.', 'error');
         }
       })
       .catch(err => {
         console.error('Error al guardar mascota:', err);
-        alert('Error de conexión al guardar.');
+        toast('Error de conexión al guardar.', 'error');
       });
   });
 
@@ -220,13 +220,14 @@ function eliminarMascota(id, nombre) {
     .then(res => res.json())
     .then(data => {
       if (data.ok) {
+        toast('Mascota eliminada.', 'success');
         cargarMisMascotas();
       } else {
-        alert(data.error || 'No se pudo eliminar la mascota.');
+        toast(data.error || 'No se pudo eliminar la mascota.', 'error');
       }
     })
     .catch(err => {
       console.error('Error al eliminar mascota:', err);
-      alert('Error de conexión al eliminar.');
+      toast('Error de conexión al eliminar.', 'error');
     });
 }
