@@ -121,4 +121,11 @@
 @media (max-width: 900px) {
   .about-container { grid-template-columns: 1fr !important; gap: 2rem !important; text-align: center; }
   .about-list li { text-align: left; }
+  .about-image { display: none; }
+  .about-content h1 { font-size: 2.2rem; }
+}
+@media (max-width: 480px) {
+  .about-section { padding: 50px 0; }
+  .about-content h1 { font-size: 1.8rem; }
+  .about-content h2 { font-size: 1.4rem; }
 }

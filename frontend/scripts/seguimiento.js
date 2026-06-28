@@ -18,8 +18,8 @@ function initTracking() {
   const petId = urlParams.get('id');
 
   if (!petId) {
-    alert("ID de mascota no especificado. Redirigiendo al catálogo.");
-    window.location.href = 'catalogo.html';
+    toast('ID de mascota no especificado. Redirigiendo al catálogo.', 'warning');
+    setTimeout(() => { window.location.href = 'catalogo.html'; }, 1500);
     return;
   }
 
@@ -50,8 +50,12 @@ function initTracking() {
           petAvatar.innerHTML = `<img src="${escapeHTML(pet.fotoUrl)}" alt="${escapeHTML(pet.nombre)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
         }
       }
-      if (petNameEl) petNameEl.textContent = pet.nombre;
+      const spinner = document.getElementById('seguimientoSpinner');
+      if (spinner) spinner.remove();
+
+      if (petNameEl) { petNameEl.style.display = ''; petNameEl.textContent = pet.nombre; }
       if (petMetaEl) {
+        petMetaEl.style.display = '';
         petMetaEl.textContent = `${escapeHTML(pet.raza || 'Sin raza')} · ${pet.genero === 'macho' ? 'Macho' : 'Hembra'} · ${pet.edadMeses} meses aprox.`;
       }
 
@@ -134,8 +138,8 @@ function initTracking() {
     })
     .catch(err => {
       console.error("Error técnico al cargar seguimiento clínico:", err);
-      alert("No se pudo cargar el seguimiento de esta mascota.");
-      window.location.href = 'catalogo.html';
+      toast('No se pudo cargar el seguimiento de esta mascota.', 'error');
+      setTimeout(() => { window.location.href = 'catalogo.html'; }, 1500);
     });
 }
 

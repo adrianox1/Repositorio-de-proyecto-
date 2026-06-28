@@ -166,15 +166,15 @@ function procesarSolicitud(petId, petName) {
     .then(res => res.json())
     .then(data => {
       if (!data.ok || !data.usuario) {
-        alert('Debes iniciar sesión para solicitar una adopción.');
-        window.location.href = 'iniciar-sesion.html';
+        toast('Debes iniciar sesión para solicitar una adopción.', 'warning');
+        setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1500);
         return;
       }
       abrirModal(petId, petName);
     })
     .catch(() => {
-      alert('No se pudo verificar tu sesión. Inicia sesión nuevamente.');
-      window.location.href = 'iniciar-sesion.html';
+      toast('No se pudo verificar tu sesión. Inicia sesión nuevamente.', 'error');
+      setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1500);
     });
 }
 
@@ -216,15 +216,15 @@ function abrirModal(petId, petName) {
       .then(res => res.json())
       .then(result => {
         if (result.ok) {
-          alert(`¡Solicitud enviada con éxito para ${petName}! Nuestro equipo revisará tu caso.`);
+          toast(`¡Solicitud enviada para ${petName}! Nuestro equipo revisará tu caso pronto.`, 'success', 3000, true);
           modal.style.display = 'none';
         } else {
-          alert(result.error || 'No se pudo enviar la solicitud.');
+          toast(result.error || 'No se pudo enviar la solicitud.', 'error');
         }
       })
       .catch(err => {
         console.error('Error al enviar la solicitud:', err);
-        alert('Ocurrió un error de conexión al enviar la solicitud.');
+        toast('Ocurrió un error de conexión al enviar la solicitud.', 'error');
       });
   };
 }

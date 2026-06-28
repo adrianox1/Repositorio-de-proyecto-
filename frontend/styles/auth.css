@@ -76,3 +76,33 @@
 }
 
 .auth-link:hover { opacity: 0.8; }
+
+/* ---- Ojito mostrar/ocultar contraseña ---- */
+.pass-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.pass-wrapper input {
+  width: 100%;
+  padding-right: 3rem;
+}
+
+.pass-toggle {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94A3B8;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color 0.2s;
+  line-height: 0;
+}
+
+.pass-toggle:hover { color: var(--azul-oscuro); }

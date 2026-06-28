@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="WauPiura es la plataforma de adopción de mascotas en Piura. Dale una segunda oportunidad a un amigo y conecta con animales en abandono.">
   <title>Inicio | WauPiura</title>
@@ -37,15 +38,44 @@
         <div class="slide active">
           <div class="container slide-content">
             <div class="hero-text">
-              <p>Plataforma de adopción en Piura</p>
+              <span class="hero-badge">🐾 Adopción responsable en Piura</span>
               <h1>Dale una segunda oportunidad a un amigo</h1>
-              <p class="lead">Conectamos ciudadanos responsables con animales en abandono en toda la región.</p>
+              <p class="lead">Conectamos ciudadanos responsables con animales en abandono en toda la región de Piura.</p>
               <a href="catalogo.html" class="cta-button">Explorar Catálogo</a>
+              <div class="hero-stats">
+                <div class="hero-stat"><strong>50+</strong><span>Rescatadas</span></div>
+                <div class="hero-stat"><strong>120+</strong><span>Familias felices</span></div>
+                <div class="hero-stat"><strong>5 años</strong><span>Ayudando en Piura</span></div>
+              </div>
             </div>
             <div class="hero-visual-placeholder">
-              <div class="decorative-circle">
-                <span style="font-size: 5rem;">🐾</span>
-              </div>
+              <svg class="hero-svg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- Anillos de fondo -->
+                <circle cx="160" cy="160" r="158" fill="#E9F5EF" opacity="0.7"/>
+                <circle cx="160" cy="160" r="128" fill="white"/>
+                <!-- Huella principal (verde marca) -->
+                <ellipse cx="160" cy="188" rx="52" ry="40" fill="#77C9A7"/>
+                <ellipse cx="98"  cy="144" rx="20" ry="27" fill="#77C9A7"/>
+                <ellipse cx="136" cy="122" rx="20" ry="27" fill="#77C9A7"/>
+                <ellipse cx="180" cy="120" rx="20" ry="27" fill="#77C9A7"/>
+                <ellipse cx="220" cy="136" rx="20" ry="27" fill="#77C9A7"/>
+                <!-- Huellita amarilla arriba-derecha -->
+                <ellipse cx="252" cy="72"  rx="11" ry="15" fill="#F8C66A" opacity="0.85"/>
+                <ellipse cx="236" cy="57"  rx="7"  ry="10" fill="#F8C66A" opacity="0.85"/>
+                <ellipse cx="249" cy="50"  rx="7"  ry="10" fill="#F8C66A" opacity="0.85"/>
+                <ellipse cx="262" cy="51"  rx="7"  ry="10" fill="#F8C66A" opacity="0.85"/>
+                <ellipse cx="272" cy="60"  rx="7"  ry="10" fill="#F8C66A" opacity="0.85"/>
+                <!-- Huellita azul abajo-izquierda -->
+                <ellipse cx="70"  cy="242" rx="10" ry="13" fill="#1B3A58" opacity="0.14"/>
+                <ellipse cx="56"  cy="228" rx="6"  ry="9"  fill="#1B3A58" opacity="0.14"/>
+                <ellipse cx="68"  cy="221" rx="6"  ry="9"  fill="#1B3A58" opacity="0.14"/>
+                <ellipse cx="80"  cy="222" rx="6"  ry="9"  fill="#1B3A58" opacity="0.14"/>
+                <ellipse cx="89"  cy="230" rx="6"  ry="9"  fill="#1B3A58" opacity="0.14"/>
+                <!-- Corazón amarillo arriba-izquierda -->
+                <path d="M56 98 C56 93 49 86 42 91 C35 96 35 105 42 110 L56 124 L70 110 C77 105 77 96 70 91 C63 86 56 93 56 98 Z" fill="#F8C66A" opacity="0.55"/>
+                <!-- Corazón verde abajo-derecha -->
+                <path d="M262 218 C262 214 257 209 252 213 C247 217 247 223 252 227 L262 237 L272 227 C277 223 277 217 272 213 C267 209 262 214 262 218 Z" fill="#77C9A7" opacity="0.5"/>
+              </svg>
             </div>
           </div>
         </div>
@@ -232,8 +262,20 @@
             <div class="support-icon">❤️</div>
             <h3>Donación Económica</h3>
             <p>Aporta para cubrir gastos de cirugías, tratamientos y mantenimiento general del albergue.</p>
-            <button class="btn-register" style="margin-top: 1rem; width: 100%; border-radius: 12px; font-size: 0.95rem;" onclick="alert('Gracias por tu intención de apoyar. Esta es una demostración visual sin pasarela de pagos conectada.')">Apoyar ahora</button>
+            <a href="contacto.html" class="btn-register" style="margin-top: 1rem; width: 100%; border-radius: 12px; font-size: 0.95rem; text-align:center; display:block;">Apoyar ahora</a>
           </div>
+        </div>
+      </div>
+    </section>
+    <section class="cta-final">
+      <div class="container cta-final-inner">
+        <div class="cta-final-texto">
+          <h2>¿Listo para cambiar una vida?</h2>
+          <p>Cada mascota rescatada espera a alguien como tú. Únete a WauPiura y sé parte del cambio.</p>
+        </div>
+        <div class="cta-final-btns">
+          <a href="catalogo.html" class="cta-button">Ver mascotas en adopción</a>
+          <a href="registro.html" class="cta-final-link">Crear mi cuenta gratis →</a>
         </div>
       </div>
     </section>

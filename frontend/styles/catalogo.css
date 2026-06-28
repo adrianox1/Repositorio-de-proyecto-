@@ -209,14 +209,19 @@
   .catalog-toolbar { display: grid; grid-template-columns: 1fr; align-items: center; text-align: center; gap: 1.5rem; }
   .pet-grid { grid-template-columns: 1fr; }
   .pet-card { grid-template-columns: 1fr; }
-  .pet-image { min-height: 200px; }
+  .pet-image { min-height: 180px; }
   .catalog-hero h1 { font-size: 2.3rem; }
+  .catalog-section { padding: 40px 0; }
+  .catalog-hero { padding: 50px 0; }
 }
 @media (max-width: 600px) {
+  .catalog-hero h1 { font-size: 1.9rem; }
   .catalog-filters { gap: 0.5rem; }
   .filter-btn { flex: 1 1 calc(50% - 0.5rem); text-align: center; padding: 0.6rem 0.5rem; font-size: 0.85rem; }
   .catalog-summary { grid-template-columns: repeat(2, 1fr); }
   .summary-number { font-size: 1.8rem; }
+  .pet-content { padding: 1rem; }
+  .pet-header h3 { font-size: 1.2rem; }
   .pet-actions { flex-wrap: wrap; }
   .pet-actions .btn-primary, .pet-actions .btn-secondary { flex: 1 1 100%; text-align: center; }
 }

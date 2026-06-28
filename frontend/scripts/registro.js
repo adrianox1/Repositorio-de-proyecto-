@@ -82,16 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert("Usuario registrado correctamente. Ahora inicia sesión.");
-          window.location.href = 'iniciar-sesion.html';
+          toast('¡Cuenta creada! Ahora inicia sesión.', 'success', 2500, true);
+          setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1600);
         } else {
           console.error("Fallo de validación en backend al registrarse:", data.error);
-          alert(data.error || "No se pudo registrar el usuario. Verifica los datos ingresados.");
+          toast(data.error || 'No se pudo registrar el usuario. Verifica los datos ingresados.', 'error');
         }
       })
       .catch(err => {
         console.error("Error técnico al registrarse:", err);
-        alert("No se pudo registrar el usuario. Verifica los datos ingresados.");
+        toast('No se pudo registrar el usuario. Verifica los datos ingresados.', 'error');
       });
     });
   }

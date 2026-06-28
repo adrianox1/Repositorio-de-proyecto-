@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Registra y administra las mascotas que pones en adopción en WauPiura.">
   <title>Mis Mascotas | WauPiura</title>
@@ -67,7 +68,7 @@
           <label style="display:block; font-weight:700; font-size:0.85rem; margin:0 0 0.4rem; color:var(--azul-oscuro);">
             Subir foto desde tu dispositivo (opcional)
           </label>
-          <input type="file" name="foto" accept="image/*" style="margin-bottom:1.2rem;">
+          <input type="file" name="foto" accept="image/*" style="margin-bottom:0.6rem;">
           <textarea name="descripcion" placeholder="Descripción de la mascota" rows="3"
             style="width:100%; padding:0.75rem 1rem; border:2px solid #e3e8ee; border-radius:12px; font-family:inherit; font-size:0.95rem; margin-bottom:1.2rem;"></textarea>
           <div style="display:flex; gap:0.8rem;">
@@ -94,7 +95,7 @@
               </tr>
             </thead>
             <tbody id="tablaMascotas">
-              <tr><td colspan="7" class="table-empty">Cargando mascotas...</td></tr>
+              <tr class="spinner-row"><td colspan="7"><div class="spinner-cell"><span class="spinner"></span>Cargando mascotas…</div></td></tr>
             </tbody>
           </table>
         </div>

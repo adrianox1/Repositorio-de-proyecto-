@@ -57,17 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert(`¡Ingreso correcto! Bienvenido(a) ${data.usuario.nombre}.`);
-          // Los administradores van directo al panel de gestión
-          window.location.href = data.usuario.rol === 'ADMIN' ? 'admin.html' : 'index.html';
+          toast(`¡Bienvenido(a), ${data.usuario.nombre}!`, 'success', 2500, true);
+          const destino = data.usuario.rol === 'ADMIN' ? 'admin.html' : 'index.html';
+          setTimeout(() => { window.location.href = destino; }, 1400);
         } else {
           console.error("Error de credenciales al iniciar sesión:", data.error);
-          alert("Correo o contraseña incorrectos.");
+          toast('Correo o contraseña incorrectos.', 'error');
         }
       })
       .catch(err => {
         console.error("Error técnico al ingresar:", err);
-        alert("Correo o contraseña incorrectos.");
+        toast('Correo o contraseña incorrectos.', 'error');
       });
     });
   }

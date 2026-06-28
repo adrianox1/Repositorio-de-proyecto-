@@ -28,8 +28,8 @@ function protegerRuta() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok || !data.usuario) {
-        alert('Debes iniciar sesión para administrar tus mascotas.');
-        window.location.href = 'iniciar-sesion.html';
+        toast('Debes iniciar sesión para administrar tus mascotas.', 'warning');
+        setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1200);
         return false;
       }
       return true;
@@ -50,12 +50,12 @@ function cargarMisMascotas() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar las mascotas.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar tus mascotas', 'El servidor devolvió un error. Intenta recargar la página.', 7);
         return;
       }
       const mascotas = data.mascotas || [];
       if (mascotas.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Aún no has registrado mascotas.</td></tr>`;
+        tabla.innerHTML = tablaVacia('🐶', 'Aún no has registrado mascotas', 'Completa el formulario de arriba para publicar tu primera mascota en adopción.', 7);
         return;
       }
 
@@ -89,7 +89,7 @@ function cargarMisMascotas() {
     })
     .catch(err => {
       console.error('Error al cargar mascotas:', err);
-      tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba tu conexión e intenta recargar la página.', 7);
     });
 }
 
@@ -112,7 +112,7 @@ function initFormulario() {
       raza: fd.get('raza'),
       edadMeses: fd.get('edadMeses') || 0,
       lugarRescate: fd.get('lugarRescate'),
-      fotoUrl: fd.get('fotoUrl'),
+      fotoUrl: fd.get('fotoUrl').trim() || form.fotoUrl.dataset.original || '',
       descripcion: fd.get('descripcion')
     };
 
@@ -124,7 +124,7 @@ function initFormulario() {
     if (!Validar.noNegativo(body.edadMeses)) {
       errores.push({ input: form.edadMeses, mensaje: 'La edad debe ser un número válido (0 o más).' });
     }
-    if (Validar.requerido(body.fotoUrl) && !Validar.url(body.fotoUrl)) {
+    if (Validar.requerido(body.fotoUrl) && !body.fotoUrl.startsWith('/uploads/') && !Validar.url(body.fotoUrl)) {
       errores.push({ input: form.fotoUrl, mensaje: 'La URL de la foto no es válida.' });
     }
     if (errores.length > 0) {
@@ -141,13 +141,13 @@ function initFormulario() {
         const resp = await api('/api/uploads/mascota', { method: 'POST', body: fdFoto });
         const dataFoto = await resp.json();
         if (!dataFoto.ok) {
-          alert(dataFoto.error || 'No se pudo subir la imagen.');
+          toast(dataFoto.error || 'No se pudo subir la imagen.', 'error');
           return;
         }
         body.fotoUrl = dataFoto.url;
       } catch (err) {
         console.error('Error al subir la imagen:', err);
-        alert('Error de conexión al subir la imagen.');
+        toast('No se pudo subir la imagen. Comprueba tu conexión e inténtalo de nuevo.', 'error');
         return;
       }
     }
@@ -164,16 +164,16 @@ function initFormulario() {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.');
+          toast(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.', 'success');
           resetFormulario();
           cargarMisMascotas();
         } else {
-          alert(data.error || 'No se pudo guardar la mascota.');
+          toast(data.error || 'No se pudo guardar la mascota.', 'error');
         }
       })
       .catch(err => {
         console.error('Error al guardar mascota:', err);
-        alert('Error de conexión al guardar.');
+        toast('No se pudieron guardar los cambios. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 
@@ -192,8 +192,16 @@ function cargarEnFormulario(id) {
   form.raza.value = mascota.raza || '';
   form.edadMeses.value = mascota.edadMeses != null ? mascota.edadMeses : '';
   form.lugarRescate.value = mascota.lugarRescate || '';
-  form.fotoUrl.value = mascota.fotoUrl || '';
+  // Si es ruta de subida interna, ocultarla y guardarla como fallback
+  form.fotoUrl.dataset.original = mascota.fotoUrl || '';
+  if ((mascota.fotoUrl || '').startsWith('/uploads/')) {
+    form.fotoUrl.value = '';
+    form.fotoUrl.placeholder = 'La foto actual se mantiene si no subes una nueva';
+  } else {
+    form.fotoUrl.value = mascota.fotoUrl || '';
+  }
   form.descripcion.value = mascota.descripcion || '';
+  mostrarPreviewImagen(form.foto, mascota.fotoUrl);
 
   document.getElementById('formTitulo').textContent = `Editando: ${mascota.nombre}`;
   document.getElementById('btnGuardar').textContent = 'Guardar cambios';
@@ -214,19 +222,25 @@ function resetFormulario() {
 // 4. ELIMINAR
 // ==========================================
 function eliminarMascota(id, nombre) {
-  if (!confirm(`¿Seguro que deseas eliminar a "${nombre}"?`)) return;
-
-  api(`/api/mascotas/${id}`, { method: 'DELETE' })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        cargarMisMascotas();
-      } else {
-        alert(data.error || 'No se pudo eliminar la mascota.');
-      }
-    })
-    .catch(err => {
-      console.error('Error al eliminar mascota:', err);
-      alert('Error de conexión al eliminar.');
-    });
+  confirmar({
+    titulo: `Eliminar a "${nombre}"`,
+    mensaje: 'Esta acción no se puede deshacer.',
+    textoAceptar: 'Sí, eliminar'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/mascotas/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast('Mascota eliminada.', 'success');
+          cargarMisMascotas();
+        } else {
+          toast(data.error || 'No se pudo eliminar la mascota.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al eliminar mascota:', err);
+        toast('No se pudo eliminar. Comprueba tu conexión e inténtalo de nuevo.', 'error');
+      });
+  });
 }

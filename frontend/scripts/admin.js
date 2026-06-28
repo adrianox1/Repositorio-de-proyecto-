@@ -46,20 +46,20 @@ function protegerRuta() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok || !data.usuario) {
-        alert('Debes iniciar sesión para acceder al panel administrativo.');
-        window.location.href = 'iniciar-sesion.html';
+        toast('Debes iniciar sesión para acceder al panel administrativo.', 'warning');
+        setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1200);
         return false;
       }
       if (data.usuario.rol !== 'ADMIN') {
-        alert('Acceso restringido: solo administradores.');
-        window.location.href = 'index.html';
+        toast('Acceso restringido: solo administradores.', 'error');
+        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
         return false;
       }
       return true;
     })
     .catch(() => {
-      alert('No se pudo verificar la sesión. Inicia sesión nuevamente.');
-      window.location.href = 'iniciar-sesion.html';
+      toast('No se pudo verificar la sesión. Inicia sesión nuevamente.', 'error');
+      setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1500);
       return false;
     });
 }
@@ -74,7 +74,7 @@ function cargarUsuarios() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar los usuarios.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar los usuarios', 'El servidor devolvió un error. Intenta recargar la página.', 7);
         return;
       }
 
@@ -82,7 +82,7 @@ function cargarUsuarios() {
       actualizarEstadisticas(usuarios);
 
       if (usuarios.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">No hay usuarios registrados.</td></tr>`;
+        tabla.innerHTML = tablaVacia('👥', 'Todavía no hay usuarios registrados', 'Los nuevos registros aparecerán aquí automáticamente.', 7);
         return;
       }
 
@@ -107,7 +107,7 @@ function cargarUsuarios() {
     })
     .catch(err => {
       console.error('Error al cargar usuarios:', err);
-      tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba que el backend esté activo e intenta recargar la página.', 7);
     });
 }
 
@@ -121,21 +121,27 @@ function actualizarEstadisticas(usuarios) {
 // 3. ELIMINAR USUARIO
 // ==========================================
 function eliminarUsuario(id, nombre) {
-  if (!confirm(`¿Seguro que deseas eliminar a "${nombre}"? Esta acción no se puede deshacer.`)) return;
-
-  api(`/api/usuarios/${id}`, { method: 'DELETE' })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        cargarUsuarios();
-      } else {
-        alert(data.error || 'No se pudo eliminar el usuario.');
-      }
-    })
-    .catch(err => {
-      console.error('Error al eliminar usuario:', err);
-      alert('Error de conexión al eliminar.');
-    });
+  confirmar({
+    titulo: `Eliminar a "${nombre}"`,
+    mensaje: 'Esta acción no se puede deshacer.',
+    textoAceptar: 'Sí, eliminar'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/usuarios/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast('Usuario eliminado.', 'success');
+          cargarUsuarios();
+        } else {
+          toast(data.error || 'No se pudo eliminar el usuario.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al eliminar usuario:', err);
+        toast('No se pudo eliminar. Comprueba tu conexión e inténtalo de nuevo.', 'error');
+      });
+  });
 }
 
 // ==========================================
@@ -188,16 +194,16 @@ function initFormularioCrear() {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert('Usuario creado correctamente.');
+          toast('Usuario creado correctamente.', 'success');
           form.reset();
           cargarUsuarios();
         } else {
-          alert(data.error || 'No se pudo crear el usuario.');
+          toast(data.error || 'No se pudo crear el usuario.', 'error');
         }
       })
       .catch(err => {
         console.error('Error al crear usuario:', err);
-        alert('Error de conexión al crear el usuario.');
+        toast('No se pudo crear el usuario. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 }
@@ -213,12 +219,12 @@ function cargarMascotasAdmin() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar las mascotas.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar las mascotas', 'El servidor devolvió un error. Intenta recargar la página.', 7);
         return;
       }
       const mascotas = data.mascotas || [];
       if (mascotas.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">No hay mascotas registradas.</td></tr>`;
+        tabla.innerHTML = tablaVacia('🐾', 'Aún no hay mascotas registradas', 'Usa el formulario de arriba para añadir la primera mascota en adopción.', 7);
         return;
       }
 
@@ -250,7 +256,7 @@ function cargarMascotasAdmin() {
     })
     .catch(err => {
       console.error('Error al cargar mascotas:', err);
-      tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba que el backend esté activo e intenta recargar la página.', 7);
     });
 }
 
@@ -270,7 +276,7 @@ function initFormularioMascota() {
       raza: fd.get('raza'),
       edadMeses: fd.get('edadMeses') || 0,
       lugarRescate: fd.get('lugarRescate'),
-      fotoUrl: fd.get('fotoUrl'),
+      fotoUrl: fd.get('fotoUrl').trim() || form.fotoUrl.dataset.original || '',
       estado: fd.get('estado'),
       disponible: fd.get('disponible')
     };
@@ -283,7 +289,7 @@ function initFormularioMascota() {
     if (!Validar.noNegativo(body.edadMeses)) {
       errores.push({ input: form.edadMeses, mensaje: 'La edad debe ser un número válido (0 o más).' });
     }
-    if (Validar.requerido(body.fotoUrl) && !Validar.url(body.fotoUrl)) {
+    if (Validar.requerido(body.fotoUrl) && !body.fotoUrl.startsWith('/uploads/') && !Validar.url(body.fotoUrl)) {
       errores.push({ input: form.fotoUrl, mensaje: 'La URL de la foto no es válida.' });
     }
     if (errores.length > 0) {
@@ -300,13 +306,13 @@ function initFormularioMascota() {
         const resp = await api('/api/uploads/mascota', { method: 'POST', body: fdFoto });
         const dataFoto = await resp.json();
         if (!dataFoto.ok) {
-          alert(dataFoto.error || 'No se pudo subir la imagen.');
+          toast(dataFoto.error || 'No se pudo subir la imagen.', 'error');
           return;
         }
         body.fotoUrl = dataFoto.url;
       } catch (err) {
         console.error('Error al subir la imagen:', err);
-        alert('Error de conexión al subir la imagen.');
+        toast('No se pudo subir la imagen. Comprueba tu conexión e inténtalo de nuevo.', 'error');
         return;
       }
     }
@@ -323,16 +329,16 @@ function initFormularioMascota() {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          alert(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.');
+          toast(esEdicion ? 'Mascota actualizada.' : 'Mascota registrada.', 'success');
           resetFormularioMascota();
           cargarMascotasAdmin();
         } else {
-          alert(data.error || 'No se pudo guardar la mascota.');
+          toast(data.error || 'No se pudo guardar la mascota.', 'error');
         }
       })
       .catch(err => {
         console.error('Error al guardar mascota:', err);
-        alert('Error de conexión al guardar.');
+        toast('No se pudieron guardar los cambios. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 
@@ -351,9 +357,17 @@ function cargarMascotaEnForm(id) {
   form.raza.value = mascota.raza || '';
   form.edadMeses.value = mascota.edadMeses != null ? mascota.edadMeses : '';
   form.lugarRescate.value = mascota.lugarRescate || '';
-  form.fotoUrl.value = mascota.fotoUrl || '';
+  // Si es ruta de subida interna, ocultarla y guardarla como fallback
+  form.fotoUrl.dataset.original = mascota.fotoUrl || '';
+  if ((mascota.fotoUrl || '').startsWith('/uploads/')) {
+    form.fotoUrl.value = '';
+    form.fotoUrl.placeholder = 'La foto actual se mantiene si no subes una nueva';
+  } else {
+    form.fotoUrl.value = mascota.fotoUrl || '';
+  }
   form.estado.value = mascota.estado || 'evaluacion';
   form.disponible.value = mascota.disponible ? 'true' : 'false';
+  mostrarPreviewImagen(form.foto, mascota.fotoUrl);
 
   document.getElementById('formMascotaTitulo').textContent = `Editando: ${mascota.nombre}`;
   document.getElementById('btnGuardarMascota').textContent = 'Guardar cambios';
@@ -371,21 +385,27 @@ function resetFormularioMascota() {
 }
 
 function eliminarMascotaAdmin(id, nombre) {
-  if (!confirm(`¿Seguro que deseas eliminar a "${nombre}"?`)) return;
-
-  api(`/api/mascotas/${id}`, { method: 'DELETE' })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        cargarMascotasAdmin();
-      } else {
-        alert(data.error || 'No se pudo eliminar la mascota.');
-      }
-    })
-    .catch(err => {
-      console.error('Error al eliminar mascota:', err);
-      alert('Error de conexión al eliminar.');
-    });
+  confirmar({
+    titulo: `Eliminar a "${nombre}"`,
+    mensaje: 'Esta acción no se puede deshacer.',
+    textoAceptar: 'Sí, eliminar'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/mascotas/${id}`, { method: 'DELETE' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast('Mascota eliminada.', 'success');
+          cargarMascotasAdmin();
+        } else {
+          toast(data.error || 'No se pudo eliminar la mascota.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al eliminar mascota:', err);
+        toast('No se pudo eliminar. Comprueba tu conexión e inténtalo de nuevo.', 'error');
+      });
+  });
 }
 
 // ==========================================
@@ -399,53 +419,92 @@ function cargarSolicitudes() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="8" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar las solicitudes.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar las solicitudes', 'El servidor devolvió un error. Intenta recargar la página.', 8);
         return;
       }
       const solicitudes = data.solicitudes || [];
+      window._todasSolicitudes = solicitudes;
       actualizarStatsSolicitudes(solicitudes);
-
-      if (solicitudes.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="8" class="table-empty">No hay solicitudes registradas.</td></tr>`;
-        return;
-      }
-
-      tabla.innerHTML = '';
-      solicitudes.forEach(s => {
-        const tel = s.usuario.telefono
-          ? `<a href="tel:${escapeHTML(s.usuario.telefono)}">${escapeHTML(s.usuario.telefono)}</a>`
-          : '<span style="color:#8a97a6;">Sin teléfono</span>';
-
-        const acciones = s.estado === 'pendiente'
-          ? `<button class="btn-secondary btn-aprobar" data-id="${s.id}" style="padding:0.4rem 0.7rem; font-size:0.78rem;">Aprobar</button>
-             <button class="btn-delete btn-rechazar" data-id="${s.id}">Rechazar</button>`
-          : `<span style="color:#8a97a6; font-size:0.8rem;">Resuelta</span>`;
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${s.id}</td>
-          <td>${escapeHTML(s.mascota.nombre)}</td>
-          <td>${escapeHTML(s.usuario.nombre)}<br><small style="color:#8a97a6;">${escapeHTML(s.usuario.email || '')}</small></td>
-          <td>${tel}</td>
-          <td style="max-width:240px;">${escapeHTML(s.mensaje)}</td>
-          <td><span class="badge badge-${escapeHTML(s.estado)}">${escapeHTML(s.estado)}</span></td>
-          <td>${formatDate((s.creadoEn || '').slice(0, 10))}</td>
-          <td>${acciones}</td>
-        `;
-        tabla.appendChild(tr);
-      });
-
-      tabla.querySelectorAll('.btn-aprobar').forEach(btn => {
-        btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'aprobada'));
-      });
-      tabla.querySelectorAll('.btn-rechazar').forEach(btn => {
-        btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'rechazada'));
-      });
+      initFiltrosSolicitudes();
+      renderSolicitudes(solicitudes);
     })
     .catch(err => {
       console.error('Error al cargar solicitudes:', err);
-      tabla.innerHTML = `<tr><td colspan="8" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba que el backend esté activo e intenta recargar la página.', 8);
     });
+}
+
+function initFiltrosSolicitudes() {
+  const btns = document.querySelectorAll('.sol-filtro');
+  if (!btns.length) return;
+
+  btns.forEach(btn => {
+    btn.onclick = () => {
+      btns.forEach(b => {
+        b.className = 'sol-filtro';
+      });
+      const filtro = btn.dataset.filtro;
+      btn.classList.add(filtro === 'todas' ? 'activo'
+        : filtro === 'pendiente'  ? 'activo-pendiente'
+        : filtro === 'aprobada'   ? 'activo-aprobada'
+        : 'activo-rechazada');
+
+      const lista = filtro === 'todas'
+        ? window._todasSolicitudes
+        : (window._todasSolicitudes || []).filter(s => s.estado === filtro);
+
+      renderSolicitudes(lista);
+    };
+  });
+}
+
+function renderSolicitudes(solicitudes) {
+  const tabla = document.getElementById('tablaSolicitudes');
+  const conteo = document.getElementById('solConteo');
+  if (!tabla) return;
+
+  if (conteo) {
+    conteo.textContent = solicitudes.length === 1
+      ? '1 resultado'
+      : `${solicitudes.length} resultados`;
+  }
+
+  if (solicitudes.length === 0) {
+    tabla.innerHTML = tablaVacia('🔍', 'No hay solicitudes con este filtro', 'Prueba con otro estado o selecciona "Todas".', 8);
+    return;
+  }
+
+  tabla.innerHTML = '';
+  solicitudes.forEach(s => {
+    const tel = s.usuario.telefono
+      ? `<a href="tel:${escapeHTML(s.usuario.telefono)}">${escapeHTML(s.usuario.telefono)}</a>`
+      : '<span style="color:#8a97a6;">Sin teléfono</span>';
+
+    const acciones = s.estado === 'pendiente'
+      ? `<button class="btn-secondary btn-aprobar" data-id="${s.id}" style="padding:0.4rem 0.7rem; font-size:0.78rem;">Aprobar</button>
+         <button class="btn-delete btn-rechazar" data-id="${s.id}">Rechazar</button>`
+      : `<span style="color:#8a97a6; font-size:0.8rem;">Resuelta</span>`;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${s.id}</td>
+      <td>${escapeHTML(s.mascota.nombre)}</td>
+      <td>${escapeHTML(s.usuario.nombre)}<br><small style="color:#8a97a6;">${escapeHTML(s.usuario.email || '')}</small></td>
+      <td>${tel}</td>
+      <td style="max-width:240px;">${escapeHTML(s.mensaje)}</td>
+      <td><span class="badge badge-${escapeHTML(s.estado)}">${escapeHTML(s.estado)}</span></td>
+      <td>${formatDate((s.creadoEn || '').slice(0, 10))}</td>
+      <td>${acciones}</td>
+    `;
+    tabla.appendChild(tr);
+  });
+
+  tabla.querySelectorAll('.btn-aprobar').forEach(btn => {
+    btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'aprobada'));
+  });
+  tabla.querySelectorAll('.btn-rechazar').forEach(btn => {
+    btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'rechazada'));
+  });
 }
 
 function actualizarStatsSolicitudes(solicitudes) {
@@ -455,24 +514,33 @@ function actualizarStatsSolicitudes(solicitudes) {
 }
 
 function cambiarEstadoSolicitud(id, estado) {
-  const verbo = estado === 'aprobada' ? 'aprobar' : 'rechazar';
-  if (!confirm(`¿Seguro que deseas ${verbo} esta solicitud?`)) return;
-
-  api(`/api/solicitudes/${id}/estado`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ estado: estado })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        cargarSolicitudes();
-      } else {
-        alert(data.error || 'No se pudo actualizar la solicitud.');
-      }
+  const esAprobar = estado === 'aprobada';
+  confirmar({
+    titulo: esAprobar ? 'Aprobar solicitud' : 'Rechazar solicitud',
+    mensaje: esAprobar
+      ? '¿Confirmas que deseas aprobar esta solicitud de adopción?'
+      : '¿Confirmas que deseas rechazar esta solicitud de adopción?',
+    textoAceptar: esAprobar ? 'Sí, aprobar' : 'Sí, rechazar',
+    variante: esAprobar ? 'ok' : 'peligro'
+  }).then(ok => {
+    if (!ok) return;
+    api(`/api/solicitudes/${id}/estado`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ estado: estado })
     })
-    .catch(err => {
-      console.error('Error al actualizar solicitud:', err);
-      alert('Error de conexión al actualizar.');
-    });
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          toast(`Solicitud ${esAprobar ? 'aprobada' : 'rechazada'}.`, 'success');
+          cargarSolicitudes();
+        } else {
+          toast(data.error || 'No se pudo actualizar la solicitud.', 'error');
+        }
+      })
+      .catch(err => {
+        console.error('Error al actualizar solicitud:', err);
+        toast('No se pudo actualizar el estado. Comprueba tu conexión e inténtalo de nuevo.', 'error');
+      });
+  });
 }

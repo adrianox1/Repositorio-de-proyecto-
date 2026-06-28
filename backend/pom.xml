@@ -90,6 +90,13 @@
             <version>4.0.0</version>
         </dependency>
 
+        <!-- Base de datos en memoria para tests (@SpringBootTest sin MySQL local) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
