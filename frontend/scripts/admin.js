@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarMascotasAdmin();
     initFormularioMascota();
     cargarSolicitudes();
+    cargarDonacionesPendientes();
   });
 });
 

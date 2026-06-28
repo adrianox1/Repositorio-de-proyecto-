@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Donaciones generales al refugio WauPiura. Apoya a los animales con un aporte directo al fondo del refugio.">
+  <title>Donaciones | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="donaciones.html" class="active-link">Donaciones</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+      </div>
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-section">
+    <section class="container">
+      <div class="donaciones-grid">
+        <article class="donaciones-panel">
+          <p class="eyebrow">Donaciones generales</p>
+          <h1>Apoya al refugio WauPiura</h1>
+          <p class="text-muted">
+            Tu donación se destina al fondo global del refugio para cubrir gastos veterinarios,
+            alimentación y rescate. No está ligada a ninguna mascota en particular.
+          </p>
+        <div class="qr-card">
+            <img src="../images/qr.jpeg" alt="Código QR Yape WauPiura" width="320" height="320">
+            <p>Escanea el código con Yape y sube el comprobante para que podamos validarlo.</p>
+        </div>
+        </article>
+
+        <article class="donaciones-card">
+          <form id="formDonacion" class="form-card" novalidate>
+            <p class="eyebrow">Formulario de donación</p>
+            <h2>Sube tu comprobante</h2>
+
+            <div class="form-group">
+              <label for="monto">Monto (S/)</label>
+              <input type="number" id="monto" name="monto" step="0.01" min="1" placeholder="Ej. 50.00" required>
+            </div>
+
+            <div class="form-group">
+              <label for="numeroOperacion">Código de operación</label>
+              <input type="text" id="numeroOperacion" name="numeroOperacion" maxlength="20" placeholder="Ej. 54123987" required>
+            </div>
+
+            <div class="form-group">
+              <label for="fotoBoucher">Foto del boucher</label>
+              <input type="file" id="fotoBoucher" name="fotoBoucher" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="btn-primary btn-block">Enviar donación</button>
+          </form>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script src="../scripts/global.js"></script>
+  <script src="../scripts/donaciones.js"></script>
+</body>
+
+</html>

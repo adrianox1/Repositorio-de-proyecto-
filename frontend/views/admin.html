@@ -23,6 +23,7 @@
           <a href="catalogo.html">Adopción</a>
           <a href="requisitos.html">Requisitos</a>
           <a href="nosotros.html">Nosotros</a>
+          <a href="donaciones.html">Donaciones</a>
           <a href="contacto.html">Contacto</a>
         </nav>
       </div>
@@ -49,6 +50,7 @@
         <button class="admin-tab active" data-tab="tabUsuarios">Usuarios</button>
         <button class="admin-tab" data-tab="tabMascotas">Mascotas</button>
         <button class="admin-tab" data-tab="tabSolicitudes">Solicitudes</button>
+        <button class="admin-tab" data-tab="tabDonaciones">Donaciones</button>
       </div>
 
       <!-- ============ PESTAÑA USUARIOS ============ -->
@@ -222,10 +224,47 @@
           </div>
         </article>
       </div>
+
+      <!-- ============ PESTAÑA DONACIONES ============ -->
+      <div id="tabDonaciones" class="tab-panel" hidden>
+        <div class="admin-stats">
+          <article class="stat-card">
+            <span class="stat-number" id="statDonacionesPendientes">—</span>
+            <span class="stat-label">Donaciones pendientes</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-number" id="statTotalRecaudado">S/ —</span>
+            <span class="stat-label">Total recaudado</span>
+          </article>
+        </div>
+
+        <article class="admin-card">
+          <h3>Donaciones pendientes</h3>
+          <div class="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Usuario</th>
+                  <th>Monto (S/)</th>
+                  <th>Operación</th>
+                  <th>Fecha</th>
+                  <th>Boucher</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaDonacionesPendientes">
+                <tr class="spinner-row"><td colspan="7"><div class="spinner-cell"><span class="spinner"></span>Cargando donaciones…</div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 
   <script src="../scripts/global.js"></script>
   <script src="../scripts/admin.js"></script>
+  <script src="../scripts/admin-donaciones.js"></script>
 </body>
 </html>

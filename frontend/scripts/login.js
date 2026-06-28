@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
+          sessionStorage.setItem('usuarioId', String(data.usuario.id));
           toast(`¡Bienvenido(a), ${data.usuario.nombre}!`, 'success', 2500, true);
           const destino = data.usuario.rol === 'ADMIN' ? 'admin.html' : 'index.html';
           setTimeout(() => { window.location.href = destino; }, 1400);
