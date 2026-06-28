@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          toast(`¡Bienvenido(a) ${data.usuario.nombre}!`, 'success');
+          toast(`¡Bienvenido(a), ${data.usuario.nombre}!`, 'success', 2500, true);
           const destino = data.usuario.rol === 'ADMIN' ? 'admin.html' : 'index.html';
-          setTimeout(() => { window.location.href = destino; }, 1200);
+          setTimeout(() => { window.location.href = destino; }, 1400);
         } else {
           console.error("Error de credenciales al iniciar sesión:", data.error);
           toast('Correo o contraseña incorrectos.', 'error');

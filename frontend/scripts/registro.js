@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(res => res.json())
       .then(data => {
         if (data.ok) {
-          toast('¡Cuenta creada! Ahora inicia sesión.', 'success');
-          setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1500);
+          toast('¡Cuenta creada! Ahora inicia sesión.', 'success', 2500, true);
+          setTimeout(() => { window.location.href = 'iniciar-sesion.html'; }, 1600);
         } else {
           console.error("Fallo de validación en backend al registrarse:", data.error);
           toast(data.error || 'No se pudo registrar el usuario. Verifica los datos ingresados.', 'error');

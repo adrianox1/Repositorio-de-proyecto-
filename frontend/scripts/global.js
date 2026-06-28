@@ -148,19 +148,18 @@ function initNavbarAuth() {
       if (data.ok && data.usuario) {
         // El admin gestiona todo desde el panel; el usuario normal ve "Mis Mascotas"
         const esAdmin = data.usuario.rol === 'ADMIN';
-        const enlacesContextuales = esAdmin
-          ? `<a href="admin.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Panel admin</a>`
-          : `<a href="mascotas.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Mis Mascotas</a>
-             <a href="mis-solicitudes.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Mis Solicitudes</a>`;
+        const linksUsuario = esAdmin
+          ? `<a href="admin.html" class="nav-link-user">Panel admin</a>`
+          : `<a href="mascotas.html" class="nav-link-user">Mis Mascotas</a>
+             <span class="nav-sep">·</span>
+             <a href="mis-solicitudes.html" class="nav-link-user">Mis Solicitudes</a>`;
 
         const authHTML = `
-          <span style="font-weight: 700; color: var(--azul-oscuro); font-size: 0.95rem; white-space: nowrap;">
-            👤 Hola, <strong>${escapeHTML(data.usuario.nombre)}</strong>
-          </span>
-          ${enlacesContextuales}
-          <a href="#" class="btn-secondary btn-logout" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">
-            Cerrar Sesión
-          </a>
+          <div class="nav-usuario">
+            <span class="nav-usuario-saludo">👤 <strong>${escapeHTML(data.usuario.nombre)}</strong></span>
+            <div class="nav-usuario-links">${linksUsuario}</div>
+          </div>
+          <a href="#" class="btn-secondary nav-btn-sm btn-logout">Salir</a>
         `;
 
         navAuth.innerHTML = authHTML;
@@ -403,7 +402,12 @@ function getStatusText(status) {
 // Reemplaza los alert() nativos del navegador.
 // Uso: toast('Mensaje', 'success' | 'error' | 'warning' | 'info')
 // ==========================================
-function toast(mensaje, tipo = 'info', duracion = 4000) {
+function toast(mensaje, tipo = 'info', duracion = 4000, centrado = false) {
+  if (centrado) {
+    toastCentral(mensaje, tipo, duracion);
+    return;
+  }
+
   let contenedor = document.getElementById('toast-container');
   if (!contenedor) {
     contenedor = document.createElement('div');
@@ -431,7 +435,30 @@ function toast(mensaje, tipo = 'info', duracion = 4000) {
   setTimeout(cerrar, duracion);
 }
 
+function toastCentral(mensaje, tipo, duracion = 2500) {
+  const iconos = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+  const overlay = document.createElement('div');
+  overlay.className = 'toast-central-overlay';
+  overlay.innerHTML = `
+    <div class="toast-central-box">
+      <div class="toast-central-icono">${iconos[tipo] || 'ℹ️'}</div>
+      <div class="toast-central-titulo">${escapeHTML(mensaje)}</div>
+    </div>
+  `;
+
+  const cerrar = () => {
+    overlay.style.transition = 'opacity 0.35s';
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.remove(), 350);
+  };
+
+  overlay.addEventListener('click', cerrar);
+  document.body.appendChild(overlay);
+  setTimeout(cerrar, duracion);
+}
+
 window.toast = toast;
+window.toastCentral = toastCentral;
 
 // ==========================================
 // MODAL DE CONFIRMACIÓN

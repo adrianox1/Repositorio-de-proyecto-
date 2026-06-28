@@ -216,7 +216,7 @@ function abrirModal(petId, petName) {
       .then(res => res.json())
       .then(result => {
         if (result.ok) {
-          toast(`¡Solicitud enviada para ${petName}! Nuestro equipo revisará tu caso.`, 'success');
+          toast(`¡Solicitud enviada para ${petName}! Nuestro equipo revisará tu caso pronto.`, 'success', 3000, true);
           modal.style.display = 'none';
         } else {
           toast(result.error || 'No se pudo enviar la solicitud.', 'error');

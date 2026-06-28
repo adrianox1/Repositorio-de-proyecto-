@@ -472,6 +472,126 @@ nav a:hover,
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ---- Toast central (login, registro, solicitud) ---- */
+.toast-central-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: fadeIn 0.2s ease;
+}
+
+.toast-central-box {
+  background: var(--blanco);
+  border-radius: 24px;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  animation: toastCentralIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 360px;
+  width: 90%;
+}
+
+.toast-central-icono {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.toast-central-titulo {
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: var(--azul-oscuro);
+  line-height: 1.35;
+}
+
+@keyframes toastCentralIn {
+  from { opacity: 0; transform: scale(0.75) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---- Área de usuario compacta en navbar ---- */
+.nav-usuario {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.18rem;
+  line-height: 1;
+}
+
+.nav-usuario-saludo {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--azul-oscuro);
+  white-space: nowrap;
+}
+
+.nav-usuario-links {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.nav-link-user {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--verde-menta-oscuro);
+  text-decoration: none;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.nav-link-user:hover { color: var(--azul-oscuro); }
+
+.nav-sep { color: #cbd5e0; font-size: 0.7rem; }
+
+.nav-btn-sm {
+  padding: 0.45rem 1rem !important;
+  border-radius: 50px !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  white-space: nowrap;
+}
+
+/* ---- Ojito (pass toggle) — global para admin y auth ---- */
+.pass-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.pass-wrapper input {
+  width: 100%;
+  padding-right: 3rem;
+}
+
+.pass-toggle {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94A3B8;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transition: color 0.2s;
+  line-height: 0;
+}
+
+.pass-toggle:hover { color: var(--azul-oscuro); }
+
 /* ================= VISTA PREVIA DE IMAGEN ================= */
 .img-preview-wrap {
   margin-bottom: 1.2rem;
