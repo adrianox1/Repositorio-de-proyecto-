@@ -193,6 +193,13 @@
 
         <article class="admin-card">
           <h3>Solicitudes de adopción</h3>
+          <div class="sol-filtros">
+            <button class="sol-filtro activo" data-filtro="todas">Todas</button>
+            <button class="sol-filtro" data-filtro="pendiente">🕐 Pendientes</button>
+            <button class="sol-filtro" data-filtro="aprobada">✅ Aprobadas</button>
+            <button class="sol-filtro" data-filtro="rechazada">❌ Rechazadas</button>
+            <span class="sol-conteo" id="solConteo"></span>
+          </div>
           <div class="table-wrapper">
             <table class="admin-table">
               <thead>

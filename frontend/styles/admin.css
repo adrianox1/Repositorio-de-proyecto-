@@ -209,6 +209,47 @@
   background: #eec2c2;
 }
 
+/* ---- Filtros de solicitudes ---- */
+.sol-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.sol-filtro {
+  border: 2px solid #e3e8ee;
+  background: transparent;
+  color: var(--azul-oscuro);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.sol-filtro:hover { border-color: var(--verde-menta-oscuro); color: var(--verde-menta-oscuro); }
+
+.sol-filtro.activo {
+  background: var(--azul-oscuro);
+  border-color: var(--azul-oscuro);
+  color: #fff;
+}
+
+.sol-filtro.activo-pendiente  { background: #b07d00; border-color: #b07d00; color: #fff; }
+.sol-filtro.activo-aprobada   { background: #2e7d52; border-color: #2e7d52; color: #fff; }
+.sol-filtro.activo-rechazada  { background: #c0392b; border-color: #c0392b; color: #fff; }
+
+.sol-conteo {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: #8a97a6;
+  font-weight: 700;
+}
+
 /* ================= RESPONSIVE ADMIN ================= */
 @media (max-width: 768px) {
   .admin-hero { padding: 2rem 0 3rem; }

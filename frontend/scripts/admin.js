@@ -415,49 +415,88 @@ function cargarSolicitudes() {
         return;
       }
       const solicitudes = data.solicitudes || [];
+      window._todasSolicitudes = solicitudes;
       actualizarStatsSolicitudes(solicitudes);
-
-      if (solicitudes.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="8" class="table-empty">No hay solicitudes registradas.</td></tr>`;
-        return;
-      }
-
-      tabla.innerHTML = '';
-      solicitudes.forEach(s => {
-        const tel = s.usuario.telefono
-          ? `<a href="tel:${escapeHTML(s.usuario.telefono)}">${escapeHTML(s.usuario.telefono)}</a>`
-          : '<span style="color:#8a97a6;">Sin teléfono</span>';
-
-        const acciones = s.estado === 'pendiente'
-          ? `<button class="btn-secondary btn-aprobar" data-id="${s.id}" style="padding:0.4rem 0.7rem; font-size:0.78rem;">Aprobar</button>
-             <button class="btn-delete btn-rechazar" data-id="${s.id}">Rechazar</button>`
-          : `<span style="color:#8a97a6; font-size:0.8rem;">Resuelta</span>`;
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${s.id}</td>
-          <td>${escapeHTML(s.mascota.nombre)}</td>
-          <td>${escapeHTML(s.usuario.nombre)}<br><small style="color:#8a97a6;">${escapeHTML(s.usuario.email || '')}</small></td>
-          <td>${tel}</td>
-          <td style="max-width:240px;">${escapeHTML(s.mensaje)}</td>
-          <td><span class="badge badge-${escapeHTML(s.estado)}">${escapeHTML(s.estado)}</span></td>
-          <td>${formatDate((s.creadoEn || '').slice(0, 10))}</td>
-          <td>${acciones}</td>
-        `;
-        tabla.appendChild(tr);
-      });
-
-      tabla.querySelectorAll('.btn-aprobar').forEach(btn => {
-        btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'aprobada'));
-      });
-      tabla.querySelectorAll('.btn-rechazar').forEach(btn => {
-        btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'rechazada'));
-      });
+      initFiltrosSolicitudes();
+      renderSolicitudes(solicitudes);
     })
     .catch(err => {
       console.error('Error al cargar solicitudes:', err);
       tabla.innerHTML = `<tr><td colspan="8" class="table-empty">Error de conexión con el servidor.</td></tr>`;
     });
+}
+
+function initFiltrosSolicitudes() {
+  const btns = document.querySelectorAll('.sol-filtro');
+  if (!btns.length) return;
+
+  btns.forEach(btn => {
+    btn.onclick = () => {
+      btns.forEach(b => {
+        b.className = 'sol-filtro';
+      });
+      const filtro = btn.dataset.filtro;
+      btn.classList.add(filtro === 'todas' ? 'activo'
+        : filtro === 'pendiente'  ? 'activo-pendiente'
+        : filtro === 'aprobada'   ? 'activo-aprobada'
+        : 'activo-rechazada');
+
+      const lista = filtro === 'todas'
+        ? window._todasSolicitudes
+        : (window._todasSolicitudes || []).filter(s => s.estado === filtro);
+
+      renderSolicitudes(lista);
+    };
+  });
+}
+
+function renderSolicitudes(solicitudes) {
+  const tabla = document.getElementById('tablaSolicitudes');
+  const conteo = document.getElementById('solConteo');
+  if (!tabla) return;
+
+  if (conteo) {
+    conteo.textContent = solicitudes.length === 1
+      ? '1 resultado'
+      : `${solicitudes.length} resultados`;
+  }
+
+  if (solicitudes.length === 0) {
+    tabla.innerHTML = `<tr><td colspan="8" class="table-empty">No hay solicitudes para este filtro.</td></tr>`;
+    return;
+  }
+
+  tabla.innerHTML = '';
+  solicitudes.forEach(s => {
+    const tel = s.usuario.telefono
+      ? `<a href="tel:${escapeHTML(s.usuario.telefono)}">${escapeHTML(s.usuario.telefono)}</a>`
+      : '<span style="color:#8a97a6;">Sin teléfono</span>';
+
+    const acciones = s.estado === 'pendiente'
+      ? `<button class="btn-secondary btn-aprobar" data-id="${s.id}" style="padding:0.4rem 0.7rem; font-size:0.78rem;">Aprobar</button>
+         <button class="btn-delete btn-rechazar" data-id="${s.id}">Rechazar</button>`
+      : `<span style="color:#8a97a6; font-size:0.8rem;">Resuelta</span>`;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${s.id}</td>
+      <td>${escapeHTML(s.mascota.nombre)}</td>
+      <td>${escapeHTML(s.usuario.nombre)}<br><small style="color:#8a97a6;">${escapeHTML(s.usuario.email || '')}</small></td>
+      <td>${tel}</td>
+      <td style="max-width:240px;">${escapeHTML(s.mensaje)}</td>
+      <td><span class="badge badge-${escapeHTML(s.estado)}">${escapeHTML(s.estado)}</span></td>
+      <td>${formatDate((s.creadoEn || '').slice(0, 10))}</td>
+      <td>${acciones}</td>
+    `;
+    tabla.appendChild(tr);
+  });
+
+  tabla.querySelectorAll('.btn-aprobar').forEach(btn => {
+    btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'aprobada'));
+  });
+  tabla.querySelectorAll('.btn-rechazar').forEach(btn => {
+    btn.addEventListener('click', () => cambiarEstadoSolicitud(btn.dataset.id, 'rechazada'));
+  });
 }
 
 function actualizarStatsSolicitudes(solicitudes) {
