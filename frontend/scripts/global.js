@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHamburger();
   initNavbarAuth();
   initPasswordToggle();
+  initImagePreview();
   initScrollAnimations();
   initScrollTopButton();
 });
@@ -232,6 +233,83 @@ function initScrollTopButton() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
+
+// ==========================================
+// VISTA PREVIA DE IMAGEN
+// Aplica automáticamente a todo input[type="file"][accept="image/*"].
+// También expone mostrarPreviewImagen(input, src) para cargar la foto
+// actual cuando se edita una mascota que ya tiene foto guardada.
+// ==========================================
+function initImagePreview() {
+  document.querySelectorAll('input[type="file"][accept="image/*"]').forEach(input => {
+    const wrap = _crearPreviewWrap(input);
+
+    // Nueva selección de archivo → mostrar preview
+    input.addEventListener('change', () => {
+      const file = input.files && input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => _mostrarPreview(wrap, e.target.result, file.name);
+        reader.readAsDataURL(file);
+      } else {
+        _ocultarPreview(wrap);
+      }
+    });
+
+    // Botón "Quitar": limpia el input y oculta el preview
+    wrap.querySelector('.img-preview-quitar').addEventListener('click', () => {
+      input.value = '';
+      _ocultarPreview(wrap);
+    });
+
+    // Reset del formulario → ocultar preview
+    const form = input.closest('form');
+    if (form) {
+      form.addEventListener('reset', () => _ocultarPreview(wrap));
+    }
+  });
+}
+
+function _crearPreviewWrap(input) {
+  const wrap = document.createElement('div');
+  wrap.className = 'img-preview-wrap';
+  wrap.hidden = true;
+  wrap.innerHTML = `
+    <img class="img-preview" src="" alt="Vista previa de foto">
+    <div class="img-preview-info">
+      <span class="img-preview-nombre"></span>
+      <button type="button" class="img-preview-quitar">✕ Quitar</button>
+    </div>
+  `;
+  input.insertAdjacentElement('afterend', wrap);
+  return wrap;
+}
+
+function _mostrarPreview(wrap, src, nombre) {
+  wrap.querySelector('.img-preview').src = src;
+  wrap.querySelector('.img-preview-nombre').textContent = nombre || 'Foto actual';
+  wrap.hidden = false;
+}
+
+function _ocultarPreview(wrap) {
+  wrap.hidden = true;
+  wrap.querySelector('.img-preview').src = '';
+  wrap.querySelector('.img-preview-nombre').textContent = '';
+}
+
+/** Muestra la foto ya guardada en el preview (útil al cargar un formulario de edición). */
+function mostrarPreviewImagen(fileInput, src) {
+  if (!src || !fileInput) return;
+  const wrap = fileInput.parentElement
+    ? fileInput.parentElement.querySelector('.img-preview-wrap')
+      || fileInput.nextElementSibling
+    : null;
+  if (wrap && wrap.classList.contains('img-preview-wrap')) {
+    _mostrarPreview(wrap, src, 'Foto actual');
+  }
+}
+
+window.mostrarPreviewImagen = mostrarPreviewImagen;
 
 // ==========================================
 // MOSTRAR / OCULTAR CONTRASEÑA (ojito)

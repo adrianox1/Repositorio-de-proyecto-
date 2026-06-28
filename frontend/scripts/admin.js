@@ -360,6 +360,7 @@ function cargarMascotaEnForm(id) {
   form.fotoUrl.value = mascota.fotoUrl || '';
   form.estado.value = mascota.estado || 'evaluacion';
   form.disponible.value = mascota.disponible ? 'true' : 'false';
+  mostrarPreviewImagen(form.foto, mascota.fotoUrl);
 
   document.getElementById('formMascotaTitulo').textContent = `Editando: ${mascota.nombre}`;
   document.getElementById('btnGuardarMascota').textContent = 'Guardar cambios';

@@ -194,6 +194,7 @@ function cargarEnFormulario(id) {
   form.lugarRescate.value = mascota.lugarRescate || '';
   form.fotoUrl.value = mascota.fotoUrl || '';
   form.descripcion.value = mascota.descripcion || '';
+  mostrarPreviewImagen(form.foto, mascota.fotoUrl);
 
   document.getElementById('formTitulo').textContent = `Editando: ${mascota.nombre}`;
   document.getElementById('btnGuardar').textContent = 'Guardar cambios';
