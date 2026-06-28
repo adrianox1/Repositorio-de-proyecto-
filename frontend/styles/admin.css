@@ -209,6 +209,112 @@
   background: #eec2c2;
 }
 
+/* ---- Mis Solicitudes (vista usuario) ---- */
+.mis-sol-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.4rem;
+}
+
+.mis-sol-card {
+  background: var(--blanco);
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: var(--sombra);
+  border-left: 5px solid #cbd5e0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mis-sol-pendiente  { border-left-color: #f0a500; }
+.mis-sol-aprobada   { border-left-color: #2e7d52; }
+.mis-sol-rechazada  { border-left-color: #c0392b; }
+
+.mis-sol-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mis-sol-emoji {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.mis-sol-info { flex: 1; }
+
+.mis-sol-info h3 {
+  font-size: 1.1rem;
+  color: var(--azul-oscuro);
+  margin: 0 0 0.15rem;
+}
+
+.mis-sol-meta {
+  font-size: 0.82rem;
+  color: #8a97a6;
+  font-weight: 700;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.mis-sol-badge { flex-shrink: 0; }
+
+.mis-sol-mensaje {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #475569;
+  font-style: italic;
+  line-height: 1.5;
+  border-left: 3px solid #e2e8f0;
+}
+
+.mis-sol-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.mis-sol-fecha {
+  font-size: 0.82rem;
+  color: #8a97a6;
+  font-weight: 700;
+}
+
+.mis-sol-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  border-radius: 50px;
+  text-decoration: none;
+}
+
+.mis-sol-vacio {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--blanco);
+  border-radius: 20px;
+  box-shadow: var(--sombra);
+}
+
+.mis-sol-vacio-icono { font-size: 3.5rem; margin-bottom: 1rem; }
+.mis-sol-vacio h3 { font-size: 1.4rem; color: var(--azul-oscuro); margin-bottom: 0.5rem; }
+.mis-sol-vacio p  { color: #64748b; }
+
+@media (max-width: 600px) {
+  .mis-sol-grid { grid-template-columns: 1fr; }
+  .mis-sol-header { flex-wrap: wrap; }
+  .mis-sol-badge { order: -1; }
+}
+
 /* ---- Filtros de solicitudes ---- */
 .sol-filtros {
   display: flex;

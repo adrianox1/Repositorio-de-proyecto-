@@ -147,15 +147,16 @@ function initNavbarAuth() {
       if (data.ok && data.usuario) {
         // El admin gestiona todo desde el panel; el usuario normal ve "Mis Mascotas"
         const esAdmin = data.usuario.rol === 'ADMIN';
-        const enlaceContextual = esAdmin
+        const enlacesContextuales = esAdmin
           ? `<a href="admin.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Panel admin</a>`
-          : `<a href="mascotas.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Mis Mascotas</a>`;
+          : `<a href="mascotas.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Mis Mascotas</a>
+             <a href="mis-solicitudes.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Mis Solicitudes</a>`;
 
         const authHTML = `
           <span style="font-weight: 700; color: var(--azul-oscuro); font-size: 0.95rem; white-space: nowrap;">
             👤 Hola, <strong>${escapeHTML(data.usuario.nombre)}</strong>
           </span>
-          ${enlaceContextual}
+          ${enlacesContextuales}
           <a href="#" class="btn-secondary btn-logout" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">
             Cerrar Sesión
           </a>

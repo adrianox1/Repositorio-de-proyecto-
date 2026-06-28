@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Consulta el estado de tus solicitudes de adopción en WauPiura.">
+  <title>Mis Solicitudes | WauPiura</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo"><span>Wau</span>Piura</a>
+        <nav>
+          <a href="index.html">Inicio</a>
+          <a href="catalogo.html">Adopción</a>
+          <a href="requisitos.html">Requisitos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+      </div>
+      <div class="nav-auth">
+        <a href="iniciar-sesion.html" class="btn-login">Iniciar Sesión</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="admin-hero">
+      <div class="container">
+        <p class="eyebrow">Mi perfil</p>
+        <h1>Mis solicitudes de adopción</h1>
+        <p>Aquí puedes ver el estado de todas las solicitudes que has enviado. Nuestro equipo las revisa lo antes posible.</p>
+      </div>
+    </section>
+
+    <section class="container admin-section">
+
+      <!-- Resumen estadístico -->
+      <div class="admin-stats" id="statsSolicitudes">
+        <article class="stat-card">
+          <span class="stat-number" id="statTotal">—</span>
+          <span class="stat-label">Total enviadas</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-number" id="statPendientes" style="color:#b07d00;">—</span>
+          <span class="stat-label">Pendientes</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-number" id="statAprobadas" style="color:#2e7d52;">—</span>
+          <span class="stat-label">Aprobadas</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-number" id="statRechazadas" style="color:#c0392b;">—</span>
+          <span class="stat-label">Rechazadas</span>
+        </article>
+      </div>
+
+      <!-- Grid de tarjetas -->
+      <div class="mis-sol-grid" id="misSolicitudesGrid">
+        <div class="spinner-inline" style="padding:3rem 0; justify-content:center;">
+          <span class="spinner"></span>Cargando tus solicitudes…
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="../scripts/global.js"></script>
+  <script src="../scripts/mis-solicitudes.js"></script>
+</body>
+</html>
