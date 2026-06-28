@@ -276,7 +276,7 @@ function initFormularioMascota() {
       raza: fd.get('raza'),
       edadMeses: fd.get('edadMeses') || 0,
       lugarRescate: fd.get('lugarRescate'),
-      fotoUrl: fd.get('fotoUrl'),
+      fotoUrl: fd.get('fotoUrl').trim() || form.fotoUrl.dataset.original || '',
       estado: fd.get('estado'),
       disponible: fd.get('disponible')
     };
@@ -289,7 +289,7 @@ function initFormularioMascota() {
     if (!Validar.noNegativo(body.edadMeses)) {
       errores.push({ input: form.edadMeses, mensaje: 'La edad debe ser un número válido (0 o más).' });
     }
-    if (Validar.requerido(body.fotoUrl) && !Validar.url(body.fotoUrl)) {
+    if (Validar.requerido(body.fotoUrl) && !body.fotoUrl.startsWith('/uploads/') && !Validar.url(body.fotoUrl)) {
       errores.push({ input: form.fotoUrl, mensaje: 'La URL de la foto no es válida.' });
     }
     if (errores.length > 0) {
@@ -357,7 +357,14 @@ function cargarMascotaEnForm(id) {
   form.raza.value = mascota.raza || '';
   form.edadMeses.value = mascota.edadMeses != null ? mascota.edadMeses : '';
   form.lugarRescate.value = mascota.lugarRescate || '';
-  form.fotoUrl.value = mascota.fotoUrl || '';
+  // Si es ruta de subida interna, ocultarla y guardarla como fallback
+  form.fotoUrl.dataset.original = mascota.fotoUrl || '';
+  if ((mascota.fotoUrl || '').startsWith('/uploads/')) {
+    form.fotoUrl.value = '';
+    form.fotoUrl.placeholder = 'La foto actual se mantiene si no subes una nueva';
+  } else {
+    form.fotoUrl.value = mascota.fotoUrl || '';
+  }
   form.estado.value = mascota.estado || 'evaluacion';
   form.disponible.value = mascota.disponible ? 'true' : 'false';
   mostrarPreviewImagen(form.foto, mascota.fotoUrl);
