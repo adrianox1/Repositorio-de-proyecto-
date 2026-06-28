@@ -460,6 +460,54 @@ nav a:hover,
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ================= SPINNER DE CARGA ================= */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  border: 3px solid rgba(27, 58, 88, 0.12);
+  border-top-color: var(--verde-menta-oscuro);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+/* Spinner dentro de filas de tabla */
+.spinner-row td {
+  padding: 2.5rem 0 !important;
+  text-align: center;
+}
+
+.spinner-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #94A3B8;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+/* Spinner en línea (para textos dentro de cards) */
+.spinner-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #94A3B8;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.spinner-inline .spinner {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
 /* ================= MENÚ HAMBURGUESA (móvil) ================= */
 .hamburger-btn {
   display: none;
