@@ -50,8 +50,12 @@ function initTracking() {
           petAvatar.innerHTML = `<img src="${escapeHTML(pet.fotoUrl)}" alt="${escapeHTML(pet.nombre)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
         }
       }
-      if (petNameEl) petNameEl.textContent = pet.nombre;
+      const spinner = document.getElementById('seguimientoSpinner');
+      if (spinner) spinner.remove();
+
+      if (petNameEl) { petNameEl.style.display = ''; petNameEl.textContent = pet.nombre; }
       if (petMetaEl) {
+        petMetaEl.style.display = '';
         petMetaEl.textContent = `${escapeHTML(pet.raza || 'Sin raza')} · ${pet.genero === 'macho' ? 'Macho' : 'Hembra'} · ${pet.edadMeses} meses aprox.`;
       }
 

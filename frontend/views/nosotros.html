@@ -151,28 +151,6 @@
       </div>
     </section>
 
-    <!-- Integración del formulario de comentarios y dudas -->
-    <section class="container comments-section" style="margin-top: 60px; margin-bottom: 100px;">
-      <h2>Déjanos tus dudas o comentarios</h2>
-      <p style="color:#64748B; margin-bottom: 1.5rem;">Tu opinión nos importa. Escríbenos para ponernos en contacto contigo.</p>
-      
-      <div class="comments-container" style="display:flex; border-radius:25px; overflow:hidden; box-shadow: var(--sombra); min-height:400px; background: white;">
-        <div class="comment-form-block" style="flex:1; padding:3rem; display:flex; flex-direction:column; justify-content:center;">
-          <form action="#" method="POST" class="comment-form" onsubmit="event.preventDefault(); alert('¡Gracias por tu comentario! Nuestro equipo de WauPiura se pondrá en contacto contigo pronto.'); this.reset();">
-            <label for="user-comment" style="font-weight:700; color:var(--azul-oscuro); font-size:1.1rem; margin-bottom:0.5rem; display:block;">Escribe tu comentario:</label>
-            <textarea 
-              id="user-comment" 
-              name="comentario" 
-              placeholder="¿Tienes alguna pregunta sobre el proceso de adopción o deseas apoyarnos?..." 
-              required
-              style="width: 100%; height: 160px; padding: 1rem; border: 2px solid var(--gris-claro); border-radius: 12px; font-family: inherit; font-size: 1rem; color: var(--azul-oscuro); resize: none; outline: none; transition: border-color 0.3s ease;"></textarea>
-            <button type="submit" class="btn-submit-comment" style="display: inline-block; background: var(--amarillo-suave); color: var(--azul-oscuro); padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 800; border: none; cursor: pointer; align-self: flex-start; font-size: 1rem; margin-top:1rem;">Enviar Comentario</button>
-          </form>
-        </div>
-
-        <div class="comment-image-block" style="flex:1; background-image: url('https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=600&auto=format&fit=crop'); background-size:cover; background-position:center;"></div>
-      </div>
-    </section>
   </main>
   <script src="../scripts/global.js"></script>
 </body>
