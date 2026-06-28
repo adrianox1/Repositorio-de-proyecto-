@@ -50,12 +50,12 @@ function cargarMisMascotas() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar las mascotas.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar tus mascotas', 'El servidor devolvió un error. Intenta recargar la página.', 7);
         return;
       }
       const mascotas = data.mascotas || [];
       if (mascotas.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Aún no has registrado mascotas.</td></tr>`;
+        tabla.innerHTML = tablaVacia('🐶', 'Aún no has registrado mascotas', 'Completa el formulario de arriba para publicar tu primera mascota en adopción.', 7);
         return;
       }
 
@@ -89,7 +89,7 @@ function cargarMisMascotas() {
     })
     .catch(err => {
       console.error('Error al cargar mascotas:', err);
-      tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba tu conexión e intenta recargar la página.', 7);
     });
 }
 
@@ -147,7 +147,7 @@ function initFormulario() {
         body.fotoUrl = dataFoto.url;
       } catch (err) {
         console.error('Error al subir la imagen:', err);
-        toast('Error de conexión al subir la imagen.', 'error');
+        toast('No se pudo subir la imagen. Comprueba tu conexión e inténtalo de nuevo.', 'error');
         return;
       }
     }
@@ -173,7 +173,7 @@ function initFormulario() {
       })
       .catch(err => {
         console.error('Error al guardar mascota:', err);
-        toast('Error de conexión al guardar.', 'error');
+        toast('No se pudieron guardar los cambios. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 
@@ -233,7 +233,7 @@ function eliminarMascota(id, nombre) {
       })
       .catch(err => {
         console.error('Error al eliminar mascota:', err);
-        toast('Error de conexión al eliminar.', 'error');
+        toast('No se pudo eliminar. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 }

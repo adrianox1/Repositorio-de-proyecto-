@@ -35,7 +35,7 @@ function cargarMisSolicitudes() {
       actualizarStats(lista);
       renderTarjetas(lista);
     })
-    .catch(() => mostrarError('Error de conexión con el servidor.'));
+    .catch(() => mostrarError('Sin conexión con el servidor. Comprueba tu red e intenta recargar la página.'));
 }
 
 function actualizarStats(lista) {

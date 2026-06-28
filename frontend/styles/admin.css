@@ -168,7 +168,34 @@
 .table-empty {
   text-align: center;
   color: #8a97a6;
-  padding: 2rem 0;
+  padding: 0;
+}
+
+.empty-state {
+  padding: 2.5rem 1rem;
+  text-align: center;
+}
+
+.empty-state-icono {
+  font-size: 2.4rem;
+  margin-bottom: 0.6rem;
+  opacity: 0.75;
+  line-height: 1;
+}
+
+.empty-state-titulo {
+  font-weight: 800;
+  color: var(--azul-oscuro);
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.empty-state-sub {
+  font-size: 0.85rem;
+  color: #8a97a6;
+  max-width: 320px;
+  margin: 0 auto;
+  line-height: 1.4;
 }
 
 /* ---- Badges de rol y estado ---- */

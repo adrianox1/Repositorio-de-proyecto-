@@ -74,7 +74,7 @@ function cargarUsuarios() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar los usuarios.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar los usuarios', 'El servidor devolvió un error. Intenta recargar la página.', 7);
         return;
       }
 
@@ -82,7 +82,7 @@ function cargarUsuarios() {
       actualizarEstadisticas(usuarios);
 
       if (usuarios.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">No hay usuarios registrados.</td></tr>`;
+        tabla.innerHTML = tablaVacia('👥', 'Todavía no hay usuarios registrados', 'Los nuevos registros aparecerán aquí automáticamente.', 7);
         return;
       }
 
@@ -107,7 +107,7 @@ function cargarUsuarios() {
     })
     .catch(err => {
       console.error('Error al cargar usuarios:', err);
-      tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba que el backend esté activo e intenta recargar la página.', 7);
     });
 }
 
@@ -139,7 +139,7 @@ function eliminarUsuario(id, nombre) {
       })
       .catch(err => {
         console.error('Error al eliminar usuario:', err);
-        toast('Error de conexión al eliminar.', 'error');
+        toast('No se pudo eliminar. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 }
@@ -203,7 +203,7 @@ function initFormularioCrear() {
       })
       .catch(err => {
         console.error('Error al crear usuario:', err);
-        toast('Error de conexión al crear el usuario.', 'error');
+        toast('No se pudo crear el usuario. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 }
@@ -219,12 +219,12 @@ function cargarMascotasAdmin() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar las mascotas.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar las mascotas', 'El servidor devolvió un error. Intenta recargar la página.', 7);
         return;
       }
       const mascotas = data.mascotas || [];
       if (mascotas.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="7" class="table-empty">No hay mascotas registradas.</td></tr>`;
+        tabla.innerHTML = tablaVacia('🐾', 'Aún no hay mascotas registradas', 'Usa el formulario de arriba para añadir la primera mascota en adopción.', 7);
         return;
       }
 
@@ -256,7 +256,7 @@ function cargarMascotasAdmin() {
     })
     .catch(err => {
       console.error('Error al cargar mascotas:', err);
-      tabla.innerHTML = `<tr><td colspan="7" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba que el backend esté activo e intenta recargar la página.', 7);
     });
 }
 
@@ -312,7 +312,7 @@ function initFormularioMascota() {
         body.fotoUrl = dataFoto.url;
       } catch (err) {
         console.error('Error al subir la imagen:', err);
-        toast('Error de conexión al subir la imagen.', 'error');
+        toast('No se pudo subir la imagen. Comprueba tu conexión e inténtalo de nuevo.', 'error');
         return;
       }
     }
@@ -338,7 +338,7 @@ function initFormularioMascota() {
       })
       .catch(err => {
         console.error('Error al guardar mascota:', err);
-        toast('Error de conexión al guardar.', 'error');
+        toast('No se pudieron guardar los cambios. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 
@@ -396,7 +396,7 @@ function eliminarMascotaAdmin(id, nombre) {
       })
       .catch(err => {
         console.error('Error al eliminar mascota:', err);
-        toast('Error de conexión al eliminar.', 'error');
+        toast('No se pudo eliminar. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 }
@@ -412,7 +412,7 @@ function cargarSolicitudes() {
     .then(res => res.json())
     .then(data => {
       if (!data.ok) {
-        tabla.innerHTML = `<tr><td colspan="8" class="table-empty">${escapeHTML(data.error || 'No se pudieron cargar las solicitudes.')}</td></tr>`;
+        tabla.innerHTML = tablaVacia('🔧', 'No se pudieron cargar las solicitudes', 'El servidor devolvió un error. Intenta recargar la página.', 8);
         return;
       }
       const solicitudes = data.solicitudes || [];
@@ -423,7 +423,7 @@ function cargarSolicitudes() {
     })
     .catch(err => {
       console.error('Error al cargar solicitudes:', err);
-      tabla.innerHTML = `<tr><td colspan="8" class="table-empty">Error de conexión con el servidor.</td></tr>`;
+      tabla.innerHTML = tablaVacia('🔌', 'Sin conexión con el servidor', 'Comprueba que el backend esté activo e intenta recargar la página.', 8);
     });
 }
 
@@ -463,7 +463,7 @@ function renderSolicitudes(solicitudes) {
   }
 
   if (solicitudes.length === 0) {
-    tabla.innerHTML = `<tr><td colspan="8" class="table-empty">No hay solicitudes para este filtro.</td></tr>`;
+    tabla.innerHTML = tablaVacia('🔍', 'No hay solicitudes con este filtro', 'Prueba con otro estado o selecciona "Todas".', 8);
     return;
   }
 
@@ -533,7 +533,7 @@ function cambiarEstadoSolicitud(id, estado) {
       })
       .catch(err => {
         console.error('Error al actualizar solicitud:', err);
-        toast('Error de conexión al actualizar.', 'error');
+        toast('No se pudo actualizar el estado. Comprueba tu conexión e inténtalo de nuevo.', 'error');
       });
   });
 }

@@ -471,3 +471,23 @@ function confirmar({ titulo = '¿Estás seguro?', mensaje = '', textoAceptar = '
 }
 
 window.confirmar = confirmar;
+
+// ==========================================
+// HELPER: ESTADO VACÍO EN TABLAS
+// Genera HTML para una fila de tabla con icono, título y subtítulo.
+// Uso: tabla.innerHTML = tablaVacia('🐾', 'Sin mascotas', 'Crea una arriba.', 7)
+// ==========================================
+function tablaVacia(icono, titulo, subtitulo, colspan) {
+  const sub = subtitulo
+    ? `<p class="empty-state-sub">${escapeHTML(subtitulo)}</p>`
+    : '';
+  return `<tr><td colspan="${colspan}" class="table-empty">
+    <div class="empty-state">
+      <div class="empty-state-icono">${icono}</div>
+      <p class="empty-state-titulo">${escapeHTML(titulo)}</p>
+      ${sub}
+    </div>
+  </td></tr>`;
+}
+
+window.tablaVacia = tablaVacia;
