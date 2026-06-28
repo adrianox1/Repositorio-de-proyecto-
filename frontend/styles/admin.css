@@ -208,3 +208,32 @@
 .btn-delete:hover {
   background: #eec2c2;
 }
+
+/* ================= RESPONSIVE ADMIN ================= */
+@media (max-width: 768px) {
+  .admin-hero { padding: 2rem 0 3rem; }
+  .admin-hero h1 { font-size: 1.6rem; }
+
+  /* Pestañas: scroll horizontal si no caben */
+  .admin-tabs {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .admin-tab { white-space: nowrap; padding: 0.55rem 1rem; font-size: 0.85rem; }
+
+  .admin-card { padding: 1.2rem; }
+  .admin-card h3 { font-size: 1rem; }
+
+  .admin-stats { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .stat-number { font-size: 1.8rem; }
+}
+
+@media (max-width: 480px) {
+  .admin-stats { grid-template-columns: 1fr 1fr; }
+  .admin-section { gap: 1rem; }
+
+  /* Botones de acción en tabla: más pequeños */
+  .btn-delete { padding: 0.35rem 0.6rem; font-size: 0.75rem; }
+}

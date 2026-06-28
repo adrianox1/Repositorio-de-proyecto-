@@ -289,7 +289,20 @@
 @media (max-width: 768px) {
   .slide-content { grid-template-columns: 1fr; text-align: center; }
   .decorative-circle { display: none; }
+  .hero-carousel { padding: 60px 0 80px; }
+  .hero-text h1 { font-size: 2.6rem; }
+  .workflow-section,
+  .testimonials-section,
+  .support-section { padding: 60px 0; }
+  .section-header h2 { font-size: 2rem; }
+  .section-header { margin-bottom: 2.5rem; }
 }
-@media (max-width: 600px) {
-  .hero-text h1 { font-size: 2.2rem; }
+@media (max-width: 480px) {
+  .hero-carousel { padding: 40px 0 60px; }
+  .hero-text h1 { font-size: 2rem; }
+  .hero-text .lead { font-size: 1rem; }
+  .section-header h2 { font-size: 1.7rem; }
+  .urgent-grid { grid-template-columns: 1fr; }
+  .workflow-grid { gap: 2rem; }
+  .testimonials-grid { grid-template-columns: 1fr; }
 }

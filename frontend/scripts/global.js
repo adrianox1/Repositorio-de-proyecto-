@@ -4,6 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initHamburger();
   initNavbarAuth();
   initScrollAnimations();
   initScrollTopButton();
@@ -72,7 +73,67 @@ document.addEventListener('input', (e) => {
 });
 
 // ==========================================
-// 1. CONTROL DE AUTENTICACIÓN Y NAVBAR
+// 1. MENÚ HAMBURGUESA (móvil)
+// ==========================================
+function initHamburger() {
+  const header = document.querySelector('header');
+  const navbar = header ? header.querySelector('.navbar') : null;
+  if (!navbar) return;
+
+  // Botón hamburguesa
+  const btn = document.createElement('button');
+  btn.className = 'hamburger-btn';
+  btn.setAttribute('aria-label', 'Abrir menú');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '☰';
+  navbar.appendChild(btn);
+
+  // Panel móvil
+  const panel = document.createElement('nav');
+  panel.className = 'nav-mobile';
+  panel.id = 'nav-mobile';
+
+  // Clonar enlaces de navegación
+  const navEl = navbar.querySelector('nav');
+  if (navEl) {
+    const linksDiv = document.createElement('div');
+    linksDiv.className = 'nav-mobile-links';
+    navEl.querySelectorAll('a').forEach(a => {
+      const clone = a.cloneNode(true);
+      linksDiv.appendChild(clone);
+    });
+    panel.appendChild(linksDiv);
+  }
+
+  // Sección de auth (se sincroniza después)
+  const authDiv = document.createElement('div');
+  authDiv.className = 'nav-mobile-auth';
+  authDiv.innerHTML = `
+    <a href="iniciar-sesion.html" class="btn-login" style="text-align:center">Iniciar Sesión</a>
+    <a href="registro.html" class="btn-register" style="text-align:center;display:block">Registrarse</a>
+  `;
+  panel.appendChild(authDiv);
+  header.appendChild(panel);
+
+  // Toggle abrir/cerrar
+  btn.addEventListener('click', () => {
+    const isOpen = panel.classList.toggle('open');
+    btn.innerHTML = isOpen ? '✕' : '☰';
+    btn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Cerrar al tocar un enlace
+  panel.addEventListener('click', e => {
+    if (e.target.tagName === 'A') {
+      panel.classList.remove('open');
+      btn.innerHTML = '☰';
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+// ==========================================
+// 2. CONTROL DE AUTENTICACIÓN Y NAVBAR
 // ==========================================
 function initNavbarAuth() {
   const navAuth = document.querySelector('.nav-auth');
@@ -89,8 +150,7 @@ function initNavbarAuth() {
           ? `<a href="admin.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Panel admin</a>`
           : `<a href="mascotas.html" class="btn-secondary" style="padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 800;">Mis Mascotas</a>`;
 
-        // Usuario logueado: Reemplazar botones de login/registro
-        navAuth.innerHTML = `
+        const authHTML = `
           <span style="font-weight: 700; color: var(--azul-oscuro); font-size: 0.95rem; white-space: nowrap;">
             👤 Hola, <strong>${escapeHTML(data.usuario.nombre)}</strong>
           </span>
@@ -100,18 +160,23 @@ function initNavbarAuth() {
           </a>
         `;
 
-        // Evento de cierre de sesión
-        const btnLogout = navAuth.querySelector('.btn-logout');
-        btnLogout.addEventListener('click', (e) => {
-          e.preventDefault();
-          fetch('/api/logout', { credentials: 'include' })
-            .then(res => res.json())
-            .then(logoutData => {
-              if (logoutData.ok) {
-                window.location.href = 'index.html';
-              }
-            })
-            .catch(err => console.error("Error al cerrar sesión:", err));
+        navAuth.innerHTML = authHTML;
+
+        // Sincronizar con panel móvil
+        const mobileAuth = document.querySelector('.nav-mobile-auth');
+        if (mobileAuth) mobileAuth.innerHTML = authHTML;
+
+        // Evento de cierre de sesión (desktop y móvil)
+        document.querySelectorAll('.btn-logout').forEach(btnLogout => {
+          btnLogout.addEventListener('click', (e) => {
+            e.preventDefault();
+            fetch('/api/logout', { credentials: 'include' })
+              .then(res => res.json())
+              .then(logoutData => {
+                if (logoutData.ok) window.location.href = 'index.html';
+              })
+              .catch(err => console.error("Error al cerrar sesión:", err));
+          });
         });
       }
     })
@@ -119,7 +184,7 @@ function initNavbarAuth() {
 }
 
 // ==========================================
-// 2. EFECTOS E INTERFACES DE SCROLL
+// 3. EFECTOS E INTERFACES DE SCROLL
 // ==========================================
 function initScrollAnimations() {
   const observerOptions = {
