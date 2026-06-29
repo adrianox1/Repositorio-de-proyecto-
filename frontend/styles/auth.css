@@ -77,6 +77,18 @@
 
 .auth-link:hover { opacity: 0.8; }
 
+body.auth-body header,
+body.auth-body .navbar,
+body.auth-body .nav-mobile,
+body.auth-body .nav-auth {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 /* ---- Ojito mostrar/ocultar contraseña ---- */
 .pass-wrapper {
   position: relative;
