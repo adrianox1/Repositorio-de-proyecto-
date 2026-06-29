@@ -3,14 +3,26 @@
  * Compartido en todas las vistas de la plataforma.
  */
 
+const isAuthPage = /\/(iniciar-sesion|registro)\.html$/i.test(window.location.pathname);
+
 document.addEventListener('DOMContentLoaded', () => {
-  initHamburger();
-  initNavbarAuth();
+  if (isAuthPage) {
+    removeAuthPageNavbar();
+  } else {
+    initHamburger();
+    initNavbarAuth();
+  }
   initPasswordToggle();
   initImagePreview();
   initScrollAnimations();
   initScrollTopButton();
 });
+
+function removeAuthPageNavbar() {
+  document.querySelectorAll('header, .navbar, .nav-mobile, .nav-auth').forEach(el => {
+    if (el) el.remove();
+  });
+}
 
 // ==========================================
 // INTERCEPTOR DE SESIÓN

@@ -37,6 +37,21 @@ CREATE TABLE usuarios (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ------------------------------------------------------------
+-- DONACIONES GENERALES
+-- ------------------------------------------------------------
+CREATE TABLE donaciones (
+  id                 BIGINT        NOT NULL AUTO_INCREMENT,
+  monto              DECIMAL(10,2) NOT NULL,
+  numero_operacion   VARCHAR(20)   NOT NULL,
+  foto_boucher_url   VARCHAR(500)  NULL,
+  estado             VARCHAR(20)   NOT NULL DEFAULT 'PENDIENTE',
+  fecha_donacion     DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  usuario_id         BIGINT        NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_donacion_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ------------------------------------------------------------
 -- MASCOTAS
 -- ------------------------------------------------------------
 CREATE TABLE mascotas (
