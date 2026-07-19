@@ -12,3 +12,10 @@ tmp/
 cache/
 backend/uploads/
 uploads/
+
+# Maven (Compilados de Java)
+**/target/
+target/
+*.class
+*.jar
+*.war

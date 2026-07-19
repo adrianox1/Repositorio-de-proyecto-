@@ -628,6 +628,114 @@ nav a:hover,
   to   { opacity: 1; }
 }
 
+/* ================= DONACIONES PAGE STYLES ================= */
+.donaciones-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .donaciones-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.donaciones-panel {
+  background: var(--blanco);
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: var(--sombra);
+}
+
+.donaciones-panel h1 {
+  color: var(--azul-oscuro);
+  margin-top: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(180deg, #F7FFF8, #FFFFFF);
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #EEF8F2;
+}
+
+.qr-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(27, 58, 88, 0.06);
+}
+
+.donaciones-card {
+  background: var(--blanco);
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-card .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.form-card input[type=file] {
+  border: 1px dashed var(--gris-claro);
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.btn-primary.btn-block {
+  width: 100%;
+  padding: 0.95rem;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.form-card label {
+  font-weight: 700;
+  color: var(--azul-oscuro);
+}
+
+.text-muted {
+  color: #64748B;
+}
+
+.form-card input,
+.form-card select,
+.form-card textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 2px solid var(--gris-claro);
+  border-radius: 12px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.12s ease;
+}
+
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+  border-color: var(--verde-menta-oscuro);
+}
+
+.donaciones-panel .eyebrow {
+  margin-bottom: 0.6rem;
+}
+
+.donaciones-separator { height: 1px; background: #F1F5F9; margin: 1rem 0; border-radius: 2px; }
+
 /* ---- Área de usuario compacta en navbar ---- */
 .nav-usuario {
   display: flex;
