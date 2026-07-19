@@ -1,61 +1,16 @@
 package com.example.proyecto.controller;
 
 import com.example.proyecto.model.SolicitudAdopcion;
-import com.example.proyecto.model.Mascota;
-import com.example.proyecto.model.Usuario;
-import com.example.proyecto.service.SolicitudAdopcionService;
-import com.example.proyecto.service.MascotaService;
-import com.example.proyecto.service.UsuarioService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-@RequestMapping("/solicitudes")
-public class SolicitudAdopcionController {
-    
-    @Autowired
-    private SolicitudAdopcionService solicitudService;
-    
-    @Autowired
-    private MascotaService mascotaService;
-    
-    @Autowired
-    private UsuarioService usuarioService;
-    
-    @GetMapping("/seguimiento")
-    public String seguimiento(HttpSession session, Model model) {
-        Long usuarioId = (Long) session.getAttribute("usuarioId");
-        if (usuarioId == null) {
-            return "redirect:/usuarios/iniciar-sesion";
-        }
-        List<SolicitudAdopcion> solicitudes = solicitudService.obtenerSolicitudesPorUsuario(usuarioId);
-        model.addAttribute("solicitudes", solicitudes);
-        return "seguimiento";
-    }
-    
-    @PostMapping("/solicitar")
-    public String solicitarAdopcion(@RequestParam Long mascotaId, HttpSession session, Model model) {
-        Long usuarioId = (Long) session.getAttribute("usuarioId");
-        if (usuarioId == null) {
-            return "redirect:/usuarios/iniciar-sesion";
-        }
-        
-        Optional<Usuario> usuario = usuarioService.obtenerUsuarioById(usuarioId);
-        Optional<Mascota> mascota = mascotaService.getMascotaById(mascotaId);
-        
-        if (usuario.isPresent() && mascota.isPresent()) {
-            SolicitudAdopcion solicitud = new SolicitudAdopcion(usuario.get(), mascota.get());
-            mascota.get().setEstadoAdopcion(Mascota.EstadoAdopcion.RESERVADO);
-            mascotaService.guardarMascota(mascota.get());
-            solicitudService.crearSolicitud(solicitud);
-            model.addAttribute("mensaje", "Solicitud creada exitosamente");
-        }
-        return "redirect:/solicitudes/seguimiento";
-    }
+public interface SolicitudAdopcionService {
+    SolicitudAdopcion crearSolicitud(SolicitudAdopcion solicitud);
+    List<SolicitudAdopcion> obtenerSolicitudesPorUsuario(Long usuarioId);
+    List<SolicitudAdopcion> obtenerSolicitudesPorMascota(Long mascotaId);
+    SolicitudAdopcion aceptarSolicitud(Long solicitudId, String comentarios);
+    SolicitudAdopcion rechazarSolicitud(Long solicitudId, String motivoRechazo);
+    Optional<SolicitudAdopcion> obtenerSolicitudById(Long id);
+    List<SolicitudAdopcion> obtenerSolicitudesPendientes();
+    void cancelarSolicitud(Long solicitudId);
 }
